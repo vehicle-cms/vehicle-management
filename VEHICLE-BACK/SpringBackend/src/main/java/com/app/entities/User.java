@@ -1,8 +1,5 @@
 package com.app.entities;
 
-import javax.management.rel
-
-import javax.management.relation.Role;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +7,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
 @Entity
 @Getter
