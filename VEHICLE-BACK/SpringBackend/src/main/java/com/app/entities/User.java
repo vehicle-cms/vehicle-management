@@ -21,7 +21,7 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @ToString
 public class User extends BaseEntity {
-    // user
+    // user change
 
     @Column(name = "first_name")
     private String firstName;
