@@ -1,4 +1,5 @@
 package com.app.entities;
+
 import javax.persistence.*;
 
 import lombok.Getter;
@@ -13,12 +14,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Order extends BaseEntity{
-  
+public class Orders extends BaseEntity {
+
     @Column(name = "booking_date")
     private Date bookingDate;
 
-  
     @Column(name = "return_date")
     private Date returnDate;
 
@@ -44,9 +44,8 @@ public class Order extends BaseEntity{
     @JoinColumn(name = "manager_id")
     private User manager;
 
-
-    @OneToOne 
-	@JoinColumn(name = "rating_id")
-	@MapsId
-	private Rating rating;
+    @OneToOne
+    @JoinColumn(name = "rating_id")
+    @MapsId
+    private Rating rating;
 }

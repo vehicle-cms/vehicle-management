@@ -18,7 +18,6 @@ import lombok.ToString;
 @ToString
 public class Rating extends BaseEntity {
 
-
     @Min(value = 18, message = "Rating must be at least 1")
     @Max(value = 120, message = "Rating must be less than or equal to 5")
     private int rating;
@@ -31,5 +30,5 @@ public class Rating extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
 }
