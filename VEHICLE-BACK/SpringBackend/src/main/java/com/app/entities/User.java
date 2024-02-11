@@ -1,6 +1,5 @@
 package com.app.entities;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +20,8 @@ import javax.persistence.OneToOne;
 @Setter
 @NoArgsConstructor
 @ToString
-public class User extends BaseEntity{
-
+public class User extends BaseEntity {
+    // user
 
     @Column(name = "first_name")
     private String firstName;
@@ -33,7 +32,7 @@ public class User extends BaseEntity{
     @Column(name = "image_url")
     private String imageURL;
 
-    @Column(length=12)
+    @Column(length = 12)
     private String mobile;
 
     @Column(length = 20, unique = true)
@@ -46,10 +45,10 @@ public class User extends BaseEntity{
 
     private double salary;
 
-    @OneToOne 
-	@JoinColumn(name = "address_id")
-	@MapsId
-	private Address address;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    @MapsId
+    private Address address;
 
     @Enumerated(EnumType.STRING)
     private Role role;
