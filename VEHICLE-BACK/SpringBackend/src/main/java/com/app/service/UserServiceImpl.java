@@ -2,12 +2,17 @@ package com.app.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.UserDao;
+import com.app.dto.UserDTO;
+import com.app.dto.VehicleDTO;
 import com.app.entities.Role;
 import com.app.entities.User;
 
@@ -17,21 +22,33 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	private ModelMapper mapper;
 
 
 	@Override
-	public List<User> getAllDrivers() {
-		return userDao.findByRole(Role.DRIVER);
+	public List<UserDTO> getAllDrivers() {
+		return userDao.findByRole(Role.DRIVER)
+				 .stream()
+				 .map(User -> mapper.map(User, UserDTO.class))
+				 .collect(Collectors.toList());
 	}
 
 	@Override
-	public List<User> getAllManager() {
-		return userDao.findByRole(Role.MANAGER);
+	public List<UserDTO> getAllManager() {
+		return userDao.findByRole(Role.MANAGER)
+				 .stream()
+				 .map(User -> mapper.map(User, UserDTO.class))
+				 .collect(Collectors.toList());
 	}
 
+	
 	@Override
-	public List<User> getAllCustomers() {
-		return userDao.findByRole(Role.CUSTOMER);
+	public List<UserDTO> getAllCustomers() {
+		return userDao.findByRole(Role.CUSTOMER)
+				 .stream()
+				 .map(User -> mapper.map(User, UserDTO.class))
+				 .collect(Collectors.toList());
 	}
 	
 	@Override
@@ -40,8 +57,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> getUserDetails(Long userId) {
-		return userDao.findById(userId);
+	public UserDTO getUserDetails(Long userId) {
+		return mapper.map(userDao.findById(userId)
+				 .orElseThrow(()->
+				 new ResourceNotFoundException("invalid id")),
+				 UserDTO.class);
 	}
 
 	@Override

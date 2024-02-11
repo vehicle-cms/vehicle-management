@@ -3,16 +3,17 @@ package com.app.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.app.dto.UserDTO;
 import com.app.entities.User;
 
 public interface UserService {
-	List<User> getAllDrivers();
-	List<User> getAllManager();
-	List<User> getAllCustomers();
+	List<UserDTO> getAllDrivers();
+	List<UserDTO> getAllManager();
+	List<UserDTO>  getAllCustomers();
 
 	User addNewUser(User transientUser);
 
-	Optional<User> getUserDetails(Long userId);
+	UserDTO getUserDetails(Long userId);
 
 	User updateUser (User detachedUser);
 	
