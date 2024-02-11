@@ -1,6 +1,10 @@
 package com.app.entities;
 
+import java.util.Date;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +22,8 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value = 18, message = "Rating must be at least 1")
+    @Max(value = 120, message = "Rating must be less than or equal to 5")
     private int rating;
 
     private String comment;
@@ -26,7 +32,7 @@ public class Rating {
     @JoinColumn(name = "customer_id")
     private User customer;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
 }
