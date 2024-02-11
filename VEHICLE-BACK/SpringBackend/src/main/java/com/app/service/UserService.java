@@ -1,18 +1,20 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.app.entities.User;
 
 public interface UserService {
 	List<User> getAllDrivers();
 	List<User> getAllManager();
+	List<User> getAllCustomers();
 
 	User addNewUser(User transientUser);
 
-	User getUserDetails(Long userId);
+	Optional<User> getUserDetails(Long userId);
 
 	User updateUser (User detachedUser);
-
-	String deleteUser (Long UserId);
+	
+	void deleteUser (Long UserId);
 }
