@@ -13,17 +13,12 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
+public class Order extends BaseEntity{
+  
     @Column(name = "booking_date")
     private Date bookingDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
+  
     @Column(name = "return_date")
     private Date returnDate;
 
@@ -48,4 +43,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
+
+
+    @OneToOne 
+	@JoinColumn(name = "rating_id")
+	@MapsId
+	private Rating rating;
 }

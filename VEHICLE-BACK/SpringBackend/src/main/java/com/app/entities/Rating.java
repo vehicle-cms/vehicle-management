@@ -16,11 +16,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Rating {
+public class Rating extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Min(value = 18, message = "Rating must be at least 1")
     @Max(value = 120, message = "Rating must be less than or equal to 5")

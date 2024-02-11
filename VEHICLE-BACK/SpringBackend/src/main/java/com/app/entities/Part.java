@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Part {
+public class Part extends BaseEntity {
 
 	@Column(length=20)
     private String name;

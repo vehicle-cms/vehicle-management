@@ -11,20 +11,17 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Address {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Address extends BaseEntity {
 
 
     @Column
     private String street;
 
-    @Column(name = "full_address")
-    private String fullAddress;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "pin_code")
-    private int pinCode;
+    @ManyToOne 
+	@JoinColumn(name = "pin_code", nullable = false)
+	private City pincode;
 
 }

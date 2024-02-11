@@ -1,6 +1,8 @@
 package com.app.entities;
 
-import javax.persistence.*;
+import javax.management.rel
+
+import javax.management.relation.Role;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +16,8 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString
-public class User {
+public class User extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,24 +28,23 @@ public class User {
     @Column(name = "image_url")
     private String imageURL;
 
-    @Column
+    @Column(length=12)
     private String mobile;
 
-    @Column
+    @Column(length = 20, unique = true)
     private String email;
 
     @Column(name = "created_on")
     private Date createdOn;
 
-    @Column
     private boolean assigned;
 
-    @Column
     private double salary;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
+    @OneToOne 
+	@JoinColumn(name = "address_id")
+	@MapsId
+	private Address address;
 
     @Enumerated(EnumType.STRING)
     private Role role;
