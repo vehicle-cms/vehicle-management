@@ -1,7 +1,6 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.UserDao;
 import com.app.dto.UserDTO;
-import com.app.dto.VehicleDTO;
 import com.app.entities.Role;
 import com.app.entities.User;
 
@@ -22,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+	@Autowired
 	private ModelMapper mapper;
 
 
@@ -42,7 +40,6 @@ public class UserServiceImpl implements UserService {
 				 .collect(Collectors.toList());
 	}
 
-	
 	@Override
 	public List<UserDTO> getAllCustomers() {
 		return userDao.findByRole(Role.CUSTOMER)
@@ -52,8 +49,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User addNewUser(User transientUser) {
-		return userDao.save(transientUser);
+	public UserDTO addUserDetails(UserDTO transientUser) {
+		return mapper.map(userDao.save(mapper.map(transientUser, User.class)), UserDTO.class);
 	}
 
 	@Override
@@ -65,23 +62,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User detachedUser) {
+	public UserDTO updateUser(UserDTO detachedUser) {
 		if(userDao.existsById(detachedUser.getId())) {
-			return userDao.save(detachedUser);
+			return mapper.map(userDao.save(mapper.map(detachedUser, User.class)), UserDTO.class);
 		}
 		return null;
 	}
 
 	@Override
-	public void deleteUser(Long UserId) {
-		if(userDao.existsById(UserId)) {
+	public String deleteUser(Long UserId) {
+		if(userDao.existsById(UserId))
+		{
 			userDao.deleteById(UserId);
+			return "deleted emp details...";
 		}
+		return "deletion of emp details failed !!!!!";
 	}
 
-
-	
-	
-	
 
 }
