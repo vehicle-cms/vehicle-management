@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 @RequestMapping("/user/order")
 @CrossOrigin(originPatterns = "http://localhost:*")
-public class OrderController {
+public class OrdersController {
 
     @Autowired
     private OrderService orderService;
@@ -40,7 +40,7 @@ public class OrderController {
         return orderService.findByOrderId(orderId);
     }
 
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<?> getAllOrdersPaginated(
             @RequestParam(defaultValue = "0", required = false) int pageNumber,
             @RequestParam(defaultValue = "10", required = false) int pageSize) {

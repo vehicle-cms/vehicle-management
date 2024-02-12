@@ -2,6 +2,7 @@ package com.app.dao;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,7 @@ public interface OrderDao extends JpaRepository<Orders, Long> {
 
 	List<Orders> findByBookingDateBetween(Date date1, Date date2);
 
-	Orders findByOrderId(Long id);
+	Optional<Orders> findById(Long id);
 
 	Page<OrderDTO> findAllProjectedBy(PageRequest pageRequest);
 
