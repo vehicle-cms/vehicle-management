@@ -24,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderDao ordersDao;
 
+    @Autowired
     private ModelMapper mapper;
 
     @Override

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,10 @@ import com.app.entities.Vehicle;
 @Transactional
 public class VehicleServiceImp implements VehicleService{
 
+	@Autowired
 	private VehicleDao vehicleDao;
 	
+	@Autowired
 	private ModelMapper mapper;
 	
 	@Override
