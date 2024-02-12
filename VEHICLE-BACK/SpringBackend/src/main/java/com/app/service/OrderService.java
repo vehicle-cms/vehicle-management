@@ -3,11 +3,12 @@ package com.app.service;
 import java.sql.Date;
 import java.util.List;
 
+import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.dto.UserDTO;
 
 public interface OrderService {
-    List<OrderDTO> findOrders();
+    List<OrderDTO> getAllVehicles();
 
     List<OrderDTO> findBetweenDate(Date date1, Date date2);
 

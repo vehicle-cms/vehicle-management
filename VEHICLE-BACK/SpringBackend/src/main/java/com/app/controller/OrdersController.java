@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.service.OrderService;
 
@@ -32,7 +33,7 @@ public class OrdersController {
 
     @GetMapping
     public List<OrderDTO> listAllOrders() {
-        return orderService.findOrders();
+        return orderService.getAllVehicles();
     }
 
     @GetMapping("/{orderId}")

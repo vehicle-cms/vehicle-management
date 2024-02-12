@@ -22,6 +22,7 @@ public class Address extends BaseEntity {
 
     @ManyToOne 
 	@JoinColumn(name = "pin_code", nullable = false)
+    @ToString.Exclude
 	private City pincode;
 
 }
