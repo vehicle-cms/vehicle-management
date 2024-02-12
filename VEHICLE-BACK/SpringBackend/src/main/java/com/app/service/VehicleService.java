@@ -11,6 +11,7 @@ public interface VehicleService {
 	
 	VehicleDTO addVehicleDetails(VehicleDTO vehicleDto);
 	
+	String deleteVehicle(Long vehicleId);
 	
 	List<VehicleDTO> getAllVehiclesPaginated(int pageNumber,int pageSize);
 }

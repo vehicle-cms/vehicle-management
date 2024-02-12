@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dao.VehicleDao;
 import com.app.dto.VehicleDTO;
 import com.app.entities.Vehicle;
 import com.app.service.VehicleService;
@@ -40,6 +43,12 @@ public class VehicleController {
 	@PostMapping
 	public VehicleDTO addVehicle(@RequestBody VehicleDTO vehicle) {
 		return vehicleService.addVehicleDetails(vehicle);
+	}
+	
+	
+	@DeleteMapping("/{vehicleId}")
+	public String deleteVehicle(@PathVariable Long vehicleId) {
+		return vehicleService.deleteVehicle(vehicleId);
 	}
 	
 	@GetMapping("/paginate")
