@@ -3,12 +3,21 @@ package com.app.service;
 import java.sql.Date;
 import java.util.List;
 
-import com.app.entities.Orders;
+import com.app.dto.OrderDTO;
+import com.app.dto.UserDTO;
 
 public interface OrderService {
-    List<Orders> findOrders();
+    List<OrderDTO> findOrders();
 
-    List<Orders> findBetweenDate(Date date1, Date date2);
+    List<OrderDTO> findBetweenDate(Date date1, Date date2);
 
-    List<Orders> findByVehicleId(Long id);
+    OrderDTO findByOrderId(Long id);
+
+    List<OrderDTO> getAllOrdersPaginated(int pageNumber, int pageSize);
+
+    OrderDTO createOrder(OrderDTO transientOrder);
+
+    OrderDTO updateOrder(OrderDTO detachedOrder);
+
+    String deleteOrder(Long orderId);
 }
