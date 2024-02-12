@@ -60,5 +60,18 @@ public class VehicleServiceImp implements VehicleService{
 						  .map(vehicle -> mapper.map(vehicle, VehicleDTO.class))
 						  .collect(Collectors.toList());
 	}
+
+
+	@Override
+	public String deleteVehicle(Long vehicleId) {
+		if(vehicleDao.existsById(vehicleId)) {
+			vehicleDao.deleteById(vehicleId);
+			return "vehicle deleted";
+		}
+		return "failed to delete vehicle";
+	}
+	
 	
 }
+	
+	
