@@ -40,7 +40,7 @@ public class OrderController {
         return orderService.findByOrderId(orderId);
     }
 
-    @GetMapping
+    @GetMapping("/paginate")
     public ResponseEntity<?> getAllOrdersPaginated(
             @RequestParam(defaultValue = "0", required = false) int pageNumber,
             @RequestParam(defaultValue = "10", required = false) int pageSize) {

@@ -15,8 +15,6 @@ public interface OrderDao extends JpaRepository<Orders, Long> {
 
 	List<Orders> findByBookingDateBetween(Date date1, Date date2);
 
-	Orders findByOrderId(Long id);
-
 	Page<OrderDTO> findAllProjectedBy(PageRequest pageRequest);
 
 }

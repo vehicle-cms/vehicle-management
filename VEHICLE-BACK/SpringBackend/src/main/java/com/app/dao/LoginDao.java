@@ -12,5 +12,5 @@ import com.app.entities.Login;
 
 public interface LoginDao extends JpaRepository<Login,Long> {
 	Optional<Login> findByUserEmail(String email);
-	List<Login>findAllList();
+	//List<Login>findAllList();
 }

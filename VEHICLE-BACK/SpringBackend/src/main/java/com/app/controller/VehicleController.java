@@ -35,6 +35,7 @@ public class VehicleController {
 		return vehicleService.getVehicleDetails(vehicleId);
 	}
 	
+	@GetMapping("/paginate")
 	public ResponseEntity<?> getAllVehiclesPaginated(
 			@RequestParam(defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(defaultValue = "10", required = false) int pageSize){
