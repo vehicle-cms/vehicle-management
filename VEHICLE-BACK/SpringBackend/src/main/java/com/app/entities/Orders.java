@@ -22,7 +22,9 @@ public class Orders extends BaseEntity {
     @Column(name = "return_date")
     private Date returnDate;
 
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
+    private OrderStatus status;
 
     private double fare;
 
