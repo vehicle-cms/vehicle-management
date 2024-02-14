@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.dto.OrderDTO;
+import com.app.entities.OrderStatus;
 import com.app.entities.Orders;
 
 public interface OrderDao extends JpaRepository<Orders, Long> {
@@ -19,5 +20,9 @@ public interface OrderDao extends JpaRepository<Orders, Long> {
 	Optional<Orders> findById(Long id);
 
 	Page<OrderDTO> findAllProjectedBy(PageRequest pageRequest);
-
+	
+	List<Orders> findByStatus(OrderStatus status);
+	
+	long countByStatus(OrderStatus status) ;	
+	
 }
