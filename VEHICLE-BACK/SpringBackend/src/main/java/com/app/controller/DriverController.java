@@ -5,8 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,5 +57,11 @@ public class DriverController {
 	public String deleteDriverDetails(@PathVariable Long DriverId)
 	{
 		return driverService.deleteUser(DriverId);
+	}
+	
+	@GetMapping("driver-count")
+	public ResponseEntity<?> getDriverCount(){
+		long count = driverService.countOfDrivers();
+		return ResponseEntity.ok(count);
 	}
 }
