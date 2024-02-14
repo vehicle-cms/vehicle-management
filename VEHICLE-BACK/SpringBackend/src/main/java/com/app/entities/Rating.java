@@ -28,7 +28,5 @@ public class Rating extends BaseEntity {
     @JoinColumn(name = "customer_id")
     private User customer;
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    private Orders order;
+   
 }
