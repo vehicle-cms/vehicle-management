@@ -29,7 +29,9 @@ public class Vehicle extends BaseEntity{
 
     private String registration;
 
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "vehicle_status")
+    private VehicleStatus status;
 
     private double mileage;
 
