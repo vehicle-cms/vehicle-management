@@ -11,5 +11,5 @@ import com.app.entities.User;
 public interface UserDao extends JpaRepository<User,Long> {
 	List<User> findByRole(Role role);
 	Optional<User> findById(Long Id);
-    Optional<User> findByIdAndRole(Long customerId, String role);
+    Optional<User> findByIdAndRole(Long customerId, Role role);
 }
