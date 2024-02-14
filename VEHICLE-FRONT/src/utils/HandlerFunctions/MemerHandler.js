@@ -1,6 +1,6 @@
 import { failureNotifier, successNotifier } from '../notifications';
 import api from '../../services/backendApi';
-import { addReportData, GetMemers } from '../../Actions/VehicleActions';
+import { addReportData, GetVehicles } from '../../Actions/VehicleActions';
 import moment from 'moment';
 
 export const updateStatus = async (navigate, dispatch, code, value) => {
@@ -10,7 +10,7 @@ export const updateStatus = async (navigate, dispatch, code, value) => {
       isNotActive: value,
     });
     successNotifier(updateMemer?.data?.message);
-    dispatch(GetMemers(navigate, 1, 8));
+    dispatch(GetVehicles(navigate, 1, 8));
   } catch (e) {
     failureNotifier('failed to platform', e?.response?.data?.message);
   }
@@ -22,7 +22,7 @@ export const updatePrice = async (navigate, dispatch, code, value) => {
       price: value,
     });
     successNotifier(updateMemer?.data?.message);
-    dispatch(GetMemers(navigate, 1, 8));
+    dispatch(GetVehicles(navigate, 1, 8));
   } catch (e) {
     failureNotifier('failed to platform', e?.response?.data?.message);
   }

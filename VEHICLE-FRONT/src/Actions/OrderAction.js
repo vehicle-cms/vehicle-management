@@ -23,10 +23,10 @@ export const GetCampaign = (navigate) => {
   return (dispatch) => {
     dispatch(getCampaignRequest());
     api
-      .get('campaigns/')
+      .get('/user/order/')
       .then((response) => response.data)
       .then((data) => {
-        dispatch(getCampaignSuccess(data?.result));
+        dispatch(getCampaignSuccess(data));
       })
       .catch((error) => {
         const errorMessage = error.message;

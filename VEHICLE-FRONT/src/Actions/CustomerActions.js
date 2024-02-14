@@ -19,13 +19,13 @@ const getTagsFailure = (error) => {
     payload: error,
   };
 };
-export const GetTags = (page, limit) => {
+export const GetTags = (page=10, limit=0) => {
   const queryParams = new URLSearchParams();
 
-  queryParams.append('limit', limit);
-  queryParams.append('page', page);
+    queryParams.append('pageNumber', limit);
+    queryParams.append('pageSize', page);
 
-  const url = `tag?${queryParams.toString()}`;
+  const url = `user/customer?${queryParams.toString()}`;
   return (dispatch) => {
     dispatch(getTagsRequest());
     api
@@ -33,7 +33,7 @@ export const GetTags = (page, limit) => {
       .then((response) => response.data)
       .then((data) => {
         // console.log(data)
-        dispatch(getTagsSuccess(data?.result));
+        dispatch(getTagsSuccess(data));
       })
       .catch((error) => {
         const errorMessage = error.message;

@@ -14,9 +14,9 @@ import reducers from './Reducers';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import 'antd/dist/antd.css';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)));
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 // ----------------------------------------------------------------------
 
 ReactDOM.render(

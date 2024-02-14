@@ -1,15 +1,11 @@
 const initialState = {
   campaigns: [],
   selectedCampaign: {},
-  selectedCampaignBrand: [],
-  selectedCampaignMemerrs: [],
-  selectedCampaignContributors: [],
-  selectedCampaignDont: [],
+  selectedCampaignDriver: [],
+  selectedCampaignVehicle: [],
+  selectedCampaignCustomer: [],
+  selectedCampaignManager: [],
   selectedCampaignDos: [],
-  selectedCampaignMessages: [],
-  selectedCampaignObjectives: [],
-  selectedCampaignPlatform: [],
-  selectedCampaignResources: [],
   findCampaign: [],
   searchCampaign: [],
 };
@@ -27,7 +23,7 @@ const CampaignReducer = (state = initialState, action) => {
       return { ...state, loading: false, error: action.payload };
     case 'SET_CAMPAIGN':
       const findCampaign = state.campaigns.find(
-        data => data?._id === action?.payload
+        data => data?.id === action?.payload
       );
       if (findCampaign) {
         return {
@@ -35,32 +31,20 @@ const CampaignReducer = (state = initialState, action) => {
           selectedCampaign: Array.isArray(findCampaign)
             ? findCampaign
             : [findCampaign],
-          selectedCampaignBrand: Array.isArray(findCampaign?.Brand)
-            ? findCampaign?.Brand
-            : [findCampaign?.Brand],
-          selectedCampaignMemerrs: Array.isArray(findCampaign?.Memerrs)
-            ? findCampaign?.Memerrs
-            : [findCampaign?.Memerrs],
-          selectedCampaignContributors: Array.isArray(
-            findCampaign?.contributors
+          selectedCampaignDriver: Array.isArray(findCampaign?.driver)
+            ? findCampaign?.driver
+            : [findCampaign?.driver],
+          selectedCampaignVehicle: Array.isArray(findCampaign?.vehicle)
+            ? findCampaign?.vehicle
+            : [findCampaign?.vehicle],
+          selectedCampaignCustomer: Array.isArray(
+            findCampaign?.customer
           )
-            ? findCampaign?.contributors
-            : [findCampaign?.contributors],
-          selectedCampaignDont: Array.isArray(findCampaign?.donts)
-            ? findCampaign?.donts
-            : [findCampaign?.donts],
-          selectedCampaignDos: Array.isArray(findCampaign?.dos)
-            ? findCampaign?.dos
-            : [findCampaign?.dos],
-          selectedCampaignMessages: Array.isArray(findCampaign?.messages)
-            ? findCampaign?.messages
-            : [findCampaign?.messages],
-          selectedCampaignObjectives: Array.isArray(findCampaign?.objectives)
-            ? findCampaign?.objectives
-            : [findCampaign?.objectives],
-          selectedCampaignPlatform: Array.isArray(findCampaign?.platform)
-            ? findCampaign?.platform
-            : [findCampaign?.platform],
+            ? findCampaign?.customer
+            : [findCampaign?.customer],
+          selectedCampaignManager: Array.isArray(findCampaign?.manager)
+            ? findCampaign?.manager
+            : [findCampaign?.manager],
           selectedCampaignResources: Array.isArray(findCampaign?.resources)
             ? findCampaign?.resources
             : [findCampaign?.resources],

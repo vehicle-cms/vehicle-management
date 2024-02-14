@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Gateway from './sections/authentication';
 import { GetCampaign } from './Actions/OrderAction';
+import { GetVehicles } from './Actions/VehicleActions';
+import { GetTags } from './Actions/CustomerActions';
 import { useDispatch } from 'react-redux';
 // ----------------------------------------------------------------------
 
@@ -26,6 +28,8 @@ export default function App() {
 
   useEffect(() => {
     dispatch(GetCampaign());
+    dispatch(GetVehicles());
+    dispatch(GetTags());
   }, []);
 
   // if (token === 'undefined') {

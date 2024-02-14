@@ -1,6 +1,6 @@
 import { failureNotifier, successNotifier } from '../notifications';
 import api from '../../services/backendApi';
-import { GetTags } from '../../Actions/TagActions';
+import { GetTags } from '../../Actions/CustomerActions';
 
 export const createTagHandler = async (dispatch, Name, Description) => {
   try {

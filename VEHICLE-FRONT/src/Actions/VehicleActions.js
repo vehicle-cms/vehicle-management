@@ -1,41 +1,41 @@
 import api from '../services/backendApi';
 
-const getMemerRequest = () => {
+const getVehiclesRequest = () => {
   return {
     type: 'GET_MEMER_REQUEST',
   };
 };
 
-export const getMemerSuccess = Orders => {
+export const getVehiclesSuccess = Orders => {
   return {
     type: 'GET_MEMER_SUCCESS',
     payload: Orders,
   };
 };
 
-const getMemerFailure = error => {
+const getVehiclesFailure = error => {
   return {
     type: 'GET_MEMER_FAILURE',
     payload: error,
   };
 };
-export const GetMemers = (navigate, page, limit) => {
+export const GetVehicles = (navigate, page=10, limit=0) => {
   return dispatch => {
-    dispatch(getMemerRequest());
+    dispatch(getVehiclesRequest());
     const queryParams = new URLSearchParams();
-
-    queryParams.append('limit', limit);
-    queryParams.append('page', page);
+// pageNumber pageSize
+    queryParams.append('pageNumber', limit);
+    queryParams.append('pageSize', page);
     api
-      .get(`memerr/admin?${queryParams.toString()}`)
+      .get(`vehicles/paginate?${queryParams.toString()}`)
       .then(response => response.data)
       .then(data => {
-        // console.log(data)
-        dispatch(getMemerSuccess(data?.result));
+        console.log(data)
+        dispatch(getVehiclesSuccess(data));
       })
       .catch(error => {
         const errorMessage = error.message;
-        dispatch(getMemerFailure(errorMessage));
+        dispatch(getVehiclesFailure(errorMessage));
       });
   };
 };
