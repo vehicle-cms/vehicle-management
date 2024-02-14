@@ -21,4 +21,6 @@ public interface OrderService {
     OrderDTO updateOrder(OrderDTO detachedOrder);
 
     String deleteOrder(Long orderId);
+    
+    long countOfPendingOrders();
 }

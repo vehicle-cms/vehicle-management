@@ -18,4 +18,6 @@ public interface UserService {
 	UserDTO updateUser(Long id,UserDTO detachedUser);
 	
 	String deleteUser(Long UserId);
+	
+	long countOfDrivers();
 }

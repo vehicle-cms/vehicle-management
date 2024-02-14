@@ -14,4 +14,8 @@ public interface VehicleService {
 	String deleteVehicle(Long vehicleId);
 	
 	List<VehicleDTO> getAllVehiclesPaginated(int pageNumber,int pageSize);
+	
+	long countOfActive();
+	long countOfInactive();
+	long countOfUnderMaintenance();
 }

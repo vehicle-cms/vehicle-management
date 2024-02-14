@@ -12,4 +12,5 @@ public interface UserDao extends JpaRepository<User,Long> {
 	List<User> findByRole(Role role);
 	Optional<User> findById(Long Id);
     Optional<User> findByIdAndRole(Long customerId, Role role);
+    long countByRole(Role role);
 }

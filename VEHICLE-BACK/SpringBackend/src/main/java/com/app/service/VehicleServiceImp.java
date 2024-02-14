@@ -15,6 +15,7 @@ import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.VehicleDao;
 import com.app.dto.VehicleDTO;
 import com.app.entities.Vehicle;
+import com.app.entities.VehicleStatus;
 
 @Service
 @Transactional
@@ -69,6 +70,21 @@ public class VehicleServiceImp implements VehicleService{
 			return "vehicle deleted";
 		}
 		return "failed to delete vehicle";
+	}
+
+	@Override
+	public long countOfActive() {
+		return vehicleDao.countByStatus(VehicleStatus.ACTIVE);
+	}
+
+	@Override
+	public long countOfInactive() {
+		return vehicleDao.countByStatus(VehicleStatus.INACTIVE);
+	}
+
+	@Override
+	public long countOfUnderMaintenance() {
+		return vehicleDao.countByStatus(VehicleStatus.MAINTENANCE);
 	}
 	
 	

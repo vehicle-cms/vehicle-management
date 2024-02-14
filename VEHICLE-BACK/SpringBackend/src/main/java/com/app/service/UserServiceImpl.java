@@ -68,5 +68,10 @@ public class UserServiceImpl implements UserService {
 		return "deletion of emp details failed !!!!!";
 	}
 
+	@Override
+	public long countOfDrivers() {
+		return userDao.countByRole(Role.DRIVER);
+	}
+
 
 }

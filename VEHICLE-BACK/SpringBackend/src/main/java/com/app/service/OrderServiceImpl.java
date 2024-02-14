@@ -11,6 +11,7 @@ import com.app.dao.OrderDao;
 import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.dto.VehicleDTO;
+import com.app.entities.OrderStatus;
 import com.app.entities.Orders;
 
 import java.sql.Date;
@@ -83,5 +84,10 @@ public class OrderServiceImpl implements OrderService {
         }
         return "Deletion of order failed.";
     }
+
+	@Override
+	public long countOfPendingOrders() {
+		return ordersDao.countByStatus(OrderStatus.PENDING);
+	}
 
 }
