@@ -63,4 +63,22 @@ public class VehicleController {
 		}
 		return ResponseEntity.ok(vehicleList);
 	}
+	
+	@GetMapping("/active-count")
+	public ResponseEntity<?> getVehicleActiveCount(){
+		long count = vehicleService.countOfActive();
+		return ResponseEntity.ok(count);
+	}
+	
+	@GetMapping("/inactive-count")
+	public ResponseEntity<?> getVehicleInactiveCount(){
+		long count = vehicleService.countOfInactive();
+		return ResponseEntity.ok(count);
+	}
+	
+	@GetMapping("/Maintenance-count")
+	public ResponseEntity<?> getVehicleMaintenanceCount(){
+		long count = vehicleService.countOfUnderMaintenance();
+		return ResponseEntity.ok(count);
+	}
 }
