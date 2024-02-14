@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserDTO;
-
+import com.app.entities.Role;
+import com.app.entities.User;
 import com.app.service.UserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -32,12 +33,12 @@ public class ManagerController {
 
 	@GetMapping
 	public List<UserDTO> listAllManager(){
-		return managerService.getAllManager();
+		return managerService.getAllUserByRole(Role.MANAGER);
 	}
 	
 	@GetMapping("/{managerId}")
 	public UserDTO getManagerDetails(@PathVariable @NotNull Long managerId) {
-		return managerService.getUserDetails(managerId);
+		return managerService.getUserDetails(managerId,Role.MANAGER);
 	}
 	@PostMapping
 	public UserDTO addManagerDetails(@RequestBody UserDTO user) {
@@ -45,9 +46,9 @@ public class ManagerController {
 	}
 	
 	@PutMapping
-	public UserDTO updateManagerDetails(@RequestBody UserDTO detachedUser) {
+	public UserDTO updateManagerDetails(@PathVariable @NotNull Long managerId,@RequestBody UserDTO detachedUser) {
 		System.out.println("in update emp " + detachedUser);
-		return managerService.updateUser(detachedUser);
+		return managerService.updateUser(managerId,detachedUser);
 	}
 	
 	@DeleteMapping("/{managerId}")

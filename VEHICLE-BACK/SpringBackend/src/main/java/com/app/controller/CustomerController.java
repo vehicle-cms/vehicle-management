@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserDTO;
-
+import com.app.entities.Role;
+//import com.app.entities.User;
 import com.app.service.UserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+//import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
 @RestController
@@ -32,22 +34,23 @@ public class CustomerController {
 
 	@GetMapping
 	public List<UserDTO> listAllCustomers(){
-		return customerService.getAllCustomers();
+		return customerService.getAllUserByRole(Role.CUSTOMER);
 	}
 	
 	@GetMapping("/{customerId}")
 	public UserDTO getCustomerDetails(@PathVariable @NotNull Long customerId) {
-		return customerService.getUserDetails(customerId);
+		return customerService.getUserDetails(customerId,Role.CUSTOMER);
 	}
 	@PostMapping
 	public UserDTO addCustomerDetails(@RequestBody UserDTO user) {
+		System.out.println("in add user " + user.toString());
 		return customerService.addUserDetails(user);
 	}
 	
-	@PutMapping
-	public UserDTO updateCustomerDetails(@RequestBody UserDTO detachedUser) {
-		System.out.println("in update emp " + detachedUser);
-		return customerService.updateUser(detachedUser);
+	@PutMapping("/{customerId}")
+	public UserDTO updateCustomerDetails(@PathVariable @NotNull Long customerId,@RequestBody UserDTO detachedUser) {
+		System.out.println("in update user " + detachedUser);
+		return customerService.updateUser(customerId,detachedUser);
 	}
 	
 	@DeleteMapping("/{customerId}")

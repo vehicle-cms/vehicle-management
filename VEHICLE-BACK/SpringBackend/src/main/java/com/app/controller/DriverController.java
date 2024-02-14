@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserDTO;
-
+import com.app.entities.Role;
+import com.app.entities.User;
 import com.app.service.UserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -33,12 +34,12 @@ public class DriverController {
 
 	@GetMapping
 	public List<UserDTO> listAllManager(){
-		return driverService.getAllDrivers();
+		return driverService.getAllUserByRole(Role.DRIVER);
 	}
 	
 	@GetMapping("/{driverId}")
 	public UserDTO getDriverDetails(@PathVariable @NotNull Long driverId) {
-		return driverService.getUserDetails(driverId);
+		return driverService.getUserDetails(driverId,Role.DRIVER);
 	}
 	
 	@PostMapping
@@ -47,9 +48,9 @@ public class DriverController {
 	}
 	
 	@PutMapping
-	public UserDTO updateDriverDetails(@RequestBody UserDTO detachedUser) {
+	public UserDTO updateDriverDetails(@PathVariable @NotNull Long driverId,@RequestBody UserDTO detachedUser) {
 		System.out.println("in update emp " + detachedUser);
-		return driverService.updateUser(detachedUser);
+		return driverService.updateUser(driverId,detachedUser);
 	}
 	
 	@DeleteMapping("/{DriverId}")
