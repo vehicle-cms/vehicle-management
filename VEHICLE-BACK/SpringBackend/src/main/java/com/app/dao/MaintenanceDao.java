@@ -8,6 +8,6 @@ import com.app.entities.Maintenance;
 
 
 public interface MaintenanceDao extends JpaRepository<Maintenance,Long> {
-	List<Maintenance>findAll();
-	//List<Maintenance>findByStatus();	
+//	List<Maintenance>findAll();
+//	List<Maintenance>findByStatus();
 }

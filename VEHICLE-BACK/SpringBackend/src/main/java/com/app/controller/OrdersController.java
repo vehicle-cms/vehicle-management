@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.service.OrderService;
 
@@ -25,14 +26,14 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 @RequestMapping("/user/order")
 @CrossOrigin(originPatterns = "http://localhost:*")
-public class OrderController {
+public class OrdersController {
 
     @Autowired
     private OrderService orderService;
 
     @GetMapping
     public List<OrderDTO> listAllOrders() {
-        return orderService.findOrders();
+        return orderService.getAllVehicles();
     }
 
     @GetMapping("/{orderId}")

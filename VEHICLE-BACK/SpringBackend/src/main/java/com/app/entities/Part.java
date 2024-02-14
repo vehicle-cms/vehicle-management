@@ -22,6 +22,7 @@ public class Part extends BaseEntity {
     private double price;
     
     @ManyToMany(mappedBy = "parts")
+    @ToString.Exclude
     private List<Maintenance> maintenance;
 
 }

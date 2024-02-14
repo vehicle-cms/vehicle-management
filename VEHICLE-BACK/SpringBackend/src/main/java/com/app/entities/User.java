@@ -48,6 +48,7 @@ public class User extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "address_id")
     @MapsId
+    @ToString.Exclude
     private Address address;
 
     @Enumerated(EnumType.STRING)

@@ -30,22 +30,27 @@ public class Orders extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
+    @ToString.Exclude
     private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "driver_id")
+    @ToString.Exclude
     private User driver;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @ToString.Exclude
     private User customer;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
+    @ToString.Exclude
     private User manager;
 
     @OneToOne
-    @JoinColumn(name = "rating_id")
+    @JoinColumn(name = "rating_id",nullable=true)
+    @ToString.Exclude
     @MapsId
     private Rating rating;
 }

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.OrderDao;
+import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
+import com.app.dto.VehicleDTO;
 import com.app.entities.Orders;
 
 import java.sql.Date;
@@ -24,10 +26,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderDao ordersDao;
 
+    @Autowired
     private ModelMapper mapper;
 
     @Override
-    public List<OrderDTO> findOrders() {
+    public List<OrderDTO> getAllVehicles() {
+    	
+//		return vehicleDao.findAll()
+//				 .stream()
+//				 .map(vehicle -> mapper.map(vehicle, VehicleDTO.class))
+//				 .collect(Collectors.toList());
         return ordersDao.findAll().stream()
                 .map(order -> mapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());

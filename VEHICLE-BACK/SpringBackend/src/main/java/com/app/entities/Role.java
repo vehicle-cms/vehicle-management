@@ -1,5 +1,6 @@
 package com.app.entities;
 
 public enum Role {
-	MANAGER,DRIVER,TECHNICIAN,CUSTOMER;
+	Driver,Technician,Customer,Admin,Manager
+	,Employee,MANAGER,CUSTOMER,DRIVER;
 }

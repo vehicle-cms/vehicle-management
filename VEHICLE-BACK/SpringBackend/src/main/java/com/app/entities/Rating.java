@@ -26,7 +26,15 @@ public class Rating extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @ToString.Exclude
     private User customer;
 
+<<<<<<< HEAD
    
+=======
+//    @OneToOne(mappedBy = "rating")
+//    @JoinColumn(name = "order_id")
+//    @ToString.Exclude
+//    private Orders order;
+>>>>>>> e606e030d67530eccc82a8fa65276e714251153c
 }
