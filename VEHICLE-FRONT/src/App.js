@@ -10,9 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Gateway from './sections/authentication';
 import { GetCampaign } from './Actions/OrderAction';
-import { GetVehicles } from './Actions/VehicleActions';
+import { GetVehicles, vehicleActiveCount, vehicleInActiveCount, vehicleMaintenanceCount } from './Actions/VehicleActions';
 import { GetTags } from './Actions/CustomerActions';
 import { useDispatch } from 'react-redux';
+import { GetCountDetail }  from "./utils/HandlerFunctions/CountHandler";
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -26,10 +27,27 @@ export default function App() {
     }
   }, [token]);
 
-  useEffect(() => {
+   useEffect(() => {
     dispatch(GetCampaign());
     dispatch(GetVehicles());
     dispatch(GetTags());
+
+     GetCountDetail(
+     dispatch,
+    'vehicles/active-count',
+     vehicleActiveCount);
+
+     GetCountDetail(
+     dispatch,
+    'vehicles/inactive-count',
+     vehicleInActiveCount);
+
+     GetCountDetail(
+     dispatch,
+    'vehicles/maintenance-count',
+     vehicleMaintenanceCount)
+
+
   }, []);
 
   // if (token === 'undefined') {

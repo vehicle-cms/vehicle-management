@@ -76,7 +76,7 @@ public class VehicleController {
 		return ResponseEntity.ok(count);
 	}
 	
-	@GetMapping("/Maintenance-count")
+	@GetMapping("/maintenance-count")
 	public ResponseEntity<?> getVehicleMaintenanceCount(){
 		long count = vehicleService.countOfUnderMaintenance();
 		return ResponseEntity.ok(count);

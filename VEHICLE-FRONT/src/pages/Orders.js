@@ -54,12 +54,17 @@ export default function Orders() {
   const selectedCampaignCustomer = useSelector(
     state => state.CampaignReducer.selectedCampaignCustomer
   );
+  const selectedCampaignManager = useSelector(
+    state => state.CampaignReducer.selectedCampaignManager
+  );
+  const selectedCampaignRating = useSelector(
+    state => state.CampaignReducer.selectedCampaignRating
+  );
+
   const selectedCampaignDont = useSelector(
     state => state.CampaignReducer.selectedCampaignDont
   );
-  const selectedCampaignDos = useSelector(
-    state => state.CampaignReducer.selectedCampaignDos
-  );
+
 
   const isLoading = useSelector(state => state.CampaignReducer.loading);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -319,7 +324,79 @@ export default function Orders() {
       key: 'mobile',
     }
   ];
-  const columns4 = [
+
+   const columns4 = [
+    {
+      title: 'Picture',
+      dataIndex: 'imageURL',
+      key: 'imageURL',
+      render: (text, record) => (
+        <Space size="middle">
+          <Image src={record?.imageURL} />
+        </Space>
+      ),
+      width: '10%',
+    },
+    {
+      title: 'username',
+      dataIndex: 'firstName',
+      key: 'firstName',
+      render: (text, record) => (
+        <Space size="middle">
+          <span>
+            {record?.firstName} {record?.lastName}
+          </span>
+        </Space>
+      ),
+    },
+    {
+      title: 'email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'phoneNo',
+      dataIndex: 'mobile',
+      key: 'mobile',
+    }
+  ];
+
+   const columns5 = [
+    {
+      title: 'Picture',
+      dataIndex: 'imageURL',
+      key: 'imageURL',
+      render: (text, record) => (
+        <Space size="middle">
+          <Image src={record?.imageURL} />
+        </Space>
+      ),
+      width: '10%',
+    },
+    {
+      title: 'username',
+      dataIndex: 'firstName',
+      key: 'firstName',
+      render: (text, record) => (
+        <Space size="middle">
+          <span>
+            {record?.firstName} {record?.lastName}
+          </span>
+        </Space>
+      ),
+    },
+    {
+      title: 'email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'phoneNo',
+      dataIndex: 'mobile',
+      key: 'mobile',
+    }
+  ];
+  const columns6 = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -329,37 +406,14 @@ export default function Orders() {
           <span>{record?.id}</span>
         </Space>
       ),
-    }, {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+    },
+    {
+      title: 'Rating',
+      dataIndex: 'rating',
+      key: 'rating',
       render: (text, record) => (
         <Space size="middle">
-          <span>{record?.firstName} {record?.lastName} </span>
-        </Space>
-      ),
-    },
-    {
-      title: 'Mobile no.',
-      dataIndex: 'mobile',
-      key: 'mobile',
-    },
-    {
-      title: 'Email Id',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      render: (text, record) => (
-        <Space size="middle">
-          <span>
-            {record?.address?.street}
-            {record?.address?.address}
-            {record?.address?.pincode?.pincode}
-            </span>
+          <span>{record?.rating}</span>
         </Space>
       ),
     },
@@ -650,19 +704,20 @@ export default function Orders() {
                 dataSource={selectedCampaignCustomer}
                 pagination={false}
               />
-              {/* {selectedCampaignContributors?.map(data => (
-                <div>{data}</div>
-              ))} */}
             </Panel>
             <Panel header="Manager" key="4">
-              {selectedCampaignDos?.map(data => (
-                <div>{data?.message}</div>
-              ))}
+                 <Table
+                columns={columns5}
+                dataSource={selectedCampaignManager}
+                pagination={false}
+              />
             </Panel>
             <Panel header="Rating" key="5">
-              {selectedCampaignDont?.map(data => (
-                <div>{data?.message}</div>
-              ))}
+                <Table
+                columns={columns6}
+                dataSource={selectedCampaignRating}
+                pagination={false}
+              />
             </Panel>
           </Collapse>
         </Modal>

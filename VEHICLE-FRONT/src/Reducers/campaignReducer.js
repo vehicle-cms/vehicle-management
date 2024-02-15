@@ -5,7 +5,7 @@ const initialState = {
   selectedCampaignVehicle: [],
   selectedCampaignCustomer: [],
   selectedCampaignManager: [],
-  selectedCampaignDos: [],
+  selectedCampaignRating: [],
   findCampaign: [],
   searchCampaign: [],
 };
@@ -45,9 +45,9 @@ const CampaignReducer = (state = initialState, action) => {
           selectedCampaignManager: Array.isArray(findCampaign?.manager)
             ? findCampaign?.manager
             : [findCampaign?.manager],
-          selectedCampaignResources: Array.isArray(findCampaign?.resources)
-            ? findCampaign?.resources
-            : [findCampaign?.resources],
+          selectedCampaignRating: Array.isArray(findCampaign?.rating)
+            ? findCampaign?.rating
+            : [findCampaign?.rating],
         };
       } else {
         return state;

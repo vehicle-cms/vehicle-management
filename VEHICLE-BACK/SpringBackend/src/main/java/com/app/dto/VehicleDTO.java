@@ -3,6 +3,7 @@ package com.app.dto;
 import javax.validation.constraints.Pattern;
 
 import com.app.entities.FuelType;
+import com.app.entities.VehicleStatus;
 import com.app.entities.VehicleType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,7 +25,7 @@ public class VehicleDTO {
 	private String vehicleNumber;
 	private VehicleType vehicleType;
 	private String registration;
-	private boolean status;
+	private VehicleStatus status;
 	private double mileage;
 	private double ratePerDay;
 	private FuelType fuelType;

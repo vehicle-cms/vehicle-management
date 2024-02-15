@@ -9,8 +9,11 @@ const initialState = {
   searchMemedd: [],
   selectedMemerTag: [],
   reportData: [],
+  activeCount:0,
+  inactiveCount:0,
+  maintenanceCount:0
 };
-
+// memer -->  memmed --> vehicle
 const MemerReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_MEMER_REQUEST':
@@ -89,6 +92,21 @@ const MemerReducer = (state = initialState, action) => {
         ...state,
         reportData: [],
       };
+    case 'VEHICLE_ACTIVE_COUNT':
+      return {
+        ...state,
+        activeCount:action?.payload
+      }
+     case 'VEHICLE_INACTIVE_COUNT':
+      return {
+        ...state,
+        inactiveCount:action?.payload
+      }
+       case 'VEHICLE_MAINTENANCE_COUNT':
+      return {
+        ...state,
+        maintenanceCount:action?.payload
+      }
     default:
       return state;
   }

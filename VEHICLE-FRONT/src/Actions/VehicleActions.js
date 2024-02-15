@@ -117,6 +117,26 @@ export const emptyReportData = () => {
     type: 'EMPTY_REPORT_DATA',
   };
 };
+
+
+export const vehicleActiveCount = (data) => {
+  return {
+    type: 'VEHICLE_ACTIVE_COUNT',
+    payload:data
+  };
+};
+export const vehicleInActiveCount = (data) => {
+  return {
+    type: 'VEHICLE_INACTIVE_COUNT',
+    payload:data
+  };
+};
+export const vehicleMaintenanceCount = (data) => {
+  return {
+    type: 'VEHICLE_MAINTENANCE_COUNT',
+    payload:data
+  };
+};
 // export const addPlatform = (items) =>{
 //   return {
 //       type: "ADD_SEARCH_ITEMS",

@@ -2,6 +2,7 @@ package com.app.dto;
 
 import java.util.Date;
 
+import com.app.entities.OrderStatus;
 import com.app.entities.Rating;
 import com.app.entities.User;
 import com.app.entities.Vehicle;
@@ -21,7 +22,7 @@ public class OrderDTO {
     private Long id;
     private Date bookingDate;
     private Date returnDate;
-    private boolean status;
+    private OrderStatus status;
     private double fare;
     private double distance;
     private Vehicle vehicle;

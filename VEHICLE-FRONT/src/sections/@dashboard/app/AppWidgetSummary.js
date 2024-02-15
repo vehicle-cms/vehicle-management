@@ -87,7 +87,7 @@ export function AppWidgetSummary2({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.campaign);
+  const activeCount = useSelector(state => state.MemerReducer.activeCount);
   const navigate = useNavigate();
 
   return (
@@ -116,7 +116,7 @@ export function AppWidgetSummary2({
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h3">{fShortenNumber(admin)}</Typography>
+      <Typography variant="h3">{fShortenNumber(activeCount)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
@@ -168,6 +168,8 @@ export function AppWidgetSummary3({
     </Card>
   );
 }
+
+//active vehicles
 export function AppWidgetSummary4({
   title,
   total,
@@ -176,7 +178,7 @@ export function AppWidgetSummary4({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.tag);
+   const activeCount = useSelector(state => state.MemerReducer.activeCount);
   const navigate = useNavigate();
 
   return (
@@ -205,7 +207,7 @@ export function AppWidgetSummary4({
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h3">{fShortenNumber(admin)}</Typography>
+      <Typography variant="h3">{fShortenNumber(activeCount)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
@@ -213,6 +215,8 @@ export function AppWidgetSummary4({
     </Card>
   );
 }
+
+//IN-ACTIVE VEHICLES
 export function AppWidgetSummary5({
   title,
   total,
@@ -221,7 +225,7 @@ export function AppWidgetSummary5({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.platform);
+   const inactiveCount = useSelector(state => state.MemerReducer.inactiveCount);
   const navigate = useNavigate();
 
   return (
@@ -250,7 +254,7 @@ export function AppWidgetSummary5({
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h3">{fShortenNumber(admin)}</Typography>
+      <Typography variant="h3">{fShortenNumber(inactiveCount)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
@@ -258,6 +262,8 @@ export function AppWidgetSummary5({
     </Card>
   );
 }
+
+//MAINTENANCE-COUNT
 export function AppWidgetSummary6({
   title,
   total,
@@ -266,7 +272,7 @@ export function AppWidgetSummary6({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.memerr);
+   const maintenanceCount = useSelector(state => state.MemerReducer.maintenanceCount);
   const navigate = useNavigate();
 
   return (
@@ -295,7 +301,7 @@ export function AppWidgetSummary6({
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h3">{fShortenNumber(admin)}</Typography>
+      <Typography variant="h3">{fShortenNumber(maintenanceCount)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
