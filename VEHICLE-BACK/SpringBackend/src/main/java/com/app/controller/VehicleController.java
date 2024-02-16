@@ -81,4 +81,10 @@ public class VehicleController {
 		long count = vehicleService.countOfUnderMaintenance();
 		return ResponseEntity.ok(count);
 	}
+	
+	@GetMapping("/vehicle-count")
+	public ResponseEntity<?> getVehicleCount(){
+		 long count = vehicleService.vehicleCount();
+		 return ResponseEntity.ok(count);
+	}
 }

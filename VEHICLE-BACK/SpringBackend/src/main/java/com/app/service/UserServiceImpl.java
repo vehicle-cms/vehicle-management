@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
 	public long countOfDrivers() {
 		return userDao.countByRole(Role.DRIVER);
 	}
+	
+	@Override
+	public long countOfManagers() {
+		return userDao.countByRole(Role.MANAGER);
+	}
+
 
 
 }

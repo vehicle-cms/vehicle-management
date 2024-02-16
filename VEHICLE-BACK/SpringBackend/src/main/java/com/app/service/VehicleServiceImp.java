@@ -86,6 +86,11 @@ public class VehicleServiceImp implements VehicleService{
 	public long countOfUnderMaintenance() {
 		return vehicleDao.countByStatus(VehicleStatus.MAINTENANCE);
 	}
+
+	@Override
+	public long vehicleCount() {
+		return vehicleDao.count();
+	}
 	
 	
 }

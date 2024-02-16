@@ -90,4 +90,20 @@ public class OrderServiceImpl implements OrderService {
 		return ordersDao.countByStatus(OrderStatus.PENDING);
 	}
 
+	@Override
+	public long orderCount() {
+		return ordersDao.count();
+	}
+
+	@Override
+	public long countOfApprovedOrders() {
+		return ordersDao.countByStatus(OrderStatus.APPROVED);
+	}
+
+	@Override
+	public long countOfRejectedOrders() {
+		return ordersDao.countByStatus(OrderStatus.REJECTED);
+	}
+
+     
 }

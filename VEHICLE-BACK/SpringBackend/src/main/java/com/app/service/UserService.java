@@ -20,4 +20,5 @@ public interface UserService {
 	String deleteUser(Long UserId);
 	
 	long countOfDrivers();
+	long countOfManagers();
 }

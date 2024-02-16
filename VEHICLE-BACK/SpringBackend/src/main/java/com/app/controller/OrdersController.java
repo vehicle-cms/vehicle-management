@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.service.OrderService;
 
@@ -66,5 +65,27 @@ public class OrdersController {
     @DeleteMapping("/{orderId}")
     public String deleteOrder(@PathVariable Long orderId) {
         return orderService.deleteOrder(orderId);
+    }
+    
+    @GetMapping("/order-count")
+    public ResponseEntity<?> orderCount() {
+    	long count = orderService.orderCount(); 
+    	return ResponseEntity.ok(count);
+    }
+    
+    @GetMapping("/approved-count")
+    public ResponseEntity<?> approvedOrderCount() {
+    	long count = orderService.countOfApprovedOrders(); 
+    	return ResponseEntity.ok(count);
+    }
+    @GetMapping("/pending-count")
+    public ResponseEntity<?> pendingOrderCount() {
+    	long count = orderService.countOfPendingOrders(); 
+    	return ResponseEntity.ok(count);
+    }
+    @GetMapping("/rejected-count")
+    public ResponseEntity<?> rejectedOrderCount() {
+    	long count = orderService.countOfRejectedOrders(); 
+    	return ResponseEntity.ok(count);
     }
 }

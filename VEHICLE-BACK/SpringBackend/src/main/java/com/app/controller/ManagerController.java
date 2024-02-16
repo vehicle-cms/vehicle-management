@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,4 +58,9 @@ public class ManagerController {
 		return managerService.deleteUser(managerId);
 	}
 	
+	@GetMapping("manager-count")
+	public ResponseEntity<?> getDriverCount(){
+		long count = managerService.countOfManagers();
+		return ResponseEntity.ok(count);
+	}
 }

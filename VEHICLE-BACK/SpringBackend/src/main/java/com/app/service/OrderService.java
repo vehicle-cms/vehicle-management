@@ -23,4 +23,10 @@ public interface OrderService {
     String deleteOrder(Long orderId);
     
     long countOfPendingOrders();
+    
+    long countOfApprovedOrders();
+    
+    long countOfRejectedOrders();
+    
+    long orderCount();
 }

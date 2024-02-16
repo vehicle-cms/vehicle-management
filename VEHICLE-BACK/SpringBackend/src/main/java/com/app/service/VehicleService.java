@@ -18,4 +18,5 @@ public interface VehicleService {
 	long countOfActive();
 	long countOfInactive();
 	long countOfUnderMaintenance();
+	long vehicleCount();
 }
