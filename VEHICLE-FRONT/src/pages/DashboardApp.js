@@ -126,27 +126,28 @@ export default function DashboardApp() {
 
     let worksheet1 = workbook.addWorksheet('Campaigns Report');
     const campaignHeaders = [
-      'Memer Name',
-      'Contact No',
-      'Campaign',
-      'Platform',
+      'Order_id',
+      'BookingDate',
+      'ReturnDate',
       'Status',
-      'Date',
+      'Fare',
+      'Distance',
     ];
 
     worksheet1.addRow(campaignHeaders);
     reportData.forEach(d => {
-      d?.Campaigns?.platform.forEach(d1 => {
+      // d?.Campaigns?.platform.forEach(d1 => {
         worksheet1.addRow([
-          d?.Memerrs?.firstName + ' ' + d?.Memerrs?.lastName,
-          d?.Memerrs?.phoneNo,
-          d?.Campaigns?.campaignName,
-          d1?.platformName,
-          d?.status,
-          moment(d?.updatedAt).format('MMMM Do YYYY'),
+             d?.id,
+             d?.bookingDate,
+             d?.returnDate,
+             d?.status,
+             d?.fare,
+              d?.distance
+      //     moment(d?.updatedAt).format('MMMM Do YYYY'),
         ]);
       });
-    });
+    // });
 
     var fileName =
       moment(date1).format('MMMM Do YYYY') +
@@ -166,7 +167,7 @@ export default function DashboardApp() {
   }, []);
 
   useEffect(() => {
-    if (reportData.length > 0) {
+    if (reportData?.length > 0) {
       GenerateCsvFile1();
     }
   }, [reportData]);

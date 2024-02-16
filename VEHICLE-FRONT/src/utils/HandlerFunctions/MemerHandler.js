@@ -35,20 +35,20 @@ export const GetOrderDetail = async (
 ) => {
   try {
     const queryParams = new URLSearchParams();
-    console.log(selectedCampaign);
+    // console.log(selectedCampaign);
 
     queryParams.append('startDate', moment(startDate).format('YYYY-MM-DD'));
     queryParams.append('endDate', moment(endDate).format('YYYY-MM-DD'));
-    console.log(selectedCampaign);
-    if (selectedCampaign !== 'All Campaigns') {
-      // console.log(selectedCampaign + 'clicked');
-      queryParams.append('campaignCode', selectedCampaign);
-    }
+    // console.log(selectedCampaign);
+    // if (selectedCampaign !== 'All Campaigns') {
+    //   // console.log(selectedCampaign + 'clicked');
+    //   queryParams.append('campaignCode', selectedCampaign);
+    // }
     // console.log('indise');
     const url = `/?${queryParams.toString()}`;
     console.log(url);
-    const memerData = await api.get(`/meme/with-campaign-memerr${url}`);
-    dispatch(addReportData(memerData?.data?.result));
+    const memerData = await api.get(`user/order/ordersBetweenDates${url}`);
+    dispatch(addReportData(memerData?.data));
     let string = '';
     if (memerData?.data?.result.length === 0) {
       string = 'No data to show';
@@ -56,6 +56,6 @@ export const GetOrderDetail = async (
     successNotifier('fetched successfully' + ' ' + string);
     return memerData;
   } catch (e) {
-    failureNotifier('failed to get', e?.response?.data?.message);
+    // failureNotifier('failed to get', e?.response?.data?.message);
   }
 };
