@@ -27,7 +27,7 @@ export const updatePrice = async (navigate, dispatch, code, value) => {
     failureNotifier('failed to platform', e?.response?.data?.message);
   }
 };
-export const GetMemerDetail = async (
+export const GetOrderDetail = async (
   dispatch,
   selectedCampaign,
   startDate,

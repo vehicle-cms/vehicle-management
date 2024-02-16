@@ -30,10 +30,10 @@ export const GetAdmins = (navigate) => {
   return (dispatch) => {
     dispatch(getAdminRequest());
     api
-      .get('admin')
+      .get('user/manager/')
       .then((response) => response.data)
       .then((data) => {
-        dispatch(getAdminSuccess(data?.result));
+        dispatch(getAdminSuccess(data));
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -41,6 +41,8 @@ export const GetAdmins = (navigate) => {
       });
   };
 };
+
+
 
 export const setAdmin = (id) => {
   return {
@@ -104,5 +106,12 @@ export const GetCounts = (navigate) => {
         const errorMessage = error.message;
         dispatch(getCountFailure(errorMessage));
       });
+  };
+};
+
+export const managerCount = (data) => {
+  return {
+    type: 'MANAGER_COUNT',
+    payload:data
   };
 };

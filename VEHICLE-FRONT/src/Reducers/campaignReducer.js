@@ -8,8 +8,12 @@ const initialState = {
   selectedCampaignRating: [],
   findCampaign: [],
   searchCampaign: [],
+  orderCount:0,
+  orderApprovedCount:0,
+  orderPendingCount:0,
+  orderRejectedCount:0
 };
-
+//orders
 const CampaignReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_CAMPAIGN_REQUEST':
@@ -60,6 +64,26 @@ const CampaignReducer = (state = initialState, action) => {
         loading: false,
         searchCampaign: items1,
       };
+     case 'ORDER_COUNT':
+      return {
+        ...state,
+        orderCount:action?.payload
+      }
+       case 'ORDER_APPROVED_COUNT':
+      return {
+        ...state,
+        orderApprovedCount:action?.payload
+      }
+       case 'ORDER_PENDING_COUNT':
+      return {
+        ...state,
+        orderPendingCount:action?.payload
+      }
+       case 'ORDER_REJECTED_COUNT':
+      return {
+        ...state,
+        orderRejectedCount:action?.payload
+      }
     default:
       return state;
   }

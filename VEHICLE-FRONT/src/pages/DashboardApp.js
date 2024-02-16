@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux';
 import { GetCounts } from '../Actions/ManagerActions';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { GetMemerDetail } from '../utils/HandlerFunctions/MemerHandler';
+import { GetOrderDetail } from '../utils/HandlerFunctions/MemerHandler';
 import { emptyReportData } from '../Actions/VehicleActions';
 import LoadOptions from '../utils/HandlerFunctions/loadOptions';
 // ----------------------------------------------------------------------
@@ -118,7 +118,7 @@ export default function DashboardApp() {
   };
 
   const GenerateCsvFile = () => {
-    GetMemerDetail(dispatch, value?.code, date1, date2);
+    GetOrderDetail(dispatch, value?.code, date1, date2);
   };
 
   const GenerateCsvFile1 = () => {

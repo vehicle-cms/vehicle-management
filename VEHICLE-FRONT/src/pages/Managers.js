@@ -38,7 +38,7 @@ import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
 
 export default function Managers() {
 
-  const userData = useSelector(state => state.AdminReducer.users);
+  const userData = useSelector(state => state.AdminReducer.admins);
   const selectedAdmin = useSelector(state => state.AdminReducer.selectedAdmin);
   const visible = useSelector(state => state.AdminReducer.visible);
   const isLoading = useSelector(state => state.AdminReducer.loading);
@@ -82,22 +82,22 @@ export default function Managers() {
   const columns = [
     {
       title: 'Picture',
-      dataIndex: 'picture',
-      key: 'picture',
+      dataIndex: 'imageURL',
+      key: 'imageURL',
       render: (text, record) => (
         <Space size="middle">
-          <Image src={record?.picture} />
+          <Image src={record?.imageURL} />
         </Space>
       ),
       width: '5%',
     },
     {
       title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
+      dataIndex: 'firstName',
+      key: 'firstName',
       render: (text, record) => (
         <Space size="middle">
-          <span>{record?.username}</span>
+          <span>{record?.firstName} {record?.lastName}</span>
         </Space>
       ),
     },
@@ -109,8 +109,8 @@ export default function Managers() {
     },
     {
       title: 'Phone No.',
-      dataIndex: 'phoneNo',
-      key: 'phoneNo',
+      dataIndex: 'mobile',
+      key: 'mobile',
     },
     // {
     //   title: 'Last Used',
@@ -189,29 +189,8 @@ export default function Managers() {
   }, [selectedAdmin]);
 
   useEffect(() => {
-    const data = [
-      {
-        picture: 'https://example.com/driver1.jpg',
-        username: 'Rajesh Kumar',
-        email: 'rajesh.kumar@example.com',
-        phoneNo: '+91 9876543210',
-      },
-      {
-        picture: 'https://example.com/driver2.jpg',
-        username: 'Priya Sharma',
-        email: 'priya.sharma@example.com',
-        phoneNo: '+91 8765432109',
-      },
-      {
-        picture: 'https://example.com/driver3.jpg',
-        username: 'Amit Singh',
-        email: 'amit.singh@example.com',
-        phoneNo: '+91 7890123456',
-      },
-    ];
-
-    if (data?.length >= 0) {
-      setData(data);
+    if (userData?.length >= 0) {
+      setData(userData);
     }
   }, []);
 
@@ -336,7 +315,7 @@ export default function Managers() {
             }
             scrollableTarget="scrollableDiv"
           >
-            <Table columns={columns} dataSource={data} pagination={false} />
+            <Table columns={columns} dataSource={data.length > 0 ? userData : []} pagination={false} />
           </InfiniteScroll>
         )}
         <Modal

@@ -46,3 +46,28 @@ export const addCampaign = (items) => {
     payload: items,
   };
 };
+
+export const orderCount = (data) => {
+  return {
+    type: 'ORDER_COUNT',
+    payload:data
+  };
+};
+export const orderApprovedCount = (data) => {
+  return {
+    type: 'ORDER_APPROVED_COUNT',
+    payload:data
+  };
+};
+export const orderPendingCount = (data) => {
+  return {
+    type: 'ORDER_PENDING_COUNT',
+    payload:data
+  };
+};
+export const orderRejectedCount = (data) => {
+  return {
+    type: 'ORDER_REJECTED_COUNT',
+    payload:data
+  };
+};

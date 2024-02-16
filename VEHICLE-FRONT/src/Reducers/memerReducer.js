@@ -11,7 +11,8 @@ const initialState = {
   reportData: [],
   activeCount:0,
   inactiveCount:0,
-  maintenanceCount:0
+  maintenanceCount:0,
+  vehicleCount:0
 };
 // memer -->  memmed --> vehicle
 const MemerReducer = (state = initialState, action) => {
@@ -106,6 +107,11 @@ const MemerReducer = (state = initialState, action) => {
       return {
         ...state,
         maintenanceCount:action?.payload
+      }
+       case 'VEHICLE_COUNT':
+      return {
+        ...state,
+        vehicleCount:action?.payload
       }
     default:
       return state;

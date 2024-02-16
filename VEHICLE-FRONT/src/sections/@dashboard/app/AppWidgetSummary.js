@@ -32,6 +32,7 @@ AppWidgetSummary1.propTypes = {
   sx: PropTypes.object,
 };
 
+//managers
 export function AppWidgetSummary1({
   title,
   total,
@@ -40,7 +41,7 @@ export function AppWidgetSummary1({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.admin);
+  const admin = useSelector(state => state.AdminReducer.managerCount);
   const navigate = useNavigate();
 
   return (
@@ -79,6 +80,8 @@ export function AppWidgetSummary1({
     </Card>
   );
 }
+
+//vehicles
 export function AppWidgetSummary2({
   title,
   total,
@@ -87,7 +90,7 @@ export function AppWidgetSummary2({
   sx,
   ...other
 }) {
-  const activeCount = useSelector(state => state.MemerReducer.activeCount);
+  const activeCount = useSelector(state => state.MemerReducer.vehicleCount);
   const navigate = useNavigate();
 
   return (
@@ -124,6 +127,8 @@ export function AppWidgetSummary2({
     </Card>
   );
 }
+
+//orders
 export function AppWidgetSummary3({
   title,
   total,
@@ -132,7 +137,7 @@ export function AppWidgetSummary3({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.brand);
+  const admin = useSelector(state => state.CampaignReducer.orderCount);
   const navigate = useNavigate();
   return (
     <Card
@@ -309,6 +314,8 @@ export function AppWidgetSummary6({
     </Card>
   );
 }
+
+//drivers
 export function AppWidgetSummary7({
   title,
   total,
@@ -354,6 +361,8 @@ export function AppWidgetSummary7({
     </Card>
   );
 }
+
+//approved
 export function AppWidgetSummary8({
   title,
   total,
@@ -362,7 +371,7 @@ export function AppWidgetSummary8({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.approved);
+  const admin = useSelector(state => state.CampaignReducer.approved);
 
   return (
     <Card
@@ -384,6 +393,8 @@ export function AppWidgetSummary8({
     </Card>
   );
 }
+
+//pending
 export function AppWidgetSummary9({
   title,
   total,
@@ -392,7 +403,7 @@ export function AppWidgetSummary9({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.pending);
+  const admin = useSelector(state => state.CampaignReducer.orderPendingCount);
   return (
     <Card
       sx={{
@@ -413,6 +424,8 @@ export function AppWidgetSummary9({
     </Card>
   );
 }
+
+//rejected
 export function AppWidgetSummary10({
   title,
   total,

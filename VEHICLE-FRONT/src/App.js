@@ -9,11 +9,12 @@ import './styles/user.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Gateway from './sections/authentication';
-import { GetCampaign } from './Actions/OrderAction';
-import { GetVehicles, vehicleActiveCount, vehicleInActiveCount, vehicleMaintenanceCount } from './Actions/VehicleActions';
+import { GetCampaign, orderApprovedCount, orderCount, orderPendingCount, orderRejectedCount } from './Actions/OrderAction';
+import { GetVehicles, vehicleActiveCount, vehicleCount, vehicleInActiveCount, vehicleMaintenanceCount } from './Actions/VehicleActions';
 import { GetTags } from './Actions/CustomerActions';
 import { useDispatch } from 'react-redux';
 import { GetCountDetail }  from "./utils/HandlerFunctions/CountHandler";
+import { GetAdmins, managerCount } from './Actions/ManagerActions';
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
   }, [token]);
 
    useEffect(() => {
+    dispatch(GetAdmins());
     dispatch(GetCampaign());
     dispatch(GetVehicles());
     dispatch(GetTags());
@@ -46,6 +48,36 @@ export default function App() {
      dispatch,
     'vehicles/maintenance-count',
      vehicleMaintenanceCount)
+
+     GetCountDetail(
+     dispatch,
+    'user/manager/manager-count',
+     managerCount)
+
+      GetCountDetail(
+     dispatch,
+    'vehicles/vehicle-count',
+     vehicleCount)
+
+      GetCountDetail(
+     dispatch,
+    'user/order/order-count',
+     orderCount)
+
+       GetCountDetail(
+     dispatch,
+    'user/order/approved-count',
+     orderApprovedCount)
+
+       GetCountDetail(
+     dispatch,
+    'user/order/pending-count',
+     orderPendingCount)
+
+       GetCountDetail(
+     dispatch,
+    'user/order/rejected-count',
+     orderRejectedCount)
 
 
   }, []);

@@ -137,6 +137,13 @@ export const vehicleMaintenanceCount = (data) => {
     payload:data
   };
 };
+
+export const vehicleCount = (data) => {
+  return {
+    type: 'VEHICLE_COUNT',
+    payload:data
+  };
+};
 // export const addPlatform = (items) =>{
 //   return {
 //       type: "ADD_SEARCH_ITEMS",

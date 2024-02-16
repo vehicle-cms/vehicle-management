@@ -16,6 +16,7 @@ const initialState = {
   memerr: 0,
   platform: 0,
   tag: 0,
+  managerCount:0
 };
 
 const AdminReducer = (state = initialState, action) => {
@@ -23,19 +24,7 @@ const AdminReducer = (state = initialState, action) => {
     case 'GET_ADMINS_REQUEST':
       return { ...state, loading: true };
     case 'GET_ADMINS_SUCCESS':
-      const admins = action.payload;
-
-      const adminData = [];
-      const userData = [];
-      admins?.forEach((data) => {
-        if (data?.isAdmin) {
-          adminData.push(data);
-        } else {
-          userData.push(data);
-        }
-      });
-
-      return { ...state, loading: false, admins: adminData, users: userData };
+      return { ...state, loading: false, admins: action.payload };
     case 'GET_ADMINS_FAILURE':
       return { ...state, loading: false, error: action.payload };
     case 'GET_COUNT_REQUEST':
@@ -134,6 +123,11 @@ const AdminReducer = (state = initialState, action) => {
         ...state,
         visible: false,
       };
+     case 'MANAGER_COUNT':
+      return {
+        ...state,
+        managerCount:action?.payload
+      }
     default:
       return state;
   }
