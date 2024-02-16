@@ -4,7 +4,7 @@ export const successNotifier = (msg) => {
   notification.config({
     placement: 'bottomRight',
     bottom: 20,
-    duration: 3,
+    duration: 2,
   });
   notification.open({
     message: msg,
@@ -15,7 +15,7 @@ export const failureNotifier = (msg, e) => {
   notification.config({
     placement: 'bottomRight',
     bottom: 20,
-    duration: null,
+    duration: 2,
   });
   notification.open({
     message: msg,
