@@ -371,7 +371,7 @@ export function AppWidgetSummary8({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.CampaignReducer.approved);
+  const admin = useSelector(state => state.CampaignReducer.orderApprovedCount);
 
   return (
     <Card
@@ -434,7 +434,7 @@ export function AppWidgetSummary10({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.rejected);
+  const admin = useSelector(state => state?.CampaignReducer?.orderRejectedCount);
 
   return (
     <Card

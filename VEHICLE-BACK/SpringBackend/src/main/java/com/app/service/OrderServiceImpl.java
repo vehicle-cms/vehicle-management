@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.OrderDao;
-import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
-import com.app.dto.VehicleDTO;
 import com.app.entities.OrderStatus;
 import com.app.entities.Orders;
 
@@ -65,9 +63,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO updateOrder(OrderDTO detachedOrder) {
-        if (ordersDao.existsById(detachedOrder.getId())) {
-            return mapper.map(ordersDao.save(mapper.map(detachedOrder, Orders.class)), OrderDTO.class);
+    public Orders updateOrder(Orders detachedOrder,Long orderId) {
+        if (ordersDao.existsById(orderId)) {
+        	detachedOrder.setId(orderId);
+            return ordersDao.save(detachedOrder);
         }
         return null;
     }

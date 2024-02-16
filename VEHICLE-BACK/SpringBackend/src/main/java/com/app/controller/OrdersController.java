@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.entities.Orders;
 import com.app.service.OrderService;
@@ -69,9 +68,9 @@ public class OrdersController {
         return orderService.createOrder(order);
     }
 
-    @PutMapping
-    public OrderDTO updateOrder(@RequestBody OrderDTO detachedOrder) {
-        return orderService.updateOrder(detachedOrder);
+    @PutMapping("/{id}")
+    public Orders updateOrder(@PathVariable Long id,@RequestBody Orders detachedOrder) {
+        return orderService.updateOrder(detachedOrder,id);
     }
 
     @DeleteMapping("/{orderId}")

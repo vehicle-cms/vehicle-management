@@ -3,7 +3,6 @@ package com.app.service;
 import java.util.Date;
 import java.util.List;
 
-import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
 import com.app.entities.Orders;
 
@@ -18,7 +17,7 @@ public interface OrderService {
 
     Orders createOrder(Orders transientOrder);
 
-    OrderDTO updateOrder(OrderDTO detachedOrder);
+    Orders updateOrder(Orders detachedOrder,Long orderId);
 
     String deleteOrder(Long orderId);
     
