@@ -31,12 +31,8 @@ public class OrderServiceImpl implements OrderService {
     private ModelMapper mapper;
 
     @Override
-    public List<OrderDTO> getAllVehicles() {
+    public List<OrderDTO> getAllOrders() {
     	
-//		return vehicleDao.findAll()
-//				 .stream()
-//				 .map(vehicle -> mapper.map(vehicle, VehicleDTO.class))
-//				 .collect(Collectors.toList());
         return ordersDao.findAll().stream()
                 .map(order -> mapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());
@@ -64,8 +60,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO createOrder(OrderDTO transientOrder) {
-        return mapper.map(ordersDao.save(mapper.map(transientOrder, Orders.class)), OrderDTO.class);
+    public Orders createOrder(Orders transientOrder) {
+        return ordersDao.save(transientOrder);
     }
 
     @Override

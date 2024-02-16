@@ -2,6 +2,8 @@ package com.app.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,27 +34,26 @@ public class Orders extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
-    @ToString.Exclude
+//    @JsonProperty("vehicle_id")
     private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "driver_id")
-    @ToString.Exclude
+//    @JsonProperty("driver_id")
     private User driver;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @ToString.Exclude
+//    @JsonProperty("customer_id")
     private User customer;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
-    @ToString.Exclude
+//    @JsonProperty("manager_id")
     private User manager;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rating_id",nullable=true)
-    @ToString.Exclude
-    @MapsId
+//    @JsonProperty("rating_id")
     private Rating rating;
 }

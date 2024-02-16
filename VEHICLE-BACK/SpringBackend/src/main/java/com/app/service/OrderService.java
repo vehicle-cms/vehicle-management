@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.app.dto.Order1DTO;
 import com.app.dto.OrderDTO;
-import com.app.dto.UserDTO;
+import com.app.entities.Orders;
 
 public interface OrderService {
-    List<OrderDTO> getAllVehicles();
+    List<OrderDTO> getAllOrders();
 
     List<OrderDTO> getOrderBetweenDate(Date date1, Date date2);
 
@@ -16,7 +16,7 @@ public interface OrderService {
 
     List<OrderDTO> getAllOrdersPaginated(int pageNumber, int pageSize);
 
-    OrderDTO createOrder(OrderDTO transientOrder);
+    Orders createOrder(Orders transientOrder);
 
     OrderDTO updateOrder(OrderDTO detachedOrder);
 
