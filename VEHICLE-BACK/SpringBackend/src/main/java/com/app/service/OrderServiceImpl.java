@@ -14,7 +14,7 @@ import com.app.dto.VehicleDTO;
 import com.app.entities.OrderStatus;
 import com.app.entities.Orders;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findBetweenDate(Date date1, Date date2) {
+    public List<OrderDTO> getOrderBetweenDate(Date date1, Date date2) {
         return ordersDao.findByBookingDateBetween(date1, date2).stream()
                 .map(order -> mapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());

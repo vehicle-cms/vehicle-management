@@ -1,10 +1,12 @@
 package com.app.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,6 +35,14 @@ public class OrdersController {
     @GetMapping
     public List<OrderDTO> listAllOrders() {
         return orderService.getAllVehicles();
+    }
+
+    @GetMapping("/ordersBetweenDates")
+    public ResponseEntity<?> getOrdersBetweenDates(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+    	 List<OrderDTO> orders =  orderService.getOrderBetweenDate(startDate, endDate);
+    	  return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{orderId}")

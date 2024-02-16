@@ -1,6 +1,6 @@
 package com.app.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.app.dto.Order1DTO;
@@ -10,7 +10,7 @@ import com.app.dto.UserDTO;
 public interface OrderService {
     List<OrderDTO> getAllVehicles();
 
-    List<OrderDTO> findBetweenDate(Date date1, Date date2);
+    List<OrderDTO> getOrderBetweenDate(Date date1, Date date2);
 
     OrderDTO findByOrderId(Long id);
 
