@@ -14,6 +14,7 @@ import {
   Space,
   Image,
   Collapse,
+  Select,
 } from 'antd';
 
 import { useEffect, useState } from 'react';
@@ -37,11 +38,15 @@ import { useNavigate } from 'react-router-dom';
 // importing our common search and load more data methods from utils
 import { SearchHandler } from '../utils/HandlerFunctions/SearchHandler';
 import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
+import { Option } from 'antd/lib/mentions';
 
 const { Panel } = Collapse;
 export default function Orders() {
   const navigate = useNavigate();
   const campaignData = useSelector(state => state.CampaignReducer.campaigns);
+  const ManagerData = useSelector(state => state.AdminReducer.admins);
+  const VehicleData = useSelector(state => state.MemerReducer.memers);
+
   const selectedOrder = useSelector(
     state => state.CampaignReducer.selectedCampaign
   );
@@ -61,17 +66,14 @@ export default function Orders() {
     state => state.CampaignReducer.selectedCampaignRating
   );
 
-  const selectedCampaignDont = useSelector(
-    state => state.CampaignReducer.selectedCampaignDont
-  );
-
-
   const isLoading = useSelector(state => state.CampaignReducer.loading);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
-  const [AdminName, setAdminName] = useState(selectedOrder?.username);
-  const [AdminEmail] = useState(selectedOrder?.email);
+  const [bookingDate,setBookingDate] =useState("");
+  const [returnDate,setReturnDate] = useState("");
+  const [fare,setFare] = useState(0);
+  const [distance,setDistance] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [loading, setLoading] = useState(false);
@@ -79,11 +81,12 @@ export default function Orders() {
   const [data1, setData1] = useState([]);
   const [SearchData, setSearchData] = useState([]);
   const [Name, setName] = useState('');
+ const [status, setStatus] = useState("")
   const dispatch = useDispatch();
-  const [status, setStatus] = useState({
-    bool1: false,
-    bool2: false,
-  });
+  // const [status, setStatus] = useState({
+  //   bool1: false,
+  //   bool2: false,
+  // });
 
   const columns = [
     {
@@ -455,10 +458,10 @@ export default function Orders() {
     setName(value);
   };
   const onCheckChange1 = () => {
-    setStatus({ bool1: true, bool2: false });
+    // setStatus({ bool1: true, bool2: false });
   };
   const onCheckChange2 = () => {
-    setStatus({ bool1: false, bool2: true });
+    // setStatus({ bool1: false, bool2: true });
   };
 
   //useEffect section
@@ -574,6 +577,7 @@ export default function Orders() {
                 Search
               </Button>
             </Input.Group>
+              <Button onClick={() => setIsModalVisible(true)}>+</Button>
           </div>
         </div>
         {isLoading ? (
@@ -626,9 +630,9 @@ export default function Orders() {
             initialValues={{ remember: true }}
             onFinish={() =>
               updateAdminHandler(
-                AdminName,
-                AdminEmail,
-                status.bool1,
+                // AdminName,
+                // AdminEmail,
+                // status.bool1,
                 selectedOrder?._id
               )
             }
@@ -636,17 +640,17 @@ export default function Orders() {
             autoComplete="off"
           >
             <Input
-              value={AdminName}
-              onChange={e => setAdminName(e.target.value)}
+              // value={AdminName}
+              // onChange={e => setAdminName(e.target.value)}
               required
             />
-            <Input value={AdminEmail} required />
-            <Checkbox checked={status.bool1} onChange={onCheckChange1}>
-              Activate
-            </Checkbox>
-            <Checkbox checked={status.bool2} onChange={onCheckChange2}>
-              Deactivate
-            </Checkbox>
+            {/* <Input value={AdminEmail} required /> */}
+            {/* <Checkbox checked={status.bool1} onChange={onCheckChange1}> */}
+              {/* Activate */}
+            {/* </Checkbox> */}
+            {/* <Checkbox checked={status.bool2} onChange={onCheckChange2}> */}
+              {/* Deactivate */}
+            {/* </Checkbox> */}
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
@@ -667,8 +671,8 @@ export default function Orders() {
             onFinish={() => deleteAdminHandler(selectedOrder?._id)}
             autoComplete="off"
           >
-            <Input value={AdminName} required />
-            <Input value={AdminEmail} required />
+            {/* <Input value={AdminName} required /> */}
+            {/* <Input value={AdminEmail} required /> */}
             <Button type="danger" htmlType="submit">
               delete
             </Button>
@@ -720,6 +724,121 @@ export default function Orders() {
               />
             </Panel>
           </Collapse>
+        </Modal>
+          <Modal
+          title={`Add New Order`}
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          maskClosable={false}
+          width="40%"
+          footer={null}
+        >
+          <div
+            style={{
+              margin: '1rem',
+            }}
+          >
+            <Form
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              layout="horizontal"
+              onFinish={() => {
+                // registerAdminHandler(
+                //   FirstName,
+                //   LastName,
+                //   Email,
+                //   PhoneNo,
+                //   Password,
+                //   dispatch
+                // );
+              }}
+            >
+              <div>
+                <Form.Item label="Booking Date">
+                  <Input
+                    placeholder="bookingDate"
+                    value={bookingDate}
+                    onChange={e => setBookingDate(e.target.value)}
+                    type="date"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Return Date">
+                  <Input
+                    placeholder="returnDate"
+                    value={returnDate}
+                    onChange={e => setReturnDate(e.target.value)}
+                    type="date"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Status">
+                   <Select value={status} onChange={e => setStatus()}>
+                            {/* <Option>APPROVED</Option> */}
+                            <Option>PENDING</Option>
+                            {/* <Option>REJECTED</Option> */}
+                   </Select>
+                </Form.Item>
+                    <Form.Item label="Customer">
+                    <Select value={status} onChange={e => setStatus()}>
+                      {
+
+                      }
+                            {/* <Option>APPROVED</Option> */}
+                            <Option>PENDING</Option>
+                            {/* <Option>REJECTED</Option> */}
+                   </Select>
+                </Form.Item>
+                <Form.Item label="Vehicle">
+                  
+                    <Select value={status} onChange={e => setStatus()}>
+                      <Select value={status} onChange={e => setStatus()}>
+                      {VehicleData?.map(m=><Option>{m?.name}</Option>)}
+                   </Select>
+                   </Select>
+                </Form.Item>
+                <Form.Item label="Driver">
+                    <Select value={status} onChange={e => setStatus()}>
+                            {/* <Option>APPROVED</Option> */}
+                            <Option>PENDING</Option>
+                            {/* <Option>REJECTED</Option> */}
+                   </Select>
+                </Form.Item>
+                <Form.Item label="Manager">
+                    <Select value={status} onChange={e => setStatus()}>
+                      {ManagerData?.map(m=><Option>{m?.firstName}{m?.lastName}</Option>)}
+                   </Select>
+                </Form.Item>
+
+                <Form.Item label="Fare">
+                  <Input
+                    placeholder="fare"
+                    value={fare}
+                    onChange={e => setFare(e.target.value)}
+                    type="number"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Distance">
+                  <Input
+                    placeholder="distance"
+                    value={distance}
+                    onChange={e => setDistance(e.target.value)}
+                    type="distance"
+                    required
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
         </Modal>
       </Container>
     </Page>

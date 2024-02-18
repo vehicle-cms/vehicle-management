@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dao.VehicleDao;
 import com.app.dto.VehicleDTO;
+import com.app.entities.Orders;
 import com.app.entities.Vehicle;
 import com.app.service.VehicleService;
 
@@ -45,7 +46,10 @@ public class VehicleController {
 		return vehicleService.addVehicleDetails(vehicle);
 	}
 	
-	
+	 @PutMapping("/{id}")
+	    public Vehicle updateVehicle(@PathVariable Long id,@RequestBody Vehicle detachedOrder) {
+	        return vehicleService.updateVehicle(detachedOrder,id);
+	    }
 	@DeleteMapping("/{vehicleId}")
 	public String deleteVehicle(@PathVariable Long vehicleId) {
 		return vehicleService.deleteVehicle(vehicleId);
