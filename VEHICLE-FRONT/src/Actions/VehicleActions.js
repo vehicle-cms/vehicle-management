@@ -19,18 +19,17 @@ const getVehiclesFailure = error => {
     payload: error,
   };
 };
-export const GetVehicles = (navigate, page=10, limit=0) => {
+export const GetVehicles = (page=0, limit=0) => {
   return dispatch => {
     dispatch(getVehiclesRequest());
     const queryParams = new URLSearchParams();
 // pageNumber pageSize
     queryParams.append('pageNumber', limit);
-    queryParams.append('pageSize', page);
+    // queryParams.append('pageSize', page);
     api
       .get(`vehicles/paginate?${queryParams.toString()}`)
       .then(response => response.data)
       .then(data => {
-        console.log(data)
         dispatch(getVehiclesSuccess(data));
       })
       .catch(error => {

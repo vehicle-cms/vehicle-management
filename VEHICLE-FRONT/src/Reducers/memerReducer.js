@@ -14,6 +14,18 @@ const initialState = {
   maintenanceCount:0,
   vehicleCount:0
 };
+
+
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
+
+// Function to merge two arrays without duplicates
+function mergeArrays(arr1, arr2) {
+  // Concatenate the arrays and remove duplicates
+  return removeDuplicates([...arr1, ...arr2]);
+}
+
 // memer -->  memmed --> vehicle
 const MemerReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -29,13 +41,23 @@ const MemerReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case 'GET_MEMEDD_SUCCESS':
-      return { ...state, loading: false, memedd: action?.payload };
+      // Function to remove duplicates from an array
+      const data= state?.memedd;
+      const comingData = action?.payload;
+       let mergedArray=[]
+      if(state?.memedd?.length>0){
+        //  do check it it exist with id
+           mergedArray = mergeArrays(data, comingData);
+           return { ...state, loading: false, memedd: mergedArray};
+      }else{
+           return { ...state, loading: false, memedd: action?.payload };
+      }
 
     case 'GET_MEMEDD_FAILURE':
       return { ...state, loading: false, error: action.payload };
 
     case 'SET_MEMEDD':
-      let findMemedd = state.memedd.find(data => action?.payload === data?._id);
+      let findMemedd = state.memedd.find(data => action?.payload === data?.id);
       // if(!findMemedd){
       //     findMemedd = state.searchMemedd.find((data) => action?.payload == data?._id)
       // }
@@ -45,7 +67,7 @@ const MemerReducer = (state = initialState, action) => {
         selectedMemedd: findMemedd,
       };
     case 'SET_MEMERRS':
-      let findMemers = state.memers.find(data => action?.payload === data?._id);
+      let findMemers = state.memers.find(data => action?.payload === data?.id);
       if (findMemers) {
         return {
           ...state,

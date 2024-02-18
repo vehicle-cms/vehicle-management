@@ -91,6 +91,23 @@ public class VehicleServiceImp implements VehicleService{
 	public long vehicleCount() {
 		return vehicleDao.count();
 	}
+
+	@Override
+	public Vehicle updateVehicle(Vehicle detachedVehicle, Long vehicleId) {
+		 if (vehicleDao.existsById(vehicleId)) {
+			 detachedVehicle.setId(vehicleId);
+	            return vehicleDao.save(detachedVehicle);
+	        }
+	        return null;
+	}
+
+	@Override
+	public List<VehicleDTO> getAllActiveVehicles() {
+		return vehicleDao.findByStatus(VehicleStatus.ACTIVE)
+				 .stream()
+				 .map(vehicle -> mapper.map(vehicle, VehicleDTO.class))
+				 .collect(Collectors.toList());
+	}
 	
 	
 }
