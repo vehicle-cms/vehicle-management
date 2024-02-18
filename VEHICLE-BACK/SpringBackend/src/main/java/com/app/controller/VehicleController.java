@@ -36,6 +36,11 @@ public class VehicleController {
 		return vehicleService.getAllVehicles();
 	}
 	
+	@GetMapping("/active")
+	public List<VehicleDTO> listAllActiveVehicles(){
+		return vehicleService.getAllActiveVehicles();
+	}
+	
 	@GetMapping("/{vehicleId}")
 	public VehicleDTO getVehicleDetails(@PathVariable @NotNull Long vehicleId) {
 		return vehicleService.getVehicleDetails(vehicleId);

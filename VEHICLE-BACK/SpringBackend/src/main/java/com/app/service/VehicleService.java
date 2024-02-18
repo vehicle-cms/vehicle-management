@@ -22,4 +22,6 @@ public interface VehicleService {
 	long countOfInactive();
 	long countOfUnderMaintenance();
 	long vehicleCount();
+
+	List<VehicleDTO> getAllActiveVehicles();
 }

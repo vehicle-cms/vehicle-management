@@ -100,6 +100,14 @@ public class VehicleServiceImp implements VehicleService{
 	        }
 	        return null;
 	}
+
+	@Override
+	public List<VehicleDTO> getAllActiveVehicles() {
+		return vehicleDao.findByStatus(VehicleStatus.ACTIVE)
+				 .stream()
+				 .map(vehicle -> mapper.map(vehicle, VehicleDTO.class))
+				 .collect(Collectors.toList());
+	}
 	
 	
 }
