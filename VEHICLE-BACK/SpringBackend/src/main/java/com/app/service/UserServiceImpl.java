@@ -1,7 +1,6 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dao.AddressDao;
 import com.app.dao.UserDao;
 import com.app.dto.UserDTO;
+import com.app.entities.Address;
 import com.app.entities.Role;
 import com.app.entities.User;
 
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Autowired
 	private ModelMapper mapper;
+	@Autowired
+	private AddressDao addDao;
 
 
 	@Override
@@ -35,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO addUserDetails(UserDTO transientUser) {
+		Address adr = transientUser.getAddress();
+		adr = addDao.save(adr);
+		transientUser.setAddress(adr);
 		return mapper.map(userDao.save(mapper.map(transientUser, User.class)), UserDTO.class);
 	}
 
@@ -49,13 +55,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO updateUser(Long id,UserDTO detachedUser) {
 		if(userDao.existsById(id)) {
-			User user = userDao.findById(id).get();
-			user.setMobile(detachedUser.getMobile());//mobile updating
-			//write all the setter here to update all the fields that u want to update
-
-			return mapper.map(userDao.save(user), UserDTO.class);
+			detachedUser.setId(id);
+			return mapper.map(userDao.save(mapper.map(detachedUser, User.class)), UserDTO.class);
 		}
-		throw new ResourceNotFoundException("Invalid emp id !!!!");
+		throw new ResourceNotFoundException("Invalid user id !!!!");
 	}
 
 	@Override
@@ -63,9 +66,9 @@ public class UserServiceImpl implements UserService {
 		if(userDao.existsById(UserId))
 		{
 			userDao.deleteById(UserId);
-			return "deleted emp details...";
+			return "deleted user details...";
 		}
-		return "deletion of emp details failed !!!!!";
+		return "deletion of user details failed !!!!!";
 	}
 
 	@Override

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
-import com.app.entities.User;
+
 import com.app.service.UserService;
 
 //import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -47,9 +47,9 @@ public class DriverController {
 		return driverService.addUserDetails(user);
 	}
 	
-	@PutMapping
+	@PutMapping("/{driverId}")
 	public UserDTO updateDriverDetails(@PathVariable @NotNull Long driverId,@RequestBody UserDTO detachedUser) {
-		System.out.println("in update emp " + detachedUser);
+		System.out.println("in update user " + detachedUser);
 		return driverService.updateUser(driverId,detachedUser);
 	}
 	

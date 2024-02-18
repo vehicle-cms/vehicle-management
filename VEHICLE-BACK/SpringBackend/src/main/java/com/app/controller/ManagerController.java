@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
-import com.app.entities.User;
+//import com.app.entities.User;
 import com.app.service.UserService;
 
 //import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -46,7 +46,7 @@ public class ManagerController {
 		return managerService.addUserDetails(user);
 	}
 	
-	@PutMapping
+	@PutMapping("/{managerId}")
 	public UserDTO updateManagerDetails(@PathVariable @NotNull Long managerId,@RequestBody UserDTO detachedUser) {
 		System.out.println("in update emp " + detachedUser);
 		return managerService.updateUser(managerId,detachedUser);

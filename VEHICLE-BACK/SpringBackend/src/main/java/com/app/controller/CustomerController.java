@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+//import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
 //import com.app.entities.User;
@@ -44,7 +45,7 @@ public class CustomerController {
 	@PostMapping
 	public UserDTO addCustomerDetails(@RequestBody UserDTO user) {
 		System.out.println("in add user " + user.toString());
-		return customerService.addUserDetails(user);
+			return customerService.addUserDetails(user);
 	}
 	
 	@PutMapping("/{customerId}")

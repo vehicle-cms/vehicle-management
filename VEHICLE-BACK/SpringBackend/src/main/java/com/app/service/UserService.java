@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
-import com.app.entities.User;
 
 public interface UserService {
 	List<UserDTO> getAllUserByRole(Role role);

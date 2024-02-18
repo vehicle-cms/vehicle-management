@@ -3,11 +3,13 @@ package com.app.dto;
 import javax.validation.constraints.Pattern;
 
 import com.app.entities.FuelType;
+import com.app.entities.Part;
 import com.app.entities.VehicleStatus;
 import com.app.entities.VehicleType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,8 +17,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+
 public class VehicleDTO {
-	@JsonProperty(access = Access.READ_ONLY) //skipped during de-serialization
+	@JsonProperty(access = Access.READ_WRITE) 
 	private Long id;
 	private String name;
 	private String imageUrl;

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
+//@EqualsAndHashCode(callSuper = true)
 public class Maintenance extends BaseEntity {
 
 
@@ -25,15 +27,27 @@ public class Maintenance extends BaseEntity {
 
     private boolean status;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "maintenance_part", joinColumns = @JoinColumn(name = "maintenance_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "part_id", nullable = false))
-    @ToString.Exclude
-    private List<Part> parts;
+    private List<Part> parts =new ArrayList<Part>();
 
     @Column(name = "start_date")
     private Date startDate;
 
     @Column(name = "end_date")
     private Date endDate;
+    
+    
+    
+    public void addPart(Part part) {
+    	
+    	parts.add(part);
+    	part.getMaintenance().add(this);
+    	
+    }
+    public void removePart(Part part) {
+    	parts.remove(part);
+    	part.getMaintenance().remove(this);
+    }
 }
 

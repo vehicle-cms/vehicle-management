@@ -51,7 +51,7 @@ public class User extends BaseEntity {
     @ToString.Exclude
     private Address address;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Role role;
 
 }

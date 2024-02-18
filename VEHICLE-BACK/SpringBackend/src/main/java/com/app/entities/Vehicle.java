@@ -2,6 +2,7 @@ package com.app.entities;
 
 import javax.persistence.*;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class Vehicle extends BaseEntity{
 
     private String name;
@@ -23,13 +25,13 @@ public class Vehicle extends BaseEntity{
     @Column(name = "vehicle_number")
     private String vehicleNumber;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "vehicle_type")
     private VehicleType vehicleType;
 
     private String registration;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "vehicle_status")
     private VehicleStatus status;
 
@@ -38,7 +40,7 @@ public class Vehicle extends BaseEntity{
     @Column(name = "rate_per_day")
     private double ratePerDay;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "fuel_type")
     private FuelType fuelType;
 

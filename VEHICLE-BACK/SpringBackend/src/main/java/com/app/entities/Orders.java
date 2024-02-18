@@ -24,7 +24,7 @@ public class Orders extends BaseEntity {
     @Column(name = "return_date")
     private Date returnDate;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "order_status")
     private OrderStatus status;
 
