@@ -23,6 +23,9 @@ public interface OrderDao extends JpaRepository<Orders, Long> {
 	
 	List<Orders> findByStatus(OrderStatus status);
 	
-	long countByStatus(OrderStatus status) ;	
+	long countByStatus(OrderStatus status) ;
+
+	List<Orders> findByCustomerId(Long customerId);
+
 	
 }

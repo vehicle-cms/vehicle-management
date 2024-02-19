@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.OrderDTO;
 //import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
+import com.app.service.OrderService;
 //import com.app.entities.User;
 import com.app.service.UserService;
 
@@ -33,6 +35,9 @@ public class CustomerController {
 	@Autowired
 	private UserService customerService;
 
+	@Autowired
+	private OrderService orderService;
+	
 	@GetMapping
 	public List<UserDTO> listAllCustomers(){
 		return customerService.getAllUserByRole(Role.CUSTOMER);
@@ -60,4 +65,8 @@ public class CustomerController {
 		return customerService.deleteUser(customerId);
 	}
 	
+	@GetMapping("/orders/{customerId}")
+	public List<OrderDTO> listAllOrders(@PathVariable Long customerId) {
+        return orderService.getAllCustomerOrders(customerId);
+    }
 }
