@@ -2,6 +2,7 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.entities.Role;
 
@@ -10,7 +11,7 @@ public interface UserService {
 //	List<UserDTO> getAllManager();
 //	List<UserDTO>  getAllCustomers();
 
-	UserDTO addUserDetails(UserDTO transientUser);
+	LoginDTO addUserDetails(LoginDTO transientUser);
 
 	UserDTO getUserDetails(Long userId,Role role);
 

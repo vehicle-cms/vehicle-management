@@ -42,11 +42,11 @@ public class CustomerController {
 	public UserDTO getCustomerDetails(@PathVariable @NotNull Long customerId) {
 		return customerService.getUserDetails(customerId,Role.CUSTOMER);
 	}
-	@PostMapping
-	public UserDTO addCustomerDetails(@RequestBody UserDTO user) {
-		System.out.println("in add user " + user.toString());
-			return customerService.addUserDetails(user);
-	}
+//	@PostMapping
+//	public UserDTO addCustomerDetails(@RequestBody UserDTO user) {
+//		System.out.println("in add user " + user.toString());
+//			return customerService.addUserDetails(user);
+//	}
 	
 	@PutMapping("/{customerId}")
 	public UserDTO updateCustomerDetails(@PathVariable @NotNull Long customerId,@RequestBody UserDTO detachedUser) {

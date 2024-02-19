@@ -42,10 +42,10 @@ public class DriverController {
 		return driverService.getUserDetails(driverId,Role.DRIVER);
 	}
 	
-	@PostMapping
-	public UserDTO addCustomerDetails(@RequestBody UserDTO user) {
-		return driverService.addUserDetails(user);
-	}
+//	@PostMapping
+//	public UserDTO addDriverDetails(@RequestBody UserDTO user) {
+//		return driverService.addUserDetails(user);
+//	}
 	
 	@PutMapping("/{driverId}")
 	public UserDTO updateDriverDetails(@PathVariable @NotNull Long driverId,@RequestBody UserDTO detachedUser) {

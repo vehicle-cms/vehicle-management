@@ -24,7 +24,6 @@ import com.app.dto.OrderDTO;
 import com.app.entities.Orders;
 import com.app.service.OrderService;
 
-
 @RestController
 @RequestMapping("/user/order")
 @CrossOrigin(originPatterns = "http://localhost:*")

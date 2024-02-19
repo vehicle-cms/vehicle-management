@@ -9,5 +9,6 @@ import com.app.entities.City;
 
 public interface CityDao extends JpaRepository<City,Long> {
 	List<City>findAll();
+//	City findByPincode();
 	Optional<City>findByPincode(String pincode);
 }
