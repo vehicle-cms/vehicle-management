@@ -31,7 +31,7 @@ import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
 import { getCampaignSuccess } from '../Actions/OrderAction';
 import { useNavigate } from 'react-router-dom';
 import { AsyncPaginate } from 'react-select-async-paginate';
-import Chart from 'react-apexcharts';
+import VehicleCard from '../components/Card';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'MMMM Do YYYY';
@@ -54,6 +54,16 @@ export default function DashboardApp() {
   //  const selectedOrder = useSelector(
   //   state => state.CampaignReducer.selectedCampaign
   // );
+
+  const [vehicles, setVehicles] = useState([]);
+  useEffect(() => {
+    // Fetch data from the specific API endpoint
+    fetch('http://localhost:8080/vehicles/active')
+      .then(response => response.json())
+      .then(data => setVehicles(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
 
   useEffect(() => {
     const data = {
@@ -134,6 +144,8 @@ export default function DashboardApp() {
       'Distance',
     ];
 
+    
+
     worksheet1.addRow(campaignHeaders);
     reportData.forEach(d => {
       // d?.Campaigns?.platform.forEach(d1 => {
@@ -207,7 +219,9 @@ export default function DashboardApp() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+  
 
+  
   useEffect(() => {
     if (SearchData?.length === 0) {
       setData(data);
@@ -222,175 +236,31 @@ export default function DashboardApp() {
       setLoading(false);
     }
   }, [data, SearchData]);
+  
   return (
     <Page title="VMS">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }} style={{ display: 'flex' }}>
           <div style={{ width: '80%' }}>
             <Typography variant="h4">
-              Hi, Welcome back To Vehicle Management System{' '}
+              Book Now{' '}
             </Typography>
           </div>
-          <div style={{ width: '20%' }}>
-            <Button onClick={() => setIsModalVisible(true)}>
-              Generate Report
-            </Button>
-          </div>
         </Box>
+        
+        <Grid container spacing={3}>
+          {vehicles?.map((vehicle) => (
+            <Grid item key={vehicle.id} xs={12} sm={4} md={4}>
+              {/* Use the VehicleCard component */}
+              <VehicleCard
+               vehicle={vehicle}
+              />
+            </Grid>
+          ))}
+        </Grid>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4} md={4}>
-            <Chart
-              options={{
-                chart: {
-                  id: 'date',
-                },
-                xaxis: {
-                  categories: [
-                    1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-                  ],
-                },
-              }}
-              series={[
-                {
-                  name: 'orders',
-                  data: [30, 40, 45, 50, 49, 60, 70, 91],
-                },
-              ]}
-              type="bar"
-              width="500"
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4} style={{ marginLeft: '150px' }}>
-            <Chart
-              options={{
-                chart: {
-                  height: 350,
-                  type: 'area',
-                },
-                dataLabels: {
-                  enabled: false,
-                },
-                stroke: {
-                  curve: 'smooth',
-                },
-                xaxis: {
-                  type: 'datetime',
-                  categories: [
-                    '2018-09-19T00:00:00.000Z',
-                    '2018-09-19T01:30:00.000Z',
-                    '2018-09-19T02:30:00.000Z',
-                    '2018-09-19T03:30:00.000Z',
-                    '2018-09-19T04:30:00.000Z',
-                    '2018-09-19T05:30:00.000Z',
-                    '2018-09-19T06:30:00.000Z',
-                  ],
-                },
-                tooltip: {
-                  x: {
-                    format: 'dd/MM/yy HH:mm',
-                  },
-                },
-              }}
-              series={[
-                {
-                  name: 'profit',
-                  data: [31, 40, 28, 62, 142, 109, 100],
-                },
-                {
-                  name: 'loss',
-                  data: [11, 32, 45, 12, 14, 120, 42],
-                },
-              ]}
-              type="area"
-              width="600"
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary1
-              title="Managers"
-              color="info"
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary2
-              title="Vehicles"
-              color="info"
-              icon={'logos:active-campaign-icon'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary3
-              title="Orders"
-              color="info"
-              icon={'ant-design:windows-filled'}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={3} md={3}>
-            <AppWidgetSummary4
-              title="Active Vehicles"
-              total={234}
-              color="info"
-              icon={'icon-park:tag'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3} md={3}>
-            <AppWidgetSummary5
-              title="Inactive Vehicles"
-              total={234}
-              color="info"
-              icon={'logos:google-marketing-platform'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3} md={3}>
-            <AppWidgetSummary6
-              title="Maintenance"
-              total={234}
-              color="info"
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3} md={3}>
-            <AppWidgetSummary7
-              title="Drivers"
-              total={234}
-              color="info"
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary8
-              title="Approved"
-              total={234}
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary9
-              title="Pending"
-              total={234}
-              color="warning"
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4} md={4}>
-            <AppWidgetSummary10
-              title="Rejected"
-              total={234}
-              color="error"
-              icon={'eva:people-fill'}
-            />
-          </Grid>
-        </Grid>
+
+        
         <Modal
           title={`Generate Report`}
           visible={isModalVisible}
