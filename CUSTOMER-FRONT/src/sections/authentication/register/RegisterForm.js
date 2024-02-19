@@ -102,18 +102,18 @@ export default function RegisterForm() {
           >
             Register
           </LoadingButton>
-          <span>Or</span>
+          <span></span>
         </Stack>
       </Form>
       <LoadingButton
         fullWidth
         size="large"
         // type="submit"
-        variant="contained"
+        variant="text"
         // loading={isSubmitting}
         onClick={() => dispatch(setShow(true))}
       >
-        Login
+        Already a user? Login Here
       </LoadingButton>
     </FormikProvider>
   );
