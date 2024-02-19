@@ -1,12 +1,12 @@
 // src/components/BookingForm.js
 import React, { useState } from 'react';
 
-const BookingForm = ({ onClose, onBook, ratePerDay }) => {
+const BookingForm = ({ onClose, onBook, ratePerDay, vehicleId, }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
     bookingDate: '',
     returnDate: '',
+    vehicle: {id:vehicleId},
+    status: 'PENDING',
   });
 
   const handleInputChange = (e) => {
@@ -52,21 +52,25 @@ const BookingForm = ({ onClose, onBook, ratePerDay }) => {
       <div style={styles.modal}>
         <h2 style={styles.heading}>Booking Form</h2>
         <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>
+          {/* <label style={styles.label}>
             Name:
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} style={styles.input} />
+            <input type="text" name="name" value={formData.name} onChange={handleInputChange} style={styles.input} required/>
           </label>
           <label style={styles.label}>
             Email:
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} style={styles.input} />
-          </label>
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} style={styles.input} required/>
+          </label> */}
           <label style={styles.label}>
             Booking Date:
-            <input type="date" name="bookingDate" value={formData.bookingDate} onChange={handleInputChange} style={styles.input} />
+            <input type="date" name="bookingDate" value={formData.bookingDate} onChange={handleInputChange} style={styles.input} required/>
           </label>
           <label style={styles.label}>
             Return Date:
-            <input type="date" name="returnDate" value={formData.returnDate} onChange={handleInputChange} style={styles.input} />
+            <input type="date" name="returnDate" value={formData.returnDate} onChange={handleInputChange} style={styles.input}  required/>
+          </label>
+          <label style={styles.label}>
+            Vehicle Id:
+            <input type="text" name="vehicle" value={formData.vehicle.id} onChange={handleInputChange} style={styles.input} readOnly/>
           </label>
           {/* Add more form fields as needed */}
           <p style={styles.fare}>

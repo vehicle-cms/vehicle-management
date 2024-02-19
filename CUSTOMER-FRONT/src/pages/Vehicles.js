@@ -285,7 +285,7 @@ export default function Vehicles() {
                     );
                   }
                 }}
-                placeholder="find memerrs..."
+                placeholder="find Vehicles..."
                 name={Name}
                 onChange={handleChange}
               />

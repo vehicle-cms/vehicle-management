@@ -91,7 +91,8 @@ const VehicleList = (
         <BookingForm 
           onClose={closeForm} 
           onBook={handleFormSubmit}
-          ratePerDay={selectedVehicle.ratePerDay} // Pass ratePerDay as a prop
+          ratePerDay={selectedVehicle.ratePerDay}
+          vehicleId={selectedVehicle.id}
           />      
       )}
     </div>
