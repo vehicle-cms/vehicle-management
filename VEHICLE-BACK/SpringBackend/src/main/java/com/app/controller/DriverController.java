@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,10 +43,15 @@ public class DriverController {
 		return driverService.getUserDetails(driverId,Role.DRIVER);
 	}
 	
-//	@PostMapping
-//	public UserDTO addDriverDetails(@RequestBody UserDTO user) {
-//		return driverService.addUserDetails(user);
-//	}
+	@PostMapping
+	public ResponseEntity<?> addDriverDetails(@RequestBody UserDTO user) {
+		UserDTO u=null;
+		if(user.getRole().equals(Role.DRIVER)) {
+			 u= driverService.addUserDetails(user);
+			 return ResponseEntity.ok(u);
+		}
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Details Entered");
+	}
 	
 	@PutMapping("/{driverId}")
 	public UserDTO updateDriverDetails(@PathVariable @NotNull Long driverId,@RequestBody UserDTO detachedUser) {

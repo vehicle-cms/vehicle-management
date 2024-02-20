@@ -93,6 +93,12 @@ public class UserServiceImpl implements UserService {
 		return userDao.countByRole(Role.MANAGER);
 	}
 
+	@Override
+	public UserDTO addUserDetails(UserDTO user) {
+			
+		return mapper.map(userDao.save(mapper.map(user, User.class)), UserDTO.class);
+	}
+
 
 
 }
