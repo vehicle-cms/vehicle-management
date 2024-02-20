@@ -30,7 +30,7 @@ public class Orders extends BaseEntity {
 
     private double fare;
 
-    private double distance;
+    private Long days;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
@@ -38,17 +38,17 @@ public class Orders extends BaseEntity {
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "driver_id",nullable=true)
 //    @JsonProperty("driver_id")
     private User driver;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",nullable=false)
 //    @JsonProperty("customer_id")
     private User customer;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id")
+    @JoinColumn(name = "manager_id",nullable=true)
 //    @JsonProperty("manager_id")
     private User manager;
 
