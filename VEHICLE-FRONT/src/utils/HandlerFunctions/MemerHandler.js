@@ -2,6 +2,7 @@ import { failureNotifier, successNotifier } from '../notifications';
 import api from '../../services/backendApi';
 import { addReportData, GetVehicles } from '../../Actions/VehicleActions';
 import moment from 'moment';
+import { GetCampaign } from '../../Actions/OrderAction';
 
 export const updateStatus = async (navigate, dispatch, code, value) => {
   try {
@@ -59,3 +60,52 @@ export const GetOrderDetail = async (
     // failureNotifier('failed to get', e?.response?.data?.message);
   }
 };
+
+export const updateOrderHandler = async (id,  bookingDate,
+                  returnDate,
+                  status,
+                  fare,
+                  distance,
+                  vehicleId,
+                  customerId,
+                  driver,
+                  manager,
+                  dispatch) => {
+  try {
+    const data = await api.put(`user/order/${id}`,{
+    bookingDate,
+    returnDate,
+    status,
+    fare,
+    distance,
+    vehicle:{
+       id:vehicleId
+    },
+    driver: {
+        id: driver
+    },
+    customer: {
+        id: customerId
+    },
+    manager: {
+        id: manager
+    },
+     rating: null
+});
+    successNotifier(data?.message);
+    dispatch(GetCampaign());
+  } catch (e) {
+    failureNotifier('failed to create', e?.response?.data?.message);
+  }
+};
+
+
+export const deleteOrderHandler = async (id,dispatch)=>{
+  try {
+    const data = await api.delete(`user/order/${id}`);
+    successNotifier(data?.data?.message);
+    dispatch(GetCampaign());
+  } catch (e) {
+    failureNotifier('failed to create', e?.response?.data?.message);
+  }
+}

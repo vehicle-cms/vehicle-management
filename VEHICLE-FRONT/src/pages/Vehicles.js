@@ -577,6 +577,7 @@ const filterOption = (input, option) =>
                 deleteVehicleHandler(selectedMemer?.id,dispatch)
                 setIsModalVisible1(false);
                 setPage(0);
+                setData1([]);
               }
               }
             autoComplete="off"

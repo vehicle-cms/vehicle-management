@@ -16,6 +16,9 @@ import com.app.entities.Orders;
 import com.app.entities.Role;
 import com.app.entities.User;
 import com.app.entities.Vehicle;
+import com.app.entities.User;
+import com.app.entities.Vehicle;
+import com.app.entities.VehicleStatus;
 
 import java.io.ObjectInputFilter.Status;
 import java.util.Date;
@@ -94,7 +97,42 @@ public class OrderServiceImpl implements OrderService {
     public Orders updateOrder(Orders detachedOrder,Long orderId) {
         if (ordersDao.existsById(orderId)) {
         	detachedOrder.setId(orderId);
-            return ordersDao.save(detachedOrder);
+        
+        	 if (detachedOrder != null && detachedOrder.getStatus() == OrderStatus.COMPLETED) {
+                 // Update driver and vehicle status to ACTIVE
+                 User driver = detachedOrder.getDriver();
+                 if (driver != null) {
+                	 driver.setId(driver.getId());
+                     driver.setAssigned(false);
+                     userDao.save(driver);
+                 }
+
+                 Vehicle vehicle = detachedOrder.getVehicle();
+                 if (vehicle != null) {
+                	 vehicle.setId(vehicle.getId());
+                     vehicle.setStatus(VehicleStatus.ACTIVE);;
+                     vehicleDao.save(vehicle);
+                 }
+                 return ordersDao.save(detachedOrder); 
+             }else if(detachedOrder != null && detachedOrder.getStatus() == OrderStatus.APPROVED){
+            	   User driver = detachedOrder.getDriver();
+                   if (driver != null) {
+                	   driver.setId(driver.getId());
+                       driver.setAssigned(true);
+                       userDao.save(driver);
+                   }
+
+                   Vehicle vehicle = detachedOrder.getVehicle();
+                   if (vehicle != null) {
+                	   vehicle.setId(vehicle.getId());
+                       vehicle.setStatus(VehicleStatus.INACTIVE);;
+                       vehicleDao.save(vehicle);
+                   }
+                   return ordersDao.save(detachedOrder); 
+             }else{
+            	 return ordersDao.save(detachedOrder);            	 
+             }
+        	
         }
         return null;
     }
