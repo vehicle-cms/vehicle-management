@@ -99,9 +99,6 @@ public class OrderServiceImpl implements OrderService {
         	 
         	 Orders order =ordersDao.findById(orderId).get();
         	 if (detachedOrder.getStatus() == OrderStatus.COMPLETED ) {
-                 // Update driver and vehicle status to ACTIVE
-                 
-                 
         		 driver = userDao.findById(detachedOrder.getDriver().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid driver id"));
                  driver.setAssigned(false);
                  driver = userDao.save(driver);
@@ -123,8 +120,12 @@ public class OrderServiceImpl implements OrderService {
                    vehicle.setStatus(VehicleStatus.INACTIVE);;
                    vehicle = vehicleDao.save(vehicle);
              
+             }else if(detachedOrder.getStatus() == OrderStatus.REJECTED) {
+            	 
+            	 
              }
         	
+        	 order.setStatus(detachedOrder.getStatus());
         	 order.setDriver(driver);
         	 order.setVehicle(vehicle);	
         	 order.setManager(userDao.findById(detachedOrder.getManager().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid manager id")));
