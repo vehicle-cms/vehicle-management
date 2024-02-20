@@ -1,5 +1,5 @@
 package com.app.entities;
 
 public enum OrderStatus {
-	APPROVED,PENDING,REJECTED
+	APPROVED,PENDING,REJECTED,COMPLETED
 }

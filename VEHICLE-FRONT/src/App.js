@@ -14,7 +14,7 @@ import { GetVehicles, vehicleActiveCount, vehicleCount, vehicleInActiveCount, ve
 import { GetTags } from './Actions/CustomerActions';
 import { useDispatch } from 'react-redux';
 import { GetCountDetail }  from "./utils/HandlerFunctions/CountHandler";
-import { GetAdmins, managerCount } from './Actions/ManagerActions';
+import { GetAdmins, GetDrivers, managerCount } from './Actions/ManagerActions';
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -33,6 +33,7 @@ export default function App() {
     dispatch(GetCampaign());
     dispatch(GetVehicles());
     dispatch(GetTags());
+    dispatch(GetDrivers());
 
      GetCountDetail(
      dispatch,

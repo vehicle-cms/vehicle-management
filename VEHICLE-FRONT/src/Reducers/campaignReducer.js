@@ -13,6 +13,12 @@ const initialState = {
   orderPendingCount:0,
   orderRejectedCount:0
 };
+
+function removeDuplicates(arr, key) {
+  return arr.filter((item, index, self) =>
+    index === self.findIndex((t) => t[key] === item[key])
+  );
+}
 //orders
 const CampaignReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -20,8 +26,8 @@ const CampaignReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case 'GET_CAMPAIGN_SUCCESS':
-      const newData = action?.payload?.map((data, i) => ({ ...data, key: i }));
-      return { ...state, loading: false, campaigns: newData };
+      // const newData = action?.payload?.map((data, i) => ({ ...data, key: i }));
+      return { ...state, loading: false, campaigns: removeDuplicates(action?.payload,'id') };
 
     case 'GET_CAMPAIGN_FAILURE':
       return { ...state, loading: false, error: action.payload };

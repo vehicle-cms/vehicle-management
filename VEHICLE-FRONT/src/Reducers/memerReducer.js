@@ -1,6 +1,7 @@
 const initialState = {
-  memers: [],
+  memers: [],//VEHICLES
   selectedMemer: {},
+  selectedDriver:{},
   findMemer: [],
   searchMemerrs: [],
   memedd: [],
@@ -16,15 +17,17 @@ const initialState = {
 };
 
 
-function removeDuplicates(arr) {
-  return [...new Set(arr)];
+function removeDuplicates(arr, key) {
+  return arr.filter((item, index, self) =>
+    index === self.findIndex((t) => t[key] === item[key])
+  );
 }
 
 // Function to merge two arrays without duplicates
-function mergeArrays(arr1, arr2) {
-  // Concatenate the arrays and remove duplicates
-  return removeDuplicates([...arr1, ...arr2]);
-}
+// function mergeArrays(arr1, arr2) {
+//   // Concatenate the arrays and remove duplicates
+//   return removeDuplicates([...arr1, ...arr2]);
+// }
 
 // memer -->  memmed --> vehicle
 const MemerReducer = (state = initialState, action) => {
@@ -33,7 +36,7 @@ const MemerReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case 'GET_MEMER_SUCCESS':
-      return { ...state, loading: false, memers: action?.payload };
+      return { ...state, loading: false, memers: removeDuplicates(action?.payload,'id') };
 
     case 'GET_MEMER_FAILURE':
       return { ...state, loading: false, error: action.payload };
@@ -41,27 +44,11 @@ const MemerReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case 'GET_MEMEDD_SUCCESS':
-      // Function to remove duplicates from an array
-      const data= state?.memedd;
-      const comingData = action?.payload;
-       let mergedArray=[]
-      if(state?.memedd?.length>0){
-        //  do check it it exist with id
-           mergedArray = mergeArrays(data, comingData);
-           return { ...state, loading: false, memedd: mergedArray};
-      }else{
-           return { ...state, loading: false, memedd: action?.payload };
-      }
-
+           return { ...state, loading: false, memedd:removeDuplicates(action?.payload,'id')};
     case 'GET_MEMEDD_FAILURE':
       return { ...state, loading: false, error: action.payload };
-
     case 'SET_MEMEDD':
       let findMemedd = state.memedd.find(data => action?.payload === data?.id);
-      // if(!findMemedd){
-      //     findMemedd = state.searchMemedd.find((data) => action?.payload == data?._id)
-      // }
-
       return {
         ...state,
         selectedMemedd: findMemedd,

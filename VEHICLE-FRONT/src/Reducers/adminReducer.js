@@ -2,6 +2,7 @@ const initialState = {
   isLoginIsRegister: false,
   admins: [],
   users: [],
+   drivers:[],
   selectedAdmin: {},
   searchAdmin: [],
   findUser: [],
@@ -19,6 +20,12 @@ const initialState = {
   managerCount:0
 };
 
+function removeDuplicates(arr, key) {
+  return arr.filter((item, index, self) =>
+    index === self.findIndex((t) => t[key] === item[key])
+  );
+}
+
 const AdminReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_ADMINS_REQUEST':
@@ -27,6 +34,19 @@ const AdminReducer = (state = initialState, action) => {
       return { ...state, loading: false, admins: action.payload };
     case 'GET_ADMINS_FAILURE':
       return { ...state, loading: false, error: action.payload };
+       case 'GET_DRIVERS_REQUEST':
+      return { ...state, loading: true };
+
+      case 'GET_DRIVERS_SUCCESS':
+           return { ...state, loading: false, drivers:removeDuplicates(action?.payload,'id')};
+     case 'GET_DRIVERS_FAILURE':
+      return { ...state, loading: false, error: action.payload };
+     case 'SET_DRIVER':
+      let finddriver = state.drivers.find(data => action?.payload === data?.id);
+      return {
+        ...state,
+        selectedDriver: finddriver,
+      };
     case 'GET_COUNT_REQUEST':
       return { ...state, loading: true };
     case 'GET_COUNT_SUCCESS':

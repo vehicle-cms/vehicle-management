@@ -25,9 +25,7 @@ import {
   addCampaign,
 } from '../Actions/OrderAction';
 import '../styles/user.css';
-import { failureNotifier } from '../utils/notifications';
 import {
-  updateAdminHandler,
   deleteAdminHandler,
 } from '../utils/HandlerFunctions/AdminHandler';
 import moment from 'moment';
@@ -39,6 +37,8 @@ import { useNavigate } from 'react-router-dom';
 import { SearchHandler } from '../utils/HandlerFunctions/SearchHandler';
 import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
 import { Option } from 'antd/lib/mentions';
+import { deleteOrderHandler, updateOrderHandler } from '../utils/HandlerFunctions/MemerHandler';
+import { failureNotifier } from '../utils/notifications';
 
 const { Panel } = Collapse;
 export default function Orders() {
@@ -46,6 +46,7 @@ export default function Orders() {
   const campaignData = useSelector(state => state.CampaignReducer.campaigns);
   const ManagerData = useSelector(state => state.AdminReducer.admins);
   const VehicleData = useSelector(state => state.MemerReducer.memers);
+  const driversData = useSelector(state => state.AdminReducer.drivers);
 
   const selectedOrder = useSelector(
     state => state.CampaignReducer.selectedCampaign
@@ -70,8 +71,10 @@ export default function Orders() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
-  const [bookingDate,setBookingDate] =useState("");
-  const [returnDate,setReturnDate] = useState("");
+  const [isModalVisible3, setIsModalVisible3] = useState(false);
+
+  const [bookingDate,setBookingDate] =useState(selectedOrder[0]?.bookingDate);
+  const [returnDate,setReturnDate] = useState(selectedOrder[0]?.returnDate);
   const [fare,setFare] = useState(0);
   const [distance,setDistance] = useState(0);
   const [page, setPage] = useState(1);
@@ -81,12 +84,24 @@ export default function Orders() {
   const [data1, setData1] = useState([]);
   const [SearchData, setSearchData] = useState([]);
   const [Name, setName] = useState('');
- const [status, setStatus] = useState("")
+  const [driver,setDriver] = useState(0);
+  const [status, setStatus] = useState("")
+  const [manager,setManager] = useState(0);
+
   const dispatch = useDispatch();
   // const [status, setStatus] = useState({
   //   bool1: false,
   //   bool2: false,
   // });
+
+   const onChangeStatus = (value) => {
+      setStatus(value);
+  };
+
+
+const onSearchStatus = (value) => {
+  console.log('search:', value);
+};
 
   const columns = [
     {
@@ -100,7 +115,10 @@ export default function Orders() {
       dataIndex: 'bookingDate',
       key: 'bookingDate',
       render: (text, record) => (
-        <span>{moment(record?.startDate).format('DD/MMM/YYYY')}</span>
+        <span>
+          {
+          moment(record?.bookingDate).format('YYYY-MM-DD')
+          }</span>
       ),
     },
     {
@@ -108,7 +126,8 @@ export default function Orders() {
       dataIndex: 'returnDate',
       key: 'returnDate',
       render: (text, record) => (
-        <span>{moment(record?.endDate).format('DD/MMM/YYYY')}</span>
+        <span>{
+          moment(record?.returnDate).format('YYYY-MM-DD')}</span>
       ),
     },
     {
@@ -149,13 +168,15 @@ export default function Orders() {
       render: (text,record) => (
         <Space size="middle">
           <a onClick={()=>{
-            // dispatch(setAdmin(values1,record?._id))
-             setIsModalVisible(true)
-            }}><Icon icon="akar-icons:edit" width="20" /></a>
+             dispatch(setCampaign(record?.id))
+             setIsModalVisible1(true)
+            }}>
+              <Icon icon="akar-icons:edit" width="20" /></a>
           <a onClick={()=>{
-          setIsModalVisible1(true)
+          setIsModalVisible3(true)
             // dispatch(setAdmin(values1,record?._id))
-            }}><Icon icon="ant-design:delete-filled" width="20" /></a>
+            }}>
+              <Icon icon="ant-design:delete-filled" width="20" /></a>
         </Space>
       ),
     },
@@ -243,55 +264,7 @@ export default function Orders() {
       // },
     },
   ];
-  const columns2 = [
-    {
-      title: 'PlatformName',
-      dataIndex: 'platformName',
-      key: 'platformName',
-      render: (text, record) => (
-        <Space size="middle">
-          <span>{record?.platformName}</span>
-        </Space>
-      ),
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-    },
-    {
-      title: 'Logo',
-      dataIndex: 'Logo',
-      key: 'Logo',
-      render: (text, record) => {
-        return (
-          <span>
-            <Image
-              src={record?.logo}
-              style={{ width: '100%', height: '25%' }}
-            />
-          </span>
-        );
-      },
-      width: '2%',
-    },
-    {
-      title: 'Background',
-      dataIndex: 'Background',
-      key: 'Background',
-      render: (text, record) => {
-        return (
-          <span>
-            <Image
-              src={record?.background}
-              style={{ width: '100%', height: '25%' }}
-            />
-          </span>
-        );
-      },
-      width: '2%',
-    },
-  ];
+
   const columns3 = [
     {
       title: 'Picture',
@@ -453,35 +426,38 @@ export default function Orders() {
     setIsModalVisible2(false);
   };
 
+   const handleOk3 = () => {
+    setIsModalVisible3(false);
+  };
+
+  const handleCancel3= () => {
+    setIsModalVisible3(false);
+  };
+
   const handleChange = evt => {
     const value = evt;
     setName(value);
   };
-  const onCheckChange1 = () => {
-    // setStatus({ bool1: true, bool2: false });
-  };
-  const onCheckChange2 = () => {
-    // setStatus({ bool1: false, bool2: true });
-  };
+
 
   //useEffect section
-  // useEffect(() => {
-  //   if (SearchData === 'not found') {
-  //     failureNotifier('not found');
-  //   }
-  //   if (SearchData?.length === 0) {
-  //     setData(campaignData);
-  //     setData1(campaignData);
-  //     setLoading(false);
-  //   } else if (SearchData?.length >= 1 && SearchData[0] !== undefined) {
-  //     setData(SearchData);
-  //     setData1([]);
-  //     setLoading(false);
-  //   } else {
-  //     setData(campaignData);
-  //     setLoading(false);
-  //   }
-  // }, [campaignData, SearchData]);
+  useEffect(() => {
+    if (SearchData === 'not found') {
+      failureNotifier('not found');
+    }
+    if (SearchData?.length === 0) {
+      setData(campaignData);
+      setData1(campaignData);
+      setLoading(false);
+    } else if (SearchData?.length >= 1 && SearchData[0] !== undefined) {
+      setData(SearchData);
+      setData1([]);
+      setLoading(false);
+    } else {
+      setData(campaignData);
+      setLoading(false);
+    }
+  }, [campaignData, SearchData]);
 
   useEffect(() => {
     if (campaignData?.length >= 0) {
@@ -496,7 +472,7 @@ export default function Orders() {
       setPage,
       loading,
       setLoading,
-      'campaign',
+      'user/order/',
       data,
       setData,
       setData1,
@@ -506,6 +482,20 @@ export default function Orders() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+  useEffect(()=>{
+     setDistance(selectedOrder[0]?.id);
+     setBookingDate(
+      moment(selectedOrder[0]?.bookingDate).format('YYYY-MM-DD')
+     );
+     setReturnDate(
+         moment(selectedOrder[0]?.returnDate).format('YYYY-MM-DD')
+     );
+     setStatus(selectedOrder[0]?.status);
+     setFare(selectedOrder[0]?.fare);
+     setDistance(selectedOrder[0]?.distance);
+  },[selectedOrder])
 
   useEffect(() => {
     if (loading) {
@@ -577,7 +567,7 @@ export default function Orders() {
                 Search
               </Button>
             </Input.Group>
-              <Button onClick={() => setIsModalVisible(true)}>+</Button>
+
           </div>
         </div>
         {isLoading ? (
@@ -617,48 +607,167 @@ export default function Orders() {
           </InfiniteScroll>
         )}
         <Modal
-          title={`Edit ${selectedOrder?.username}`}
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
+          title={`Edit ${selectedOrder?.id}`}
+          visible={isModalVisible1}
+          onOk={handleOk1}
+          onCancel={handleCancel1}
           maskClosable={false}
         >
-          <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={() =>
-              updateAdminHandler(
-                // AdminName,
-                // AdminEmail,
-                // status.bool1,
-                selectedOrder?._id
-              )
-            }
-            //   onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Input
-              // value={AdminName}
-              // onChange={e => setAdminName(e.target.value)}
-              required
-            />
-            {/* <Input value={AdminEmail} required /> */}
-            {/* <Checkbox checked={status.bool1} onChange={onCheckChange1}> */}
-              {/* Activate */}
-            {/* </Checkbox> */}
-            {/* <Checkbox checked={status.bool2} onChange={onCheckChange2}> */}
-              {/* Deactivate */}
-            {/* </Checkbox> */}
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form>
+           <Form
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              layout="horizontal"
+              onFinish={() => {
+                 updateOrderHandler(
+                  selectedOrder[0]?.id,
+                 bookingDate,
+                  returnDate,
+                  status,
+                  fare,
+                  distance,
+                  selectedCampaignVehicle[0]?.id,
+                  selectedCampaignCustomer[0]?.id,
+                  driver,
+                  manager,
+                  dispatch
+                );
+                setIsModalVisible1(false);
+              }}
+            >
+              <div>
+                <Form.Item label="Booking Date">
+                  <Input
+                    placeholder="bookingDate"
+                    value={bookingDate}
+                    type="date"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Return Date">
+                  <Input
+                    placeholder="returnDate"
+                    value={returnDate}
+                    type="date"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Status">
+                    {/* <Select
+         showSearch
+      placeholder={status}
+    optionFilterProp="children"
+    onChange={onChangeStatus}
+    onSearch={onSearchStatus}
+    //  filterOption={filterOption}
+    options={[
+      {
+        value: 'APPROVED',
+        label: 'APPROVED',
+      },
+      {
+        value: 'APPROVED',
+        label: 'PENDING',
+      },
+      {
+        value: 'REJECTED',
+        label: 'REJECTED',
+      }
+    ]}
+  /> */}         {
+     (status==='PENDING')?
+                 <select name="status"  onChange={(e)=>onChangeStatus(e.target.value)}>
+                       <option value='APPROVED'>APPROVED</option>
+                         <option value='PENDING'>PENDING</option>
+                         <option value='REJECTED'>REJECTED</option>
+                  </select>
+     :  <Input
+                    placeholder="STATUS"
+                    value={selectedOrder[0]?.status}
+                    type="text"
+                    required
+                  />
+  }
+                </Form.Item>
+                    <Form.Item label="Customer Id">
+                          <Input
+                    placeholder="customer"
+                    value={selectedCampaignCustomer[0]?.id}
+                    type="text"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Vehicle Id">
+                    <Input
+                    placeholder="customer"
+                    value={`${selectedCampaignVehicle[0]?.id}`}
+                    type="text"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Driver">
+                  {(status==='PENDING')?<select name="Driver"  onChange={(e)=>setDriver(e.target.value)}>
+                      {driversData?.map(m =>
+                        {
+                          if(!m.assigned){
+                           return   <option value={m?.id}>{m?.firstName} - {m?.lastName}</option>
+                          }
+                        })
+                      }
+                  </select>: <Input
+                    placeholder="STATUS"
+                    value={selectedOrder[0]?.driver?.id}
+                    type="text"
+                    required
+                  />}
+                </Form.Item>
+                <Form.Item label="Manager">
+                    {(status==='PENDING')?
+                   <select name="Manager"  onChange={(e)=>setManager(e.target.value)}>
+                      {ManagerData?.map(m =>
+                        {
+                          if(!m.assigned){
+                           return   <option value={m?.id}>{m?.firstName} - {m?.lastName}</option>
+                          }
+                        })
+                      }
+                  </select>:<Input
+                    placeholder="STATUS"
+                    value={selectedOrder[0]?.manager?.id}
+                    type="text"
+                    required
+                  />}
+                </Form.Item>
+                <Form.Item label="Fare">
+                  <Input
+                    placeholder="fare"
+                    value={fare}
+                    onChange={e => setFare(e.target.value)}
+                    type="number"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Distance">
+                  <Input
+                    placeholder="distance"
+                    value={distance}
+                    onChange={e => setDistance(e.target.value)}
+                    type="distance"
+                    required
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
         </Modal>
         <Modal
           title={`delete ${selectedOrder?.username} `}
-          visible={isModalVisible1}
+          visible={isModalVisible2}
           onOk={handleOk1}
           onCancel={handleCancel1}
           maskClosable={false}
@@ -725,120 +834,36 @@ export default function Orders() {
             </Panel>
           </Collapse>
         </Modal>
-          <Modal
-          title={`Add New Order`}
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
+
+         <Modal
+          title={`Delete`}
+          visible={isModalVisible3}
+          onOk={handleOk3}
+          onCancel={handleCancel3}
           maskClosable={false}
-          width="40%"
-          footer={null}
+          footer={false}
         >
-          <div
-            style={{
-              margin: '1rem',
-            }}
+          <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={() =>
+              {
+                deleteOrderHandler(selectedOrder[0]?.id,dispatch)
+                setIsModalVisible3(false);
+                setPage(0);
+                setData1([]);
+              }
+              }
+            autoComplete="off"
           >
-            <Form
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              initialValues={{ remember: true }}
-              layout="horizontal"
-              onFinish={() => {
-                // registerAdminHandler(
-                //   FirstName,
-                //   LastName,
-                //   Email,
-                //   PhoneNo,
-                //   Password,
-                //   dispatch
-                // );
-              }}
-            >
-              <div>
-                <Form.Item label="Booking Date">
-                  <Input
-                    placeholder="bookingDate"
-                    value={bookingDate}
-                    onChange={e => setBookingDate(e.target.value)}
-                    type="date"
-                    required
-                  />
-                </Form.Item>
-                <Form.Item label="Return Date">
-                  <Input
-                    placeholder="returnDate"
-                    value={returnDate}
-                    onChange={e => setReturnDate(e.target.value)}
-                    type="date"
-                    required
-                  />
-                </Form.Item>
-                <Form.Item label="Status">
-                   <Select value={status} onChange={e => setStatus()}>
-                            {/* <Option>APPROVED</Option> */}
-                            <Option>PENDING</Option>
-                            {/* <Option>REJECTED</Option> */}
-                   </Select>
-                </Form.Item>
-                    <Form.Item label="Customer">
-                    <Select value={status} onChange={e => setStatus()}>
-                      {
-
-                      }
-                            {/* <Option>APPROVED</Option> */}
-                            <Option>PENDING</Option>
-                            {/* <Option>REJECTED</Option> */}
-                   </Select>
-                </Form.Item>
-                <Form.Item label="Vehicle">
-                  
-                    <Select value={status} onChange={e => setStatus()}>
-                      <Select value={status} onChange={e => setStatus()}>
-                      {VehicleData?.map(m=><Option>{m?.name}</Option>)}
-                   </Select>
-                   </Select>
-                </Form.Item>
-                <Form.Item label="Driver">
-                    <Select value={status} onChange={e => setStatus()}>
-                            {/* <Option>APPROVED</Option> */}
-                            <Option>PENDING</Option>
-                            {/* <Option>REJECTED</Option> */}
-                   </Select>
-                </Form.Item>
-                <Form.Item label="Manager">
-                    <Select value={status} onChange={e => setStatus()}>
-                      {ManagerData?.map(m=><Option>{m?.firstName}{m?.lastName}</Option>)}
-                   </Select>
-                </Form.Item>
-
-                <Form.Item label="Fare">
-                  <Input
-                    placeholder="fare"
-                    value={fare}
-                    onChange={e => setFare(e.target.value)}
-                    type="number"
-                    required
-                  />
-                </Form.Item>
-                <Form.Item label="Distance">
-                  <Input
-                    placeholder="distance"
-                    value={distance}
-                    onChange={e => setDistance(e.target.value)}
-                    type="distance"
-                    required
-                  />
-                </Form.Item>
-              </div>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
+            {/* <Input value={AdminName} required /> */}
+            {/* <Input value={AdminEmail} required /> */}
+            <Button type="danger" htmlType="submit">
+              delete
+            </Button>
             </Form>
-          </div>
         </Modal>
       </Container>
     </Page>
