@@ -92,46 +92,47 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Orders updateOrder(Orders detachedOrder,Long orderId) {
+    	User driver=null;
+   	 	Vehicle vehicle=null;
         if (ordersDao.existsById(orderId)) {
-        	detachedOrder.setId(orderId);
-        
-        	 if (detachedOrder != null && detachedOrder.getStatus() == OrderStatus.COMPLETED) {
+        	
+        	 
+        	 Orders order =ordersDao.findById(orderId).get();
+        	 if (detachedOrder.getStatus() == OrderStatus.COMPLETED ) {
                  // Update driver and vehicle status to ACTIVE
-                 User driver = detachedOrder.getDriver();
-                 if (driver != null) {
-                	 driver.setId(driver.getId());
-                     driver.setAssigned(false);
-                     userDao.save(driver);
-                 }
+                 
+                 
+        		 driver = userDao.findById(detachedOrder.getDriver().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid driver id"));
+                 driver.setAssigned(false);
+                 driver = userDao.save(driver);
+               
+                 
 
-                 Vehicle vehicle = detachedOrder.getVehicle();
-                 if (vehicle != null) {
-                	 vehicle.setId(vehicle.getId());
-                     vehicle.setStatus(VehicleStatus.ACTIVE);;
-                     vehicleDao.save(vehicle);
-                 }
-                 return ordersDao.save(detachedOrder); 
-             }else if(detachedOrder != null && detachedOrder.getStatus() == OrderStatus.APPROVED){
-            	   User driver = detachedOrder.getDriver();
-                   if (driver != null) {
-                	   driver.setId(driver.getId());
-                       driver.setAssigned(true);
-                       userDao.save(driver);
-                   }
+                 vehicle = vehicleDao.findById(detachedOrder.getVehicle().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid vehicle id"));
+                 vehicle.setStatus(VehicleStatus.ACTIVE);;
+                 vehicle = vehicleDao.save(vehicle);
+                 
+               
+             }else if(detachedOrder.getStatus() == OrderStatus.APPROVED){
+            	   
+                   driver = userDao.findById(detachedOrder.getDriver().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid driver id"));
+                   driver.setAssigned(true);
+                   driver = userDao.save(driver);
 
-                   Vehicle vehicle = detachedOrder.getVehicle();
-                   if (vehicle != null) {
-                	   vehicle.setId(vehicle.getId());
-                       vehicle.setStatus(VehicleStatus.INACTIVE);;
-                       vehicleDao.save(vehicle);
-                   }
-                   return ordersDao.save(detachedOrder); 
-             }else{
-            	 return ordersDao.save(detachedOrder);            	 
+                   vehicle = vehicleDao.findById(detachedOrder.getVehicle().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid vehicle id"));
+                   vehicle.setStatus(VehicleStatus.INACTIVE);;
+                   vehicle = vehicleDao.save(vehicle);
+             
              }
         	
+        	 order.setDriver(driver);
+        	 order.setVehicle(vehicle);	
+        	 order.setManager(userDao.findById(detachedOrder.getManager().getId()).orElseThrow(()-> new ResourceNotFoundException("invalid manager id")));
+        	 return ordersDao.save(order);            	 
+             
+        	
         }
-        return null;
+        throw new ResourceNotFoundException("invalid order");
     }
 
     @Override
