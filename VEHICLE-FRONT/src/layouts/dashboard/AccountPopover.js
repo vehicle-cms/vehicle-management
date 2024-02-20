@@ -74,10 +74,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {decode?.firstName ? decode?.firstName : 'unknown'}
+            {decode?.sub ? decode?.sub : 'unknown'}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {decode?.email ? decode?.email : 'unknown@email.com'}
+            {decode?.sub ? decode?.sub : 'unknown@email.com'}
           </Typography>
         </Box>
 

@@ -324,7 +324,7 @@ export function AppWidgetSummary7({
   sx,
   ...other
 }) {
-  const admin = useSelector(state => state.AdminReducer.memedd);
+  const admin = useSelector(state => state.AdminReducer.driverCount);
   const navigate = useNavigate();
 
   return (
@@ -338,7 +338,7 @@ export function AppWidgetSummary7({
         ...sx,
       }}
       {...other}
-      onClick={() => navigate('/dashboard/customers')}
+      onClick={() => navigate('/dashboard/drivers')}
     >
       <IconWrapperStyle
         sx={{

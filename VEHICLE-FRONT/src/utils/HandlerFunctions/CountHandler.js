@@ -16,7 +16,7 @@ export const GetCountDetail = async (
       string = 'No data to show';
     }
 
-    successNotifier('fetched successfully' + ' ' + string);
+    // successNotifier('fetched successfully' + ' ' + string);
     // return memerData;
 
   } catch (e) {

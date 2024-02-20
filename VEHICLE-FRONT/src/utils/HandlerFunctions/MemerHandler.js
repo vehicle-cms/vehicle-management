@@ -10,7 +10,7 @@ export const updateStatus = async (navigate, dispatch, code, value) => {
       memerrCode: code,
       isNotActive: value,
     });
-    successNotifier(updateMemer?.data?.message);
+    successNotifier(updateMemer?.data);
     dispatch(GetVehicles(navigate, 1, 8));
   } catch (e) {
     failureNotifier('failed to platform', e?.response?.data?.message);
@@ -54,7 +54,7 @@ export const GetOrderDetail = async (
     if (memerData?.data?.result.length === 0) {
       string = 'No data to show';
     }
-    successNotifier('fetched successfully' + ' ' + string);
+    // successNotifier('fetched successfully' + ' ' + string);
     return memerData;
   } catch (e) {
     // failureNotifier('failed to get', e?.response?.data?.message);
@@ -103,7 +103,7 @@ export const updateOrderHandler = async (id,  bookingDate,
 export const deleteOrderHandler = async (id,dispatch)=>{
   try {
     const data = await api.delete(`user/order/${id}`);
-    successNotifier(data?.data?.message);
+    successNotifier(data?.data);
     dispatch(GetCampaign());
   } catch (e) {
     failureNotifier('failed to create', e?.response?.data?.message);

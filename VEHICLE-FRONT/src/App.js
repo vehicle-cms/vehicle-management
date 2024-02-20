@@ -14,7 +14,7 @@ import { GetVehicles, vehicleActiveCount, vehicleCount, vehicleInActiveCount, ve
 import { GetTags } from './Actions/CustomerActions';
 import { useDispatch } from 'react-redux';
 import { GetCountDetail }  from "./utils/HandlerFunctions/CountHandler";
-import { GetAdmins, GetDrivers, managerCount } from './Actions/ManagerActions';
+import { GetAdmins, GetDrivers, driverCount, managerCount } from './Actions/ManagerActions';
 // ----------------------------------------------------------------------
 
 export default function App() {
@@ -29,74 +29,83 @@ export default function App() {
   }, [token]);
 
    useEffect(() => {
-    dispatch(GetAdmins());
-    dispatch(GetCampaign());
-    dispatch(GetVehicles());
-    dispatch(GetTags());
-    dispatch(GetDrivers());
 
-     GetCountDetail(
-     dispatch,
-    'vehicles/active-count',
-     vehicleActiveCount);
+    if(token!=undefined){
 
-     GetCountDetail(
-     dispatch,
-    'vehicles/inactive-count',
-     vehicleInActiveCount);
-
-     GetCountDetail(
-     dispatch,
-    'vehicles/maintenance-count',
-     vehicleMaintenanceCount)
-
-     GetCountDetail(
-     dispatch,
-    'user/manager/manager-count',
-     managerCount)
-
-      GetCountDetail(
-     dispatch,
-    'vehicles/vehicle-count',
-     vehicleCount)
-
-      GetCountDetail(
-     dispatch,
-    'user/order/order-count',
-     orderCount)
+      dispatch(GetAdmins());
+      dispatch(GetCampaign());
+      dispatch(GetVehicles());
+      dispatch(GetTags());
+      dispatch(GetDrivers());
 
        GetCountDetail(
-     dispatch,
-    'user/order/approved-count',
-     orderApprovedCount)
+       dispatch,
+      'vehicles/active-count',
+       vehicleActiveCount);
 
        GetCountDetail(
-     dispatch,
-    'user/order/pending-count',
-     orderPendingCount)
+       dispatch,
+      'vehicles/inactive-count',
+       vehicleInActiveCount);
 
        GetCountDetail(
-     dispatch,
-    'user/order/rejected-count',
-     orderRejectedCount)
+       dispatch,
+      'vehicles/maintenance-count',
+       vehicleMaintenanceCount)
+
+       GetCountDetail(
+       dispatch,
+      'user/manager/manager-count',
+       managerCount)
+
+        GetCountDetail(
+       dispatch,
+      'vehicles/vehicle-count',
+       vehicleCount)
+
+        GetCountDetail(
+       dispatch,
+      'user/order/order-count',
+       orderCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/approved-count',
+       orderApprovedCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/pending-count',
+       orderPendingCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/rejected-count',
+       orderRejectedCount)
+
+        GetCountDetail(
+       dispatch,
+      'user/driver/driver-count',
+       driverCount)
+    }
 
 
   }, []);
 
-  // if (token === 'undefined') {
-  //   return (
-  //     <>
-  //       <Gateway />
-  //     </>
-  //   );
-  // }
-  // if (!token) {
-  //   return (
-  //     <>
-  //       <Gateway />
-  //     </>
-  //   );
-  // }
+  if (token === 'undefined') {
+    return (
+      <>
+        <Gateway />
+      </>
+    );
+  }
+  if (!token) {
+    return (
+      <>
+        <Gateway />
+      </>
+    );
+  }
 
   return (
     <ThemeConfig>

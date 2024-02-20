@@ -11,14 +11,15 @@ import { registerAdminHandler } from '../../../utils/HandlerFunctions/AdminHandl
 import { setShow } from '../../../Actions/ManagerActions';
 import { useDispatch } from 'react-redux';
 
-export default function RegisterForm() {
+export default function RegisterForm({setIsRegister}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
+  const [email1, setEmail1] = useState('');
+  const [otpGenerated, setOtpGenerated] = useState(false);
   const formik = useFormik({
     initialValues: {
       userName: '',
@@ -33,7 +34,42 @@ export default function RegisterForm() {
 
   const { errors, touched, isSubmitting, getFieldProps } = formik;
 
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Replace with your actual backend URL
+      const response = await fetch(`http://localhost:8080/login/generateOTP?email=${email1}`);
+
+      console.log(response);
+      // Assuming the response contains a boolean indicating if OTP was generated successfully
+      if (response) {
+        setOtpGenerated(true);
+      } else {
+        // Handle error, show error message, etc.
+        console.error('Error generating OTP');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
+    <>
+          {!otpGenerated ? (
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email:
+            <input
+              type="email"
+              value={email1}
+              onChange={(e) => setEmail1(e.target.value)}
+              required
+            />
+          </label>
+          <button type="submit">Generate OTP</button>
+        </form>
+      ):
     <FormikProvider value={formik}>
       <Form
         autoComplete="off"
@@ -102,19 +138,11 @@ export default function RegisterForm() {
           >
             Register
           </LoadingButton>
-          <span>Or</span>
+          <span onClick={()=>setIsRegister(false)}>Login Instead</span>
         </Stack>
       </Form>
-      <LoadingButton
-        fullWidth
-        size="large"
-        // type="submit"
-        variant="contained"
-        // loading={isSubmitting}
-        onClick={() => dispatch(setShow(true))}
-      >
-        Login
-      </LoadingButton>
     </FormikProvider>
+    }
+    </>
   );
 }

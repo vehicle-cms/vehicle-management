@@ -35,7 +35,7 @@ const sidebarConfig = [
     title: 'Customers',
     path: '/dashboard/customers',
     icon: getIcon('eva:people-fill'),
-  },
+  }
 ];
 
 export default sidebarConfig;

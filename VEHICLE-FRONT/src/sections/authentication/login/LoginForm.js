@@ -7,12 +7,14 @@ import { LoadingButton } from '@mui/lab';
 
 import Iconify from '../../../components/Iconify';
 import { loginAdminHandler } from '../../../utils/HandlerFunctions/AdminHandler';
+import RegisterForm from '../register/RegisterForm';
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isregister,setIsRegister] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +35,9 @@ export default function LoginForm() {
   };
 
   return (
-    <FormikProvider value={formik}>
+    <>
+    {(!isregister)?
+      <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={(e) => loginAdminHandler(e, email, password, navigate)}>
         <Stack spacing={3}>
           <TextField
@@ -74,7 +78,10 @@ export default function LoginForm() {
           Login
         </LoadingButton>
         <br></br>
+        <a onClick={()=>setIsRegister(true)}>Register instead?</a>
       </Form>
     </FormikProvider>
+    :<RegisterForm setIsRegister={setIsRegister}/>}
+    </>
   );
 }
