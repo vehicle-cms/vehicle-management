@@ -6,7 +6,7 @@ const BookingForm = ({ onClose, onBook, ratePerDay, vehicleId, }) => {
     bookingDate: '',
     returnDate: '',
     vehicle: {id:vehicleId},
-    status: 'PENDING',
+    customer: {id:2},
   });
 
   const handleInputChange = (e) => {
