@@ -28,4 +28,6 @@ public interface OrderService {
     long countOfRejectedOrders();
     
     long orderCount();
+
+	List<OrderDTO> getAllCustomerOrders(Long customerId);
 }

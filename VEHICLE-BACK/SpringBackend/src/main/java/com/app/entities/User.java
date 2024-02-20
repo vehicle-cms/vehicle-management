@@ -21,7 +21,6 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @ToString
 public class User extends BaseEntity {
-    // user change
 
     @Column(name = "first_name")
     private String firstName;
@@ -35,7 +34,7 @@ public class User extends BaseEntity {
     @Column(length = 12)
     private String mobile;
 
-    @Column(length = 20, unique = true)
+    @Column(length = 30, unique = true)
     private String email;
 
     @Column(name = "created_on")
@@ -53,5 +52,8 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.ORDINAL)
     private Role role;
+    
+    @Enumerated(EnumType.ORDINAL)
+    private Gender gender;
 
 }

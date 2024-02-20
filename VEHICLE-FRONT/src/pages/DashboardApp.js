@@ -223,7 +223,7 @@ export default function DashboardApp() {
     }
   }, [data, SearchData]);
   return (
-    <Page title="Memerr / Memedd CMS">
+    <Page title="VMS">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }} style={{ display: 'flex' }}>
           <div style={{ width: '80%' }}>

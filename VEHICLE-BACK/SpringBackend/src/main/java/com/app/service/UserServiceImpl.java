@@ -10,9 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dao.AddressDao;
+import com.app.dao.CityDao;
+import com.app.dao.LoginDao;
 import com.app.dao.UserDao;
+import com.app.dto.LoginDTO;
 import com.app.dto.UserDTO;
 import com.app.entities.Address;
+import com.app.entities.City;
+import com.app.entities.Login;
 import com.app.entities.Role;
 import com.app.entities.User;
 
@@ -20,12 +25,18 @@ import com.app.entities.User;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+	
+	@Autowired
+	private LoginDao loginDao;
+	
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private ModelMapper mapper;
 	@Autowired
 	private AddressDao addDao;
+	@Autowired
+	private CityDao cityDao;
 
 
 	@Override
@@ -37,11 +48,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO addUserDetails(UserDTO transientUser) {
-		Address adr = transientUser.getAddress();
-		adr = addDao.save(adr);
-		transientUser.setAddress(adr);
-		return mapper.map(userDao.save(mapper.map(transientUser, User.class)), UserDTO.class);
+	public LoginDTO addUserDetails(LoginDTO transientUser) {
+		
+		Login log= mapper.map(transientUser, Login.class);
+		City city= cityDao.findByPincode(log.getUser().getAddress().getPincode().getPincode()).orElseThrow(()-> new ResourceNotFoundException("invalid pincodeS"));
+		log.getUser().getAddress().setPincode(city);
+		return mapper.map(loginDao.save(log), LoginDTO.class);
 	}
 
 	@Override

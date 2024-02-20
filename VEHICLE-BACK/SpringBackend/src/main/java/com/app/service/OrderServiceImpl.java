@@ -146,5 +146,12 @@ public class OrderServiceImpl implements OrderService {
 		return ordersDao.countByStatus(OrderStatus.REJECTED);
 	}
 
+	@Override
+	public List<OrderDTO> getAllCustomerOrders(Long customerId) {
+		return 	ordersDao.findByCustomerId(customerId).stream()
+                .map(order -> mapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+	}
+
      
 }
