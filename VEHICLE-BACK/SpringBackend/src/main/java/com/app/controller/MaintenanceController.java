@@ -24,7 +24,8 @@ import com.app.service.MaintenanceService;
 
 @RestController
 @RequestMapping("/user/maintenance")
-@CrossOrigin(originPatterns = "http://localhost:*")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class MaintenanceController {
 
     @Autowired

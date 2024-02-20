@@ -30,7 +30,8 @@ import com.app.service.UserService;
 
 @RestController
 @RequestMapping("/user/customer")
-@CrossOrigin(originPatterns = "http://localhost:*")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class CustomerController {
 	@Autowired
 	private UserService customerService;

@@ -23,7 +23,8 @@ import com.app.service.UserService;
 
 @RestController
 @RequestMapping("/user/manager")
-@CrossOrigin(originPatterns = "http://localhost:*")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class ManagerController {
 	@Autowired
 	private UserService managerService;

@@ -21,7 +21,8 @@ import com.app.service.VehicleService;
 
 @RestController
 @RequestMapping("/vehicles")
-@CrossOrigin(originPatterns = "http://localhost:*")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class VehicleController {
 	@Autowired
 	private VehicleService vehicleService;
