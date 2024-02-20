@@ -21,4 +21,6 @@ public interface UserService {
 	
 	long countOfDrivers();
 	long countOfManagers();
+
+	UserDTO addUserDetails(UserDTO user);
 }
