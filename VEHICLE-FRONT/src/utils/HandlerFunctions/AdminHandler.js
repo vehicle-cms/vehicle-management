@@ -1,5 +1,6 @@
 import { GetAdmins } from '../../Actions/ManagerActions';
 import api from '../../services/backendApi';
+import jwtDecode from 'jwt-decode';
 import { failureNotifier, successNotifier } from '../notifications';
 
 export const registerAdminHandler = async (
@@ -28,13 +29,16 @@ export const registerAdminHandler = async (
 export const loginAdminHandler = async (e, email, password, navigate) => {
   e.preventDefault();
   try {
-    const registerUser = await api.post('admin/login', {
-      adminName: email,
+    const registerUser = await api.post('/login/login', {
+      username: email,
       password: password,
     });
-    //  console.log(registerUser)
 
-    localStorage.setItem('admin', registerUser?.data?.result?.token);
+    const data = jwtDecode(registerUser?.data?.jwt);
+     console.log(data.sub)
+
+    localStorage.setItem('admin', registerUser?.data?.jwt);
+    localStorage.setItem('username',data.sub)
     localStorage.setItem(
       'admin_id',
       registerUser?.data?.result?.adminPresent?._id

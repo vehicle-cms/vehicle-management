@@ -87,7 +87,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {decode?.firstName ? decode?.firstName : 'unknown'}
+                {decode?.sub ? decode?.sub : 'unknown'}
               </Typography>
               <Typography
                 variant="body2"
