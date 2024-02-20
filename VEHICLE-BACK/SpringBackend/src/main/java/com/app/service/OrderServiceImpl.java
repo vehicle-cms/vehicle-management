@@ -16,11 +16,8 @@ import com.app.entities.Orders;
 import com.app.entities.Role;
 import com.app.entities.User;
 import com.app.entities.Vehicle;
-import com.app.entities.User;
-import com.app.entities.Vehicle;
 import com.app.entities.VehicleStatus;
 
-import java.io.ObjectInputFilter.Status;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
