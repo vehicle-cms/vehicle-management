@@ -101,7 +101,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		
 			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.addPart(pDao.getReferenceById(part));
+				Part p=pDao.getReferenceById(part);
+				mntnc.addPart(p);
+				mntnc.setTotal(mntnc.getTotal()+p.getPrice());
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
@@ -120,7 +122,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		
 			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.removePart(pDao.getReferenceById(part));
+				Part p=pDao.getReferenceById(part);
+				mntnc.removePart(p);
+				mntnc.setTotal(mntnc.getTotal()-p.getPrice());
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
