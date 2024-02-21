@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
 	public LoginDTO findByUsername(String username) {
 		
 		Login log = loginDao.findByUsername(username).orElseThrow(()-> new ResourceNotFoundException("invalid usernaame "));
-		System.out.println("ppppppppppppppppppppppppppppp"+log.getUsername());
+		
 		return mapper.map(log, LoginDTO.class);
 	}
 	

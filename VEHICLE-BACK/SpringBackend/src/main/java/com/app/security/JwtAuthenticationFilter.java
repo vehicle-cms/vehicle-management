@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,6 +26,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	// dep : JWT utils
 	@Autowired
 	private JwtUtils utils;
+	
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -30,23 +36,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// check auth header from incoming request
 		String authHeader = request.getHeader("Authorization");
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
-			// => req header contains JWT
-			String jwt = authHeader.substring(7);
-			// validate JWT
-			Claims payloadClaims = utils.validateJwtToken(jwt);
-			// get user name from the claims
-			String email = utils.getUserNameFromJwtToken(payloadClaims);
+			
+			String jwt = authHeader.substring(7);// req header contains JWT starts from 7th position
+			
+			Claims payloadClaims = utils.validateJwtToken(jwt);// validate JWT
+			
+			String email = utils.getUserNameFromJwtToken(payloadClaims);// get user name from the claims
+			
+			if(email!=null  && SecurityContextHolder.getContext().getAuthentication()==null) {
+				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+				if(utils.isTokenValid(jwt, userDetails)) {
+					
+					UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+																	email,
+																	null,
+																	utils.getAuthoritiesFromClaims(payloadClaims));
+					token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(token);
+				}
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
 			// get granted authorities as a custom claim
-			List<GrantedAuthority> authorities = utils.getAuthoritiesFromClaims(payloadClaims);
 			// add username/email n granted authorities in Authentication object
-			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, null,
-					authorities);
+			
 			// save this auth token under spring sec so that subsequent filters will NOT
 			// retry the auth again
-			SecurityContextHolder.getContext().setAuthentication(token);
+			
 			System.out.println("saved auth token in sec ctx");
 		}
-		filterChain.doFilter(request, response);// to continue with remaining chain of spring sec filters
+		filterChain.doFilter(request, response);					// to continue with remaining chain of spring sec filters
 
 	}
 

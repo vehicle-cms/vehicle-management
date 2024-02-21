@@ -135,8 +135,8 @@ public class LoginController {
 
 			LoginDTO userFound = loginService.findByUsername(user.getUsername());
 					
-			System.out.println("Username"+userFound.getUsername());
-			return ResponseEntity.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!", userFound.getUser().getRole()));
+			System.out.println("Username "+userFound.getUsername());
+			return ResponseEntity.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth,userFound.getUser().getId()), "Successful Authentication!!!", userFound.getUser().getRole()));
 
 		} catch (BadCredentialsException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)

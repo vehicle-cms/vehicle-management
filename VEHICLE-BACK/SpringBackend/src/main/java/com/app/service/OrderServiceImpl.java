@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
@@ -68,7 +69,8 @@ public class OrderServiceImpl implements OrderService {
         Page<OrderDTO> orderPage = ordersDao.findAllProjectedBy(pageRequest);
         return orderPage.getContent();
     }
-
+    
+    @Secured("CUSTOMER")
     @Override
     public Orders createOrder(Orders transientOrder) {
     	

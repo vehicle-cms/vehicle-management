@@ -9,19 +9,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.app.entities.Login;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CustomUserDetails implements UserDetails {
 	private Login login;
 
-	public CustomUserDetails(Login login) {
-		this.login = login;
-	}
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 	
 		return List.of(new 
-				SimpleGrantedAuthority(login.getUser().getRole().toString()));
+				SimpleGrantedAuthority(login.getUser().getRole().name()));
 	}
 
 	@Override
