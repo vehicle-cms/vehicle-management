@@ -19,7 +19,7 @@ import {
 } from '../sections/@dashboard/app';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { GetCounts } from '../Actions/ManagerActions';
+import { GetCounts, driverCount } from '../Actions/ManagerActions';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { GetOrderDetail } from '../utils/HandlerFunctions/MemerHandler';
@@ -32,6 +32,11 @@ import { getCampaignSuccess } from '../Actions/OrderAction';
 import { useNavigate } from 'react-router-dom';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import Chart from 'react-apexcharts';
+import { GetCampaign, orderApprovedCount, orderCount, orderPendingCount, orderRejectedCount } from '../Actions/OrderAction';
+import { GetVehicles, vehicleActiveCount, vehicleCount, vehicleInActiveCount, vehicleMaintenanceCount } from '../Actions/VehicleActions';
+import { GetAdmins, GetDrivers, managerCount } from '../Actions/ManagerActions';
+import { GetCountDetail }  from "../utils/HandlerFunctions/CountHandler";
+import { GetTags } from '../Actions/CustomerActions';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'MMMM Do YYYY';
@@ -165,6 +170,64 @@ export default function DashboardApp() {
   useEffect(() => {
     dispatch(GetCounts());
   }, []);
+
+  useEffect(()=>{
+     dispatch(GetAdmins());
+      dispatch(GetCampaign());
+      dispatch(GetVehicles());
+      dispatch(GetTags());
+      dispatch(GetDrivers());
+
+       GetCountDetail(
+       dispatch,
+      'vehicles/active-count',
+       vehicleActiveCount);
+
+       GetCountDetail(
+       dispatch,
+      'vehicles/inactive-count',
+       vehicleInActiveCount);
+
+       GetCountDetail(
+       dispatch,
+      'vehicles/maintenance-count',
+       vehicleMaintenanceCount)
+
+       GetCountDetail(
+       dispatch,
+      'user/manager/manager-count',
+       managerCount)
+
+        GetCountDetail(
+       dispatch,
+      'vehicles/vehicle-count',
+       vehicleCount)
+
+        GetCountDetail(
+       dispatch,
+      'user/order/order-count',
+       orderCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/approved-count',
+       orderApprovedCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/pending-count',
+       orderPendingCount)
+
+         GetCountDetail(
+       dispatch,
+      'user/order/rejected-count',
+       orderRejectedCount)
+
+               GetCountDetail(
+       dispatch,
+      'user/driver/driver-count',
+       driverCount)
+  },[])
 
   useEffect(() => {
     if (reportData?.length > 0) {

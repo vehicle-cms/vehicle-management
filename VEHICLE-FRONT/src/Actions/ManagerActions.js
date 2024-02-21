@@ -116,6 +116,14 @@ export const managerCount = (data) => {
   };
 };
 
+export const driverCount = (data) => {
+  return {
+    type: 'DRIVER_COUNT',
+    payload:data
+  };
+};
+
+
 
 //drivers
 const getDriverRequest = () => {

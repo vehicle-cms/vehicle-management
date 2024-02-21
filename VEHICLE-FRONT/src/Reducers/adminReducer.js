@@ -17,7 +17,8 @@ const initialState = {
   memerr: 0,
   platform: 0,
   tag: 0,
-  managerCount:0
+  managerCount:0,
+  driverCount:0
 };
 
 function removeDuplicates(arr, key) {
@@ -147,6 +148,11 @@ const AdminReducer = (state = initialState, action) => {
       return {
         ...state,
         managerCount:action?.payload
+      }
+      case 'DRIVER_COUNT':
+      return {
+        ...state,
+        driverCount:action?.payload
       }
     default:
       return state;

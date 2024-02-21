@@ -495,6 +495,12 @@ const onSearchStatus = (value) => {
      setStatus(selectedOrder[0]?.status);
      setFare(selectedOrder[0]?.fare);
      setDistance(selectedOrder[0]?.distance);
+     if(selectedCampaignDriver[0]?.id){
+           setDriver(selectedCampaignDriver[0]?.id);
+     }
+     if(selectedCampaignManager[0]?.id){
+         setManager(selectedCampaignManager[0]?.id);
+     }
   },[selectedOrder])
 
   useEffect(() => {
@@ -607,7 +613,7 @@ const onSearchStatus = (value) => {
           </InfiniteScroll>
         )}
         <Modal
-          title={`Edit ${selectedOrder?.id}`}
+          title={`Edit ${selectedOrder[0]?.id}`}
           visible={isModalVisible1}
           onOk={handleOk1}
           onCancel={handleCancel1}
@@ -654,43 +660,17 @@ const onSearchStatus = (value) => {
                   />
                 </Form.Item>
                 <Form.Item label="Status">
-                    {/* <Select
-         showSearch
-      placeholder={status}
-    optionFilterProp="children"
-    onChange={onChangeStatus}
-    onSearch={onSearchStatus}
-    //  filterOption={filterOption}
-    options={[
-      {
-        value: 'APPROVED',
-        label: 'APPROVED',
-      },
-      {
-        value: 'APPROVED',
-        label: 'PENDING',
-      },
-      {
-        value: 'REJECTED',
-        label: 'REJECTED',
-      }
-    ]}
-  /> */}         {
-     (status==='PENDING')?
-                 <select name="status"  onChange={(e)=>onChangeStatus(e.target.value)}>
+                      {
+                 <select name="status" value={status}  onChange={(e)=>onChangeStatus(e.target.value)}>
                        <option value='APPROVED'>APPROVED</option>
                          <option value='PENDING'>PENDING</option>
                          <option value='REJECTED'>REJECTED</option>
+                         <option value="COMPLETED">COMPLETED</option>
+                         <option value="CANCEL">CANCEL</option>
                   </select>
-     :  <Input
-                    placeholder="STATUS"
-                    value={selectedOrder[0]?.status}
-                    type="text"
-                    required
-                  />
   }
                 </Form.Item>
-                    <Form.Item label="Customer Id">
+                    {/* <Form.Item label="Customer Id">
                           <Input
                     placeholder="customer"
                     value={selectedCampaignCustomer[0]?.id}
@@ -705,9 +685,12 @@ const onSearchStatus = (value) => {
                     type="text"
                     required
                   />
-                </Form.Item>
+                </Form.Item> */}
+                {
+              (status==='PENDING'||'APPROVED'||'REJECTED')?
+              <>
                 <Form.Item label="Driver">
-                  {(status==='PENDING')?<select name="Driver"  onChange={(e)=>setDriver(e.target.value)}>
+                  <select name="Driver"  onChange={(e)=>setDriver(e.target.value)}>
                       {driversData?.map(m =>
                         {
                           if(!m.assigned){
@@ -715,30 +698,19 @@ const onSearchStatus = (value) => {
                           }
                         })
                       }
-                  </select>: <Input
-                    placeholder="STATUS"
-                    value={selectedOrder[0]?.driver?.id}
-                    type="text"
-                    required
-                  />}
+                  </select>
                 </Form.Item>
                 <Form.Item label="Manager">
-                    {(status==='PENDING')?
-                   <select name="Manager"  onChange={(e)=>setManager(e.target.value)}>
+                   <select name="Manager" value={manager}  onChange={(e)=>setManager(e.target.value)}>
                       {ManagerData?.map(m =>
                         {
-                          if(!m.assigned){
                            return   <option value={m?.id}>{m?.firstName} - {m?.lastName}</option>
-                          }
                         })
                       }
-                  </select>:<Input
-                    placeholder="STATUS"
-                    value={selectedOrder[0]?.manager?.id}
-                    type="text"
-                    required
-                  />}
+                  </select>
                 </Form.Item>
+                </>:<></>
+                }
                 <Form.Item label="Fare">
                   <Input
                     placeholder="fare"
@@ -748,7 +720,7 @@ const onSearchStatus = (value) => {
                     required
                   />
                 </Form.Item>
-                <Form.Item label="Distance">
+                {/* <Form.Item label="Distance">
                   <Input
                     placeholder="distance"
                     value={distance}
@@ -756,7 +728,7 @@ const onSearchStatus = (value) => {
                     type="distance"
                     required
                   />
-                </Form.Item>
+                </Form.Item> */}
               </div>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -777,7 +749,7 @@ const onSearchStatus = (value) => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
-            onFinish={() => deleteAdminHandler(selectedOrder?._id)}
+            onFinish={() => deleteAdminHandler(selectedOrder?.id)}
             autoComplete="off"
           >
             {/* <Input value={AdminName} required /> */}

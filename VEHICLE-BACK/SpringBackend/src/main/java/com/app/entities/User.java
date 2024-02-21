@@ -34,7 +34,7 @@ public class User extends BaseEntity {
     @Column(length = 12)
     private String mobile;
 
-    @Column(length = 30, unique = true)
+    @Column(length =255 , unique = true)
     private String email;
 
     @Column(name = "created_on")
