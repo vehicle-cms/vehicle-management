@@ -102,7 +102,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			if(!detachedMaintenance.isStatus()) {
 				mntnc.setEndDate(new Date());
 				mntnc.setStatus(detachedMaintenance.isStatus());
-				Vehicle v=vDao.findById(detachedMaintenance.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
+				Vehicle v=vDao.findById(mntnc.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
 				v.setStatus(VehicleStatus.ACTIVE);
 			}
 			detachedMaintenance.setId(maintenanceId);
@@ -130,7 +130,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			if(!detachedMaintenance.isStatus()) {
 				mntnc.setEndDate(new Date());
 				mntnc.setStatus(detachedMaintenance.isStatus());
-				Vehicle v=vDao.findById(detachedMaintenance.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
+				Vehicle v=vDao.findById(mntnc.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
 				v.setStatus(VehicleStatus.ACTIVE);
 			}
 			detachedMaintenance.setId(maintenanceId);
