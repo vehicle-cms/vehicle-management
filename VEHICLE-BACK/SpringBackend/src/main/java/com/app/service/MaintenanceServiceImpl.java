@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		Vehicle v=vDao.findById(maintenanceDTO.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
 		v.setStatus(VehicleStatus.MAINTENANCE);
 		mntnc.setVehicle(v);
+		mntnc.setStartDate(new Date());
 		double total=100;
 		for(Long part:maintenanceDTO.getPartsList())
 		{
@@ -95,8 +97,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		if (maintenanceDao.existsById(maintenanceId)) {
 			
 			Maintenance mntnc = maintenanceDao.findById(maintenanceId).orElseThrow(()-> new ResourceNotFoundException("invalid maintenance id"));
-			mntnc.setEndDate(detachedMaintenance.getEndDate());
-			mntnc.setStatus(detachedMaintenance.isStatus());
+			
+			
+			if(!detachedMaintenance.isStatus()) {
+				mntnc.setEndDate(new Date());
+				mntnc.setStatus(detachedMaintenance.isStatus());
+			}
 			detachedMaintenance.setId(maintenanceId);
 		
 			for(Long part:detachedMaintenance.getPartsList())
@@ -116,8 +122,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		if (maintenanceDao.existsById(maintenanceId)) {
 			
 			Maintenance mntnc = maintenanceDao.findById(maintenanceId).orElseThrow(()-> new ResourceNotFoundException("invalid maintenance id"));
-			mntnc.setEndDate(detachedMaintenance.getEndDate());
-			mntnc.setStatus(detachedMaintenance.isStatus());
+//			mntnc.setEndDate(detachedMaintenance.getEndDate());
+//			mntnc.setStatus(detachedMaintenance.isStatus());
+			
+			if(!detachedMaintenance.isStatus()) {
+				mntnc.setEndDate(new Date());
+				mntnc.setStatus(detachedMaintenance.isStatus());
+			}
 			detachedMaintenance.setId(maintenanceId);
 		
 			for(Long part:detachedMaintenance.getPartsList())
