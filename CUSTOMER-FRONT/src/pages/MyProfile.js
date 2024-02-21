@@ -5,7 +5,15 @@ const MyProfile = () => {
   const userId = 2; // Replace with the actual user ID or get it dynamically
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState({});
+  const [editedData, setEditedData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    address: "",
+    city: "",
+    state: "",
+  });
 
   useEffect(() => {
     // Fetch user data based on the user ID
@@ -23,6 +31,8 @@ const MyProfile = () => {
       email: userData.email,
       mobile: userData.mobile,
       address: userData.address.address,
+      city: userData.address.city,
+      state: userData.address.state,
     });
   };
 
@@ -94,60 +104,85 @@ const MyProfile = () => {
               </>
             ) : (
               <form style={styles.editForm}>
-                <label>
+                <label style={styles.editLabel}>
                   <span>First Name:</span>
                   <input
                     type="text"
                     name="firstName"
                     value={editedData.firstName}
                     onChange={handleInputChange}
+                    style={styles.editInput}
                   />
                 </label>
-                <label>
+                <label style={styles.editLabel}>
                   <span>Last Name:</span>
                   <input
                     type="text"
                     name="lastName"
                     value={editedData.lastName}
                     onChange={handleInputChange}
+                    style={styles.editInput}
                   />
                 </label>
-                <label>
+                <label style={styles.editLabel}>
                   <span>Email:</span>
                   <input
                     type="text"
                     name="email"
                     value={editedData.email}
                     onChange={handleInputChange}
+                    style={styles.editInput}
                   />
                 </label>
-                <label>
+                <label style={styles.editLabel}>
                   <span>Mobile:</span>
                   <input
                     type="text"
                     name="mobile"
                     value={editedData.mobile}
                     onChange={handleInputChange}
+                    style={styles.editInput}
                   />
                 </label>
-                <label>
+                <label style={styles.editLabel}>
                   <span>Address:</span>
                   <input
                     type="text"
                     name="address"
                     value={editedData.address}
                     onChange={handleInputChange}
+                    style={styles.editInput}
                   />
                 </label>
-                <div style={styles.editButtons}>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                  <button onClick={handleSaveEdit}>Save</button>
+                <label style={styles.editLabel}>
+                  <span>City:</span>
+                  <input
+                    type="text"
+                    name="city"
+                    value={editedData.city}
+                    onChange={handleInputChange}
+                    style={styles.editInput}
+                  />
+                </label>
+                <label style={styles.editLabel}>
+                  <span>State:</span>
+                  <input
+                    type="text"
+                    name="state"
+                    value={editedData.state}
+                    onChange={handleInputChange}
+                    style={styles.editInput}
+                  />
+                </label>
+                <div>
+                  <button onClick={handleCancelEdit} style={styles.editCancelButton}>Cancel</button>
+                  <button onClick={handleSaveEdit} style={styles.editSaveButton}>Save</button>
                 </div>
               </form>
             )}
             {!isEditing && (
-              <div style={styles.editButtons}>
-                <button onClick={handleEditClick}>Edit Profile</button>
+              <div >
+                <button onClick={handleEditClick} style={styles.editProfileButton}>Edit Profile</button>
               </div>
             )}
           </div>
@@ -164,6 +199,20 @@ const styles = {
     maxWidth: '800px',
     margin: '0 auto',
     padding: '20px',
+  },
+  editLabel: {
+    marginBottom: '8px',
+    color: '#555',
+    fontWeight: 'bold',
+    width: '100%', // Set the width to 100% for consistent layout
+  },
+  editInput: {
+    padding: '8px',
+    marginBottom: '16px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    fontSize: '14px',
+    width: '100%', // Set the width to 100% for consistent layout
   },
   heading: {
     textAlign: 'center',
@@ -196,11 +245,36 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
   },
-  editButtons: {
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'flex-end',
+
+  editProfileButton: {
+    backgroundColor: '#008080',
+    color: '#fff',
+    paddingRight: '5px',
+    paddingLeft: '5px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
+  editCancelButton: {
+    backgroundColor: '#3498DB',
+    color: '#fff',
+    paddingRight: '5px',
+    paddingLeft: '5px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    marginRight: '5px',
+  },
+  editSaveButton: {
+    backgroundColor: '#2E8B57',
+    color: '#fff',
+    paddingRight: '5px',
+    paddingLeft: '5px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  
 };
 
 export default MyProfile;

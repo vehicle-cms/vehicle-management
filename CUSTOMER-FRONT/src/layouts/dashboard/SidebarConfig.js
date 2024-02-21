@@ -12,11 +12,6 @@ const sidebarConfig = [
     icon: getIcon('eva:people-fill'),
   },
   {
-    title: 'Vehicles',
-    path: '/dashboard/vehicles',
-    icon: getIcon('icon-park:engineering-vehicle'),
-  },
-  {
     title: 'Orders',
     path: '/dashboard/orders',
     icon: getIcon('icon-park:transaction-order'),
