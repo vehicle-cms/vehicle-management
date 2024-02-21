@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		// check auth header from incoming request
 		String authHeader = request.getHeader("Authorization");
+		System.out.println("Authorization"+authHeader);
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			
 			String jwt = authHeader.substring(7);// req header contains JWT starts from 7th position

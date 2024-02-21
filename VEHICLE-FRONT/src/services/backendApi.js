@@ -7,7 +7,7 @@ const api = axios.create({
 // api.interceptors.request.use(
 //   function (config) {
 //     const token = window.localStorage.getItem('admin');
-//     config.headers.common['Authorization'] = `Bearer ${token}`;
+//     config.headers['Authorization'] = `Bearer ${token}`;
 //     return config;
 //   },
 //   function (error) {

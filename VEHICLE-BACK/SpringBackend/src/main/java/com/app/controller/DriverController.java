@@ -20,7 +20,7 @@ import com.app.service.UserService;
 
 @RestController
 @RequestMapping("/user/driver")
-@CrossOrigin(originPatterns = "http://localhost:*")
+//@CrossOrigin(originPatterns = "http://localhost:*")
 public class DriverController {
 	@Autowired
 	private UserService driverService;
