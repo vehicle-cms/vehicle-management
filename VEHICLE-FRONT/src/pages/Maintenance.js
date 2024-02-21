@@ -38,7 +38,7 @@ import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
 
 export default function Maintenance() {
 
-  const driverData = useSelector(state => state.AdminReducer.drivers);
+  const driverData = useSelector(state => state.AdminReducer.Maintenance);
   const selectedAdmin = useSelector(state => state.AdminReducer.selectedDriver);
   const visible = useSelector(state => state.AdminReducer.visible);
   const isLoading = useSelector(state => state.AdminReducer.loading);
@@ -161,4 +161,26 @@ export default function Maintenance() {
       setName(value);
     };
     //method section ends
+
+    //useEffect section starts
+  useEffect(() => {
+    if (SearchData === 'not found') {
+      failureNotifier('not found');
+    }
+    if (SearchData?.length === 0) {
+      // console.log("not found")
+      setData(driverData);
+      setData1(driverData);
+    } else if (SearchData?.length >= 1 && SearchData[0] !== undefined) {
+      setData(SearchData);
+      setData1([]);
+    } else {
+      setData(driverData);
+    }
+  }, [driverData, SearchData]);
+
+  return (
+    <>
+    </>
+  )
 }
