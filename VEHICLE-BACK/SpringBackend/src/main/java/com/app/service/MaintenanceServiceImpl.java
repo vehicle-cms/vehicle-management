@@ -21,6 +21,8 @@ import com.app.dto.MaintenanceDTO;
 import com.app.dto.PartDTO;
 import com.app.entities.Maintenance;
 import com.app.entities.Part;
+import com.app.entities.Vehicle;
+import com.app.entities.VehicleStatus;
 
 @Service
 @Transactional
@@ -58,13 +60,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	
 		Maintenance mntnc=mapper.map(maintenanceDTO, Maintenance.class);
 		mntnc.setParts(new ArrayList<Part>());
-		mntnc.setVehicle(vDao.getReferenceById(maintenanceDTO.getVehicle().getId()));
-		
-		for(PartDTO part:maintenanceDTO.getParts())
+		Vehicle v=vDao.findById(maintenanceDTO.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
+		v.setStatus(VehicleStatus.MAINTENANCE);
+		mntnc.setVehicle(v);
+		double total=100;
+		for(Long part:maintenanceDTO.getPartsList())
 		{
-			Part p=pDao.getReferenceById(part.getId());
+			Part p=pDao.getReferenceById(part);
 			mntnc.addPart(p);
+			total+=p.getPrice();
 		}
+		mntnc.setTotal(total);
 	
 		return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
 	}
@@ -93,9 +99,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			mntnc.setStatus(detachedMaintenance.isStatus());
 			detachedMaintenance.setId(maintenanceId);
 		
-			for(PartDTO part:detachedMaintenance.getParts())
+			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.addPart(pDao.getReferenceById(part.getId()));
+				Part p=pDao.getReferenceById(part);
+				mntnc.addPart(p);
+				mntnc.setTotal(mntnc.getTotal()+p.getPrice());
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
@@ -112,9 +120,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			mntnc.setStatus(detachedMaintenance.isStatus());
 			detachedMaintenance.setId(maintenanceId);
 		
-			for(PartDTO part:detachedMaintenance.getParts())
+			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.removePart(pDao.getReferenceById(part.getId()));
+				Part p=pDao.getReferenceById(part);
+				mntnc.removePart(p);
+				mntnc.setTotal(mntnc.getTotal()-p.getPrice());
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
@@ -137,6 +147,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         Page<MaintenanceDTO> orderPage = maintenanceDao.findAllProjectedBy(pageRequest);
         return orderPage.getContent();
+	}
+
+	@Override
+	public List<PartDTO> getAllParts() {
+		
+		return pDao.findAll().stream().map(part->mapper.map(part, PartDTO.class)).collect(Collectors.toList());
 	}
 
 	

@@ -36,6 +36,8 @@ public class Maintenance extends BaseEntity {
 
     @Column(name = "end_date")
     private Date endDate;
+    @Column(columnDefinition = "DOUBLE DEFAULT 100.0")
+    private double total;
     
     
     

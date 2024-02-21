@@ -25,11 +25,14 @@ public class MaintenanceDTO {
 	
 		 
 	private List<PartDTO> parts;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private List<Long> partsList;
 	
-		
 	private Date startDate;
 	
 		
 	private Date endDate;
+	
+	private double total;
 
 }

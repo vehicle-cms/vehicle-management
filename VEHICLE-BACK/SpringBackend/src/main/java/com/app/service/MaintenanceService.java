@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import com.app.dto.MaintenanceDTO;
+import com.app.dto.PartDTO;
+import com.app.entities.Part;
 
 public interface MaintenanceService {
 
@@ -23,5 +25,7 @@ public interface MaintenanceService {
 	MaintenanceDTO updateAddMaintenance(Long maintenanceId, MaintenanceDTO detachedMaintenance);
 
 	MaintenanceDTO updateRemoveMaintenance(Long maintenanceId, MaintenanceDTO detachedMaintenance);
+
+	List<PartDTO> getAllParts();
 
 }
