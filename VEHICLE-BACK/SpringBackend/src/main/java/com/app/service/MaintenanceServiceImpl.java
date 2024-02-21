@@ -59,12 +59,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		Maintenance mntnc=mapper.map(maintenanceDTO, Maintenance.class);
 		mntnc.setParts(new ArrayList<Part>());
 		mntnc.setVehicle(vDao.getReferenceById(maintenanceDTO.getVehicle().getId()));
-		
-		for(PartDTO part:maintenanceDTO.getParts())
+		double total=100;
+		for(Long part:maintenanceDTO.getPartsList())
 		{
-			Part p=pDao.getReferenceById(part.getId());
+			Part p=pDao.getReferenceById(part);
 			mntnc.addPart(p);
+			total+=p.getPrice();
 		}
+		mntnc.setTotal(total);
 	
 		return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
 	}
@@ -93,9 +95,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			mntnc.setStatus(detachedMaintenance.isStatus());
 			detachedMaintenance.setId(maintenanceId);
 		
-			for(PartDTO part:detachedMaintenance.getParts())
+			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.addPart(pDao.getReferenceById(part.getId()));
+				mntnc.addPart(pDao.getReferenceById(part));
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
@@ -112,9 +114,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			mntnc.setStatus(detachedMaintenance.isStatus());
 			detachedMaintenance.setId(maintenanceId);
 		
-			for(PartDTO part:detachedMaintenance.getParts())
+			for(Long part:detachedMaintenance.getPartsList())
 			{
-				mntnc.removePart(pDao.getReferenceById(part.getId()));
+				mntnc.removePart(pDao.getReferenceById(part));
 			}
 			
             return mapper.map(maintenanceDao.save(mntnc), MaintenanceDTO.class);
