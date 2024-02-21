@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.MaintenanceDTO;
+import com.app.dto.PartDTO;
+import com.app.entities.Part;
 import com.app.service.MaintenanceService;
 
 
@@ -29,6 +31,8 @@ public class MaintenanceController {
 
     @Autowired
     private MaintenanceService maintenanceService;
+    
+    
 
     @GetMapping
     public List<MaintenanceDTO> listAllMaintenance() {
@@ -78,5 +82,9 @@ public class MaintenanceController {
         return maintenanceService.deleteMaintenance(maintenanceId);
     }
     
+    @GetMapping("/parts")
+    public List<PartDTO> getAll() {
+    	return maintenanceService.getAllParts(); 
+    }
 
 }

@@ -139,6 +139,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         return orderPage.getContent();
 	}
 
+	@Override
+	public List<PartDTO> getAllParts() {
+		
+		return pDao.findAll().stream().map(part->mapper.map(part, PartDTO.class)).collect(Collectors.toList());
+	}
+
 	
 
 }
