@@ -66,17 +66,10 @@ export default function Managers() {
   const [OldPassword, setOldPassword] = useState('');
   const [NewPassword, setNewPassword] = useState('');
   const [ConfirmPassword] = useState('');
+  const [profile,setProfile] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-  const handleClick = event => {
-    object.current.click();
-  };
-
-    const handleChange1 = event => {
-    setFile(event.target.files[0]);
-  };
 
   //table columns
   const columns = [
@@ -112,15 +105,6 @@ export default function Managers() {
       dataIndex: 'mobile',
       key: 'mobile',
     },
-    // {
-    //   title: 'Last Used',
-    //   dataIndex: 'lastUsedAppAt',
-    //   key: 'lastUsedAppAt',
-    //   render: (text, record) => (
-    //     <span>{moment(record?.lastUsedAppAt).format('DD/MMM/YYYY')}</span>
-    //   ),
-    // }
-    // ,
     {
       title: 'Action',
       key: 'action',
@@ -128,11 +112,11 @@ export default function Managers() {
         <Space size="middle">
           <p
             onClick={() => {
-              setIsModalVisible3(true);
-              // deleteAdminHandler(dispatch, record?.adminCode);
+              // dispatch(setTag(record?._id));
+              setIsModalVisible(true);
             }}
           >
-            <Icon icon="ant-design:delete-filled" width="20" />
+            <Icon icon="akar-icons:edit" width={20} />
           </p>
         </Space>
       ),
@@ -148,13 +132,6 @@ export default function Managers() {
     setIsModalVisible(false);
   };
 
-  const handleOk3 = () => {
-    setIsModalVisible3(false);
-  };
-
-  const handleCancel3 = () => {
-    setIsModalVisible3(false);
-  };
 
   const handleChange = evt => {
     const value = evt;
@@ -279,8 +256,7 @@ export default function Managers() {
                 Search
               </Button>
             </Input.Group>
-            <Button onClick={() => setIsModalVisible(true)}>+</Button>
-          </div>
+           </div>
         </div>
         {isLoading ? (
           <div className="example">
@@ -319,7 +295,7 @@ export default function Managers() {
           </InfiniteScroll>
         )}
         <Modal
-          title={`Add New Manager`}
+          title={`Update Manager`}
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -349,33 +325,15 @@ export default function Managers() {
                 );
               }}
             >
-              <div>.
+              <div>
                 <Form.Item label="Profile">
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      width: '100%',
-                    }}
-                  >
-                    <div style={{ width: '50%' }}>
-                      <Input value={File?.name} required disabled />
-                    </div>
-                    <div>
-                      <Icon
-                        icon="el:upload"
-                        width="24"
-                        color="gray"
-                        onClick={handleClick}
-                      />
-                      <input
-                        ref={object}
-                        type="file"
-                        style={{ display: 'none' }}
-                        onChange={handleChange1}
-                      />
-                    </div>
-                  </div>
+                        <Input
+                    placeholder="profile"
+                    value={profile}
+                    onChange={e => setProfile(e.target.value)}
+                    type="text"
+                    required
+                  />
                 </Form.Item>
                 <Form.Item label="First Name">
                   <Input
@@ -508,32 +466,6 @@ export default function Managers() {
                 Submit
               </Button>
             </Form.Item>
-          </Form>
-        </Modal>
-        <Modal
-          title={`Delete Admin`}
-          visible={isModalVisible3}
-          onOk={handleOk3}
-          onCancel={handleCancel3}
-          maskClosable={false}
-          footer={false}
-        >
-          <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={() =>
-              deleteAdminHandler(dispatch, selectedAdmin?.adminCode)
-            }
-            autoComplete="off"
-          >
-            <span>Are you sure you want to delete?</span>
-            <br></br>
-            <br></br>
-            <Button type="danger" htmlType="submit">
-              delete
-            </Button>
           </Form>
         </Modal>
       </Container>

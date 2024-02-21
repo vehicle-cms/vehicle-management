@@ -37,6 +37,7 @@ import { GetVehicles, vehicleActiveCount, vehicleCount, vehicleInActiveCount, ve
 import { GetAdmins, GetDrivers, managerCount } from '../Actions/ManagerActions';
 import { GetCountDetail }  from "../utils/HandlerFunctions/CountHandler";
 import { GetTags } from '../Actions/CustomerActions';
+import { GetParts, GetPlatforms } from '../Actions/MaintenanceActions';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'MMMM Do YYYY';
@@ -56,9 +57,9 @@ export default function DashboardApp() {
   const [checked1, setChecked1] = useState(false);
   const [SearchData, setSearchData] = useState([]);
   const [options, setOptions] = useState([]);
-  //  const selectedOrder = useSelector(
-  //   state => state.CampaignReducer.selectedCampaign
-  // );
+   const selectedOrder = useSelector(
+    state => state.PlatformReducer.platform
+  );
 
   useEffect(() => {
     const data = {
@@ -172,12 +173,13 @@ export default function DashboardApp() {
   }, []);
 
   useEffect(()=>{
-     dispatch(GetAdmins());
+      dispatch(GetAdmins());
       dispatch(GetCampaign());
       dispatch(GetVehicles());
       dispatch(GetTags());
       dispatch(GetDrivers());
-
+      dispatch(GetPlatforms());
+      dispatch(GetParts());
        GetCountDetail(
        dispatch,
       'vehicles/active-count',

@@ -112,14 +112,14 @@ export default function Customers() {
           >
             <Icon icon="akar-icons:edit" width={20} />
           </p>
-          <p
+          {/* <p
             onClick={() => {
               dispatch(setTag(record?._id));
               setIsModalVisible4(true);
             }}
           >
             <Icon icon="ant-design:delete-filled" width="20" />
-          </p>
+          </p> */}
         </Space>
       ),
     },

@@ -11,9 +11,7 @@ import useResponsive from '../../hooks/useResponsive';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
-import sidebarConfig from './SidebarConfig';
-import IsLoggedIn from '../../utils/Hooks/isLoggedIn';
-import jwtDecode from 'jwt-decode';
+import Iconify from '../../components/Iconify';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 224;
@@ -42,10 +40,13 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-  const [admin, admin_id] = IsLoggedIn();
-  const [decode, setDecode] = useState();
   const isDesktop = useResponsive('up', 'lg');
   const Navigate = useNavigate();
+  const username = localStorage.getItem("username")
+  const auth =localStorage.getItem("authorize");
+  const getIcon = name => <Iconify icon={name} width={22} height={22} />;
+
+  const [sidebardata,setData] = useState([]);
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -54,16 +55,54 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  useEffect(() => {
-    if (admin != null && admin_id != null) {
-      try {
-        const decodetoken = jwtDecode(admin);
-        setDecode(decodetoken);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, [admin, admin_id]);
+  useEffect(()=>{
+         if(auth==="CUSTOMER"){
+              setData([
+                  {
+                    title: 'My Profile',
+                    path: '/dashboard/myprofile',
+                    icon: getIcon('eva:people-fill'),
+                  },
+                  {
+                    title: 'Orders',
+                    path: '/dashboard/orders',
+                    icon: getIcon('icon-park:transaction-order'),
+                  }
+                ])
+         }else{
+                setData([
+                  {
+                    title: 'Managers',
+                    path: '/dashboard/managers',
+                    icon: getIcon('eva:people-fill'),
+                  },
+                  {
+                    title: 'Vehicles',
+                    path: '/dashboard/vehicles',
+                    icon: getIcon('icon-park:engineering-vehicle'),
+                  },
+                  {
+                    title: 'Drivers',
+                    path: '/dashboard/drivers',
+                    icon: getIcon('eva:people-fill'),
+                  },
+                  {
+                    title: 'Orders',
+                    path: '/dashboard/orders',
+                    icon: getIcon('icon-park:transaction-order'),
+                  },
+                  {
+                    title: 'Maintenance',
+                    path: '/dashboard/maintenance',
+                    icon: getIcon('bi:tools'),
+                  },
+                  {
+                    title: 'Customers',
+                    path: '/dashboard/customers',
+                    icon: getIcon('eva:people-fill'),
+                  }])
+         }
+  },[auth])
 
   const renderContent = (
     <Scrollbar
@@ -87,7 +126,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {decode?.sub ? decode?.sub : 'unknown'}
+                {username ? username : 'unknown'}
               </Typography>
               <Typography
                 variant="body2"
@@ -98,7 +137,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={sidebardata}/>
     </Scrollbar>
   );
 

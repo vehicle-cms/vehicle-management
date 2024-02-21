@@ -21,8 +21,9 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(false);
   const [admin, admin_id] = isLoggedIn();
   const [decode, setDecode] = useState();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username")
   const handleOpen = () => {
     setOpen(true);
   };
@@ -40,6 +41,8 @@ export default function AccountPopover() {
       }
     }
   }, [admin, admin_id]);
+
+
 
   return (
     <>
@@ -74,10 +77,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {decode?.sub ? decode?.sub : 'unknown'}
+            {username ? username : 'unknown'}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {decode?.sub ? decode?.sub : 'unknown@email.com'}
+            {username ? username : 'unknown@email.com'}
           </Typography>
         </Box>
 
@@ -93,7 +96,7 @@ export default function AccountPopover() {
           </Button>
         </Box>
         <Box sx={{ p: 2, pt: 0.2 }}>
-          {admin_id ? (
+          {username ? (
             <Button
               fullWidth
               color="inherit"

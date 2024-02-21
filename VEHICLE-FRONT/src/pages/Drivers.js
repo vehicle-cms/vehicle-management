@@ -122,15 +122,6 @@ export default function Drivers() {
         </Space>
       ),
     },
-    // {
-    //   title: 'Last Used',
-    //   dataIndex: 'lastUsedAppAt',
-    //   key: 'lastUsedAppAt',
-    //   render: (text, record) => (
-    //     <span>{moment(record?.lastUsedAppAt).format('DD/MMM/YYYY')}</span>
-    //   ),
-    // }
-    // ,
     {
       title: 'Action',
       key: 'action',
@@ -138,12 +129,20 @@ export default function Drivers() {
         <Space size="middle">
           <p
             onClick={() => {
+              // dispatch(setTag(record?._id));
+              setIsModalVisible(true);
+            }}
+          >
+            <Icon icon="akar-icons:edit" width={20} />
+          </p>
+          {/* <p
+            onClick={() => {
               setIsModalVisible3(true);
               // deleteAdminHandler(dispatch, record?.adminCode);
             }}
           >
             <Icon icon="ant-design:delete-filled" width="20" />
-          </p>
+          </p> */}
         </Space>
       ),
     },
@@ -359,7 +358,7 @@ export default function Drivers() {
                 );
               }}
             >
-              <div>.
+              <div>
                 <Form.Item label="Profile">
                   <div
                     style={{

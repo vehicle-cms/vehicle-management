@@ -21,20 +21,16 @@ const getPlatformFailure = (error) => {
 };
 
 export const GetPlatforms = (page, limit) => {
-  const queryParams = new URLSearchParams();
 
-  queryParams.append('limit', limit);
-  queryParams.append('page', page);
-
-  const url = `platform?${queryParams.toString()}`;
+  const url = `/user/maintenance`;
   return (dispatch) => {
     dispatch(getPlatformRequest());
     api
       .get(url)
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
-        dispatch(getPlatformSuccess(data?.result));
+        // console.log(data);
+        dispatch(getPlatformSuccess(data));
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -42,12 +38,53 @@ export const GetPlatforms = (page, limit) => {
       });
   };
 };
+
+
+const getPartsRequest = () => {
+  return {
+    type: 'GET_PARTS_REQUEST',
+  };
+};
+
+export const getPartsSuccess = (Orders) => {
+  return {
+    type: 'GET_PARTS_SUCCESS',
+    payload: Orders,
+  };
+};
+
+const getPartsFailure = (error) => {
+  return {
+    type: 'GET_PARTS_FAILURE',
+    payload: error,
+  };
+};
+
+export const GetParts = () => {
+
+  const url = `/user/maintenance/parts`;
+  return (dispatch) => {
+    dispatch(getPartsRequest());
+    api
+      .get(url)
+      .then((response) => response.data)
+      .then((data) => {
+        dispatch(getPartsSuccess(data));
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        dispatch(getPartsFailure(errorMessage));
+      });
+  };
+};
+
 export const setPlatform = (id) => {
   return {
     type: 'SET_PLATFORM',
     payload: id,
   };
 };
+
 export const addPlatform = (items) => {
   return {
     type: 'ADD_SEARCH_ITEMS',

@@ -35,14 +35,12 @@ export const loginAdminHandler = async (e, email, password, navigate) => {
     });
 
     const data = jwtDecode(registerUser?.data?.jwt);
-     console.log(data.sub)
 
+    console.log(data);
     localStorage.setItem('admin', registerUser?.data?.jwt);
-    localStorage.setItem('username',data.sub)
-    localStorage.setItem(
-      'admin_id',
-      registerUser?.data?.result?.adminPresent?._id
-    );
+    localStorage.setItem('username',data?.sub);
+    localStorage.setItem("authorize",data?.authorities);
+     localStorage.setItem("vmsid",data?.jti)
     const token = localStorage.getItem('admin');
 
     if (token !== 'undefined') {
@@ -109,5 +107,63 @@ export const changePasswordHandler = async (
     successNotifier('Updated successfully.');
   } catch (e) {
     failureNotifier('failed to Update', e?.response?.data?.message);
+  }
+};
+
+
+export const sendOtpHandler = async (
+  email
+) => {
+  try {
+    await api.get(`/login/generateOTP?email=${email}`);
+    successNotifier('Updated successfully.');
+  } catch (e) {
+    failureNotifier('failed to Update', e?.response?.data?.message);
+  }
+};
+
+
+export const registerCustomerHandler = async (
+ e,
+             firstName,
+             lastName,
+             email,
+             password,
+             mobile,
+             address,
+             street,
+             otp,
+             pincode,
+             gender,
+              navigate
+) => {
+  try {
+    const registerUser =
+    await api.post(`/login/register?email=${email}&otp=${otp}`,
+    {
+       username: firstName,
+        user: {
+            imageURL: "https://example.com/john.jpg",
+            firstName,
+            lastName,
+            gender,
+            mobile,
+            address: {
+                street,
+                address,
+                pincode: {
+                    pincode:pincode
+                }
+            },
+            role: "CUSTOMER"
+        },
+        password
+    }
+    );
+    successNotifier(registerUser?.data?.message);
+    // dispatch(GetAdmins());
+    // navigate("/dashboard/app")
+  } catch (e) {
+    failureNotifier('failed to create admin', e?.response?.data?.message);
   }
 };

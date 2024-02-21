@@ -1,8 +1,10 @@
 const initialState = {
   platform: [],
+  parts:[],
   searchPlatforms: [],
   selectedPlatform: {},
   findPlatform: [],
+  total:0
 };
 
 const PlatformReducer = (state = initialState, action) => {
@@ -15,6 +17,15 @@ const PlatformReducer = (state = initialState, action) => {
 
     case 'GET_PLATFORM_FAILURE':
       return { ...state, loading: false, error: action.payload };
+
+    case 'GET_PARTS_REQUEST':
+      return { ...state, loading: true };
+
+    case 'GET_PARTS_SUCCESS':
+      return { ...state, loading: false, parts: action?.payload };
+
+    case 'GET_PARTS_FAILURE':
+      return { ...state, loading: false, error: action.payload };
     case 'ADD_SEARCH_ITEMS':
       const items = action?.payload;
 
@@ -25,10 +36,10 @@ const PlatformReducer = (state = initialState, action) => {
         searchPlatforms: items,
       };
     case 'SET_PLATFORM':
-      let findPlatform = state.platform.find((data) => action?.payload === data?._id);
+      let findPlatform = state.platform.find((data) => action?.payload === data?.id);
 
       if (!findPlatform) {
-        findPlatform = state.searchPlatforms.find((data) => action?.payload === data?._id);
+        findPlatform = state.searchPlatforms.find((data) => action?.payload === data?.id);
       }
       return {
         ...state,

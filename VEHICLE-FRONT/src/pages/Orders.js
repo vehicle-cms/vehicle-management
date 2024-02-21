@@ -36,7 +36,6 @@ import { useNavigate } from 'react-router-dom';
 // importing our common search and load more data methods from utils
 import { SearchHandler } from '../utils/HandlerFunctions/SearchHandler';
 import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
-import { Option } from 'antd/lib/mentions';
 import { deleteOrderHandler, updateOrderHandler } from '../utils/HandlerFunctions/MemerHandler';
 import { failureNotifier } from '../utils/notifications';
 
@@ -47,6 +46,7 @@ export default function Orders() {
   const ManagerData = useSelector(state => state.AdminReducer.admins);
   const VehicleData = useSelector(state => state.MemerReducer.memers);
   const driversData = useSelector(state => state.AdminReducer.drivers);
+  const Option = Select.Option;
 
   const selectedOrder = useSelector(
     state => state.CampaignReducer.selectedCampaign
@@ -89,12 +89,8 @@ export default function Orders() {
   const [manager,setManager] = useState(0);
 
   const dispatch = useDispatch();
-  // const [status, setStatus] = useState({
-  //   bool1: false,
-  //   bool2: false,
-  // });
 
-   const onChangeStatus = (value) => {
+  const onChangeStatus = (value) => {
       setStatus(value);
   };
 
@@ -140,11 +136,6 @@ const onSearchStatus = (value) => {
       dataIndex: 'fare',
       key: 'fare',
     },
-     {
-      title: 'Distance',
-      dataIndex: 'distance',
-      key: 'distance',
-    },
     {
       title: 'Details',
       dataIndex: 'show',
@@ -173,6 +164,7 @@ const onSearchStatus = (value) => {
             }}>
               <Icon icon="akar-icons:edit" width="20" /></a>
           <a onClick={()=>{
+             dispatch(setCampaign(record?.id))
           setIsModalVisible3(true)
             // dispatch(setAdmin(values1,record?._id))
             }}>
@@ -659,76 +651,62 @@ const onSearchStatus = (value) => {
                     required
                   />
                 </Form.Item>
-                <Form.Item label="Status">
                       {
-                 <select name="status" value={status}  onChange={(e)=>onChangeStatus(e.target.value)}>
-                       <option value='APPROVED'>APPROVED</option>
-                         <option value='PENDING'>PENDING</option>
-                         <option value='REJECTED'>REJECTED</option>
-                         <option value="COMPLETED">COMPLETED</option>
-                         <option value="CANCEL">CANCEL</option>
-                  </select>
-  }
-                </Form.Item>
-                    {/* <Form.Item label="Customer Id">
-                          <Input
-                    placeholder="customer"
-                    value={selectedCampaignCustomer[0]?.id}
-                    type="text"
-                    required
-                  />
-                </Form.Item>
-                <Form.Item label="Vehicle Id">
-                    <Input
-                    placeholder="customer"
-                    value={`${selectedCampaignVehicle[0]?.id}`}
-                    type="text"
-                    required
-                  />
-                </Form.Item> */}
+                        (selectedOrder[0]?.status === 'PENDING')?
+                        <Form.Item label="Status">
+                        <Select name="status" value={status}  onChange={(e)=>onChangeStatus(e)}>
+                          <Option value='APPROVED'>APPROVED</Option>
+                         <Option value='REJECTED'>REJECTED</Option>
+                        </Select>
+                         </Form.Item>
+                        : (selectedOrder[0]?.status === 'APPROVED')?
+                        <Form.Item label="Status">
+                        <Select  name="status" value={status}  onChange={(e)=>onChangeStatus(e)}>
+                           <Option value='COMPLETED'>COMPLETED</Option>
+                         <Option value='REJECTED'>CANCEL</Option>
+                        </Select>
+                        </Form.Item>
+                        :null
+                     }
                 {
-              (status==='PENDING'||'APPROVED'||'REJECTED')?
+              ((selectedOrder[0]?.status === 'APPROVED'))?
+              <></>
+              :
               <>
                 <Form.Item label="Driver">
-                  <select name="Driver"  onChange={(e)=>setDriver(e.target.value)}>
+                  <Select name="Driver"
+                   value={driver}
+                    onChange={(e)=>
+                      {
+                        console.log(e)
+                        setDriver(e)
+                      }}
+                    style={{color:"blue"}}
+                    >
                       {driversData?.map(m =>
                         {
                           if(!m.assigned){
-                           return   <option value={m?.id}>{m?.firstName} - {m?.lastName}</option>
+                           return   <Option value={m?.id}>{m?.firstName} - {m?.lastName}</Option>
                           }
                         })
                       }
-                  </select>
+                  </Select>
                 </Form.Item>
                 <Form.Item label="Manager">
-                   <select name="Manager" value={manager}  onChange={(e)=>setManager(e.target.value)}>
+                   <Select name="Manager" value={manager}  onChange={(e)=>
+                    {
+                       console.log(e)
+                      setManager(e)
+                   }}>
                       {ManagerData?.map(m =>
                         {
-                           return   <option value={m?.id}>{m?.firstName} - {m?.lastName}</option>
+                           return   <Option value={m?.id}>{m?.firstName} - {m?.lastName}</Option>
                         })
                       }
-                  </select>
+                  </Select>
                 </Form.Item>
-                </>:<></>
+                </>
                 }
-                <Form.Item label="Fare">
-                  <Input
-                    placeholder="fare"
-                    value={fare}
-                    onChange={e => setFare(e.target.value)}
-                    type="number"
-                    required
-                  />
-                </Form.Item>
-                {/* <Form.Item label="Distance">
-                  <Input
-                    placeholder="distance"
-                    value={distance}
-                    onChange={e => setDistance(e.target.value)}
-                    type="distance"
-                    required
-                  />
-                </Form.Item> */}
               </div>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
@@ -736,28 +714,6 @@ const onSearchStatus = (value) => {
                 </Button>
               </Form.Item>
             </Form>
-        </Modal>
-        <Modal
-          title={`delete ${selectedOrder?.username} `}
-          visible={isModalVisible2}
-          onOk={handleOk1}
-          onCancel={handleCancel1}
-          maskClosable={false}
-        >
-          <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={() => deleteAdminHandler(selectedOrder?.id)}
-            autoComplete="off"
-          >
-            {/* <Input value={AdminName} required /> */}
-            {/* <Input value={AdminEmail} required /> */}
-            <Button type="danger" htmlType="submit">
-              delete
-            </Button>
-          </Form>
         </Modal>
         <Modal
           title={`Orders`}
@@ -822,6 +778,7 @@ const onSearchStatus = (value) => {
             initialValues={{ remember: true }}
             onFinish={() =>
               {
+                console.log(selectedOrder[0]?.id)
                 deleteOrderHandler(selectedOrder[0]?.id,dispatch)
                 setIsModalVisible3(false);
                 setPage(0);

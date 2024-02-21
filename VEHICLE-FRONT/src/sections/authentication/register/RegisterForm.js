@@ -6,20 +6,27 @@ import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import { registerAdminHandler } from '../../../utils/HandlerFunctions/AdminHandler';
+import { registerAdminHandler, registerCustomerHandler, sendOtpHandler } from '../../../utils/HandlerFunctions/AdminHandler';
 // ----------------------------------------------------------------------
 import { setShow } from '../../../Actions/ManagerActions';
 import { useDispatch } from 'react-redux';
+import { Button, Radio } from 'antd';
 
 export default function RegisterForm({setIsRegister}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  const [address,setAddress] = useState("");
+  const [street,setStreet] = useState("");
+  const [pincode,setPincode] = useState("");
+  const [gender,setGender] = useState("");
+  const [otp,setOtp] = useState("");
   const dispatch = useDispatch();
-  const [email1, setEmail1] = useState('');
-  const [otpGenerated, setOtpGenerated] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       userName: '',
@@ -28,72 +35,59 @@ export default function RegisterForm({setIsRegister}) {
     },
     // validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      // navigate('/dashboard', { replace: true });
     },
   });
 
   const { errors, touched, isSubmitting, getFieldProps } = formik;
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Replace with your actual backend URL
-      const response = await fetch(`http://localhost:8080/login/generateOTP?email=${email1}`);
-
-      console.log(response);
-      // Assuming the response contains a boolean indicating if OTP was generated successfully
-      if (response) {
-        setOtpGenerated(true);
-      } else {
-        // Handle error, show error message, etc.
-        console.error('Error generating OTP');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
   return (
     <>
-          {!otpGenerated ? (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email:
-            <input
-              type="email"
-              value={email1}
-              onChange={(e) => setEmail1(e.target.value)}
-              required
-            />
-          </label>
-          <button type="submit">Generate OTP</button>
-        </form>
-      ):
     <FormikProvider value={formik}>
       <Form
         autoComplete="off"
         noValidate
         onSubmit={e =>
-          registerAdminHandler(e, userName, email, password, navigate)
+          registerCustomerHandler(e,
+             firstName,
+             lastName,
+             email,
+             password,
+             mobile,
+             address,
+             street,
+             otp,
+             pincode,
+             gender,
+              navigate)
         }
       >
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="username"
-              {...getFieldProps('userName')}
+              label="firstname"
+              {...getFieldProps('firstname')}
               error={Boolean(touched.userName && errors.userName)}
               helperText={touched.userName && errors.userName}
-              onChange={e => setUserName(e.target.value)}
-              value={userName}
+              onChange={e => setFirstName(e.target.value)}
+              value={firstName}
             />
           </Stack>
-
+           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <TextField
+              fullWidth
+              label="lastname"
+              {...getFieldProps('lastname')}
+              error={Boolean(touched.userName && errors.userName)}
+              helperText={touched.userName && errors.userName}
+              onChange={e => setLastName(e.target.value)}
+              value={lastName}
+            />
+          </Stack>
           <TextField
             fullWidth
-            autoComplete="username"
+            autoComplete="email"
             type="email"
             label="Email address"
             {...getFieldProps('email')}
@@ -102,7 +96,63 @@ export default function RegisterForm({setIsRegister}) {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
+          <Button onClick={()=>sendOtpHandler(email)}>Get Otp</Button>
+          <TextField
+            fullWidth
+            autoComplete="otp"
+            type="number"
+            label="otp"
+            {...getFieldProps('otp')}
+            error={Boolean(touched.otp && errors.otp)}
+            helperText={touched.otp && errors.otp}
+            value={otp}
+            onChange={e => setOtp(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            autoComplete="mobile"
+            type="mobile"
+            label="mobile"
+            {...getFieldProps('email')}
+            error={Boolean(touched.mobile && errors.mobile)}
+            helperText={touched.mobile && errors.mobile}
+            value={mobile}
+            onChange={e => setMobile(e.target.value)}
+          />
 
+          <TextField
+            fullWidth
+            autoComplete="address"
+            type="text"
+            label="address"
+            {...getFieldProps('address')}
+            error={Boolean(touched.address && errors.address)}
+            helperText={touched.address && errors.address}
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+          />
+           <TextField
+            fullWidth
+            autoComplete="street"
+            type="text"
+            label="street"
+            {...getFieldProps('street')}
+            error={Boolean(touched.street && errors.street)}
+            helperText={touched.street && errors.street}
+            value={street}
+            onChange={e => setStreet(e.target.value)}
+          />
+           <TextField
+            fullWidth
+            autoComplete="pincode"
+            type="text"
+            label="pincode"
+            {...getFieldProps('pincode')}
+            error={Boolean(touched.pincode && errors.pincode)}
+            helperText={touched.pincode && errors.pincode}
+            value={pincode}
+            onChange={e => setPincode(e.target.value)}
+          />
           <TextField
             fullWidth
             autoComplete="current-password"
@@ -128,7 +178,11 @@ export default function RegisterForm({setIsRegister}) {
             onChange={e => setPassword(e.target.value)}
             value={password}
           />
-
+           <Radio.Group onChange={(e)=>setGender(e.target.value)} value={gender}>
+             <Radio value={'MALE'}>Male</Radio>
+             <Radio value={'FEMALE'}>Female</Radio>
+             <Radio value={'OTHERS'}>Others</Radio>
+           </Radio.Group>
           <LoadingButton
             fullWidth
             size="large"
@@ -142,7 +196,6 @@ export default function RegisterForm({setIsRegister}) {
         </Stack>
       </Form>
     </FormikProvider>
-    }
     </>
   );
 }
