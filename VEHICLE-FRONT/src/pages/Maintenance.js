@@ -180,7 +180,325 @@ export default function Maintenance() {
   }, [driverData, SearchData]);
 
   return (
-    <>
-    </>
-  )
+    <Page>
+      <Container>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ width: '60%' }}>
+            <h3 style={{ margin: '1rem' }}>Dashboard/Page/Drivers</h3>
+          </div>
+          <div
+            style={{
+              width: '40%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Input.Group style={{ display: 'contents' }}>
+              <AutoComplete
+                style={{ width: '100%', marginRight: '10px' }}
+                onKeyPress={event => {
+                  if (event.key === 'Enter') {
+                    SearchHandler(
+                      setSearchData,
+                      setLoading,
+                      Name,
+                      'admin',
+                      addAdmin,
+                      dispatch,
+                      navigate
+                    );
+                  }
+                }}
+                placeholder="find manager..."
+                name={Name}
+                onChange={handleChange}
+              />
+
+              <Button
+                onClick={() =>
+                  SearchHandler(
+                    setSearchData,
+                    setLoading,
+                    Name,
+                    'admin',
+                    addAdmin,
+                    dispatch,
+                    navigate
+                  )
+                }
+                style={{
+                  color: '#ffffff',
+                  background: '#21c980',
+                  marginRight: '10px',
+                }}
+              >
+                Search
+              </Button>
+            </Input.Group>
+            <Button onClick={() => setIsModalVisible(true)}>+</Button>
+          </div>
+        </div>
+        {isLoading ? (
+          <div className="example">
+            <Spin />
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={data?.length}
+            next={() =>
+              loadMoreData(
+                page,
+                pageSize,
+                setPage,
+                loading,
+                setLoading,
+                'admin',
+                data,
+                setData,
+                setData1,
+                dispatch,
+                getAdminSuccess,
+                navigate
+              )
+            }
+            hasMore={data1?.length > 0}
+            loader={
+              data?.length > 10 ? (
+                <Skeleton avatar paragraph={{ rows: 1 }} active />
+              ) : (
+                ''
+              )
+            }
+            scrollableTarget="scrollableDiv"
+          >
+            <Table columns={columns} dataSource={data.length > 0 ? driverData : []} pagination={false} />
+          </InfiniteScroll>
+        )}
+        <Modal
+          title={`Add New Manager`}
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          maskClosable={false}
+          width="40%"
+          footer={null}
+        >
+          <div
+            style={{
+              margin: '1rem',
+            }}
+          >
+            <Form
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              layout="horizontal"
+              onFinish={() => {
+                registerAdminHandler(
+                  FirstName,
+                  LastName,
+
+                  Password,
+                  dispatch
+                );
+              }}
+            >
+              <div>.
+                <Form.Item label="Profile">
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    }}
+                  >
+                    <div style={{ width: '50%' }}>
+                      <Input value={File?.name} required disabled />
+                    </div>
+                    <div>
+                      <Icon
+                        icon="el:upload"
+                        width="24"
+                        color="gray"
+                        onClick={handleClick}
+                      />
+                      <input
+                        ref={object}
+                        type="file"
+                        style={{ display: 'none' }}
+                        onChange={handleChange1}
+                      />
+                    </div>
+                  </div>
+                </Form.Item>
+                <Form.Item label="First Name">
+                  <Input
+                    placeholder="firstName"
+                    value={FirstName}
+                    onChange={e => setFirstName(e.target.value)}
+                    type="text"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Last Name">
+                  <Input
+                    placeholder="lastName"
+                    value={LastName}
+                    onChange={e => setLastName(e.target.value)}
+                    type="text"
+                    required
+                  />
+                </Form.Item>
+                {/* <Form.Item label="Email">
+                  <Input
+                    placeholder="email"
+                    value={Email}
+                    onChange={e => setEmail(e.target.value)}
+                    type="email"
+                    required
+                  />
+                </Form.Item>
+                <Form.Item label="Phone No">
+                  <Input
+                    placeholder="phoneNo"
+                    value={PhoneNo}
+                    onChange={e => setPhoneNo(e.target.value)}
+                    type="number"
+                    required
+                  />
+                </Form.Item> */}
+                <Form.Item label="Password">
+                  <Input
+                    placeholder="password"
+                    value={Password}
+                    onChange={e => setPassword(e.target.value)}
+                    type="password"
+                    required
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Modal>
+        <Modal
+          title={`Change Password`}
+          visible={Visible}
+          // onOk={handleOk}
+          onCancel={dispatch(closeVisible())}
+          maskClosable={false}
+          footer={null}
+        >
+          <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={() => {
+              if (NewPassword !== ConfirmPassword) {
+                failureNotifier('password not match');
+              } else {
+                changePasswordHandler(
+                  AdminName,
+                  OldPassword,
+                  NewPassword,
+                  ConfirmPassword
+                );
+              }
+            }}
+            autoComplete="off"
+          >
+            <div
+              style={{
+                width: '400px',
+                position: 'relative',
+                marginLeft: '20px',
+                marginBottom: '20px',
+              }}
+            >
+              <Form.Item label="ManagerName">
+                <Input
+                  placeholder="ManagerName"
+                  value={AdminName}
+                  onChange={e => setAdminName(e.target.value)}
+                  type="text"
+                  required
+                />
+              </Form.Item>
+              <Form.Item label="Old Password">
+                <Input
+                  placeholder="old password"
+                  value={OldPassword}
+                  onChange={e => setOldPassword(e.target.value)}
+                  type="text"
+                  required
+                />
+              </Form.Item>
+              <Form.Item label="New Password">
+                <Input
+                  placeholder="new password"
+                  value={NewPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  type="text"
+                  required
+                />
+              </Form.Item>
+              <Form.Item label="Confirm Password">
+                <Input
+                  placeholder="confirm password"
+                  value={NewPassword}
+                  onChange={e => setNewPassword(e.target.value)}
+                  type="text"
+                  required
+                />
+              </Form.Item>
+            </div>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+        <Modal
+          title={`Delete Admin`}
+          visible={isModalVisible3}
+          onOk={handleOk3}
+          onCancel={handleCancel3}
+          maskClosable={false}
+          footer={false}
+        >
+          <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={() =>
+              deleteAdminHandler(dispatch, selectedAdmin?.adminCode)
+            }
+            autoComplete="off"
+          >
+            <span>Are you sure you want to delete?</span>
+            <br></br>
+            <br></br>
+            <Button type="danger" htmlType="submit">
+              delete
+            </Button>
+          </Form>
+        </Modal>
+      </Container>
+    </Page>
+  );
 }
