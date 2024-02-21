@@ -21,6 +21,8 @@ import com.app.dto.MaintenanceDTO;
 import com.app.dto.PartDTO;
 import com.app.entities.Maintenance;
 import com.app.entities.Part;
+import com.app.entities.Vehicle;
+import com.app.entities.VehicleStatus;
 
 @Service
 @Transactional
@@ -58,7 +60,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	
 		Maintenance mntnc=mapper.map(maintenanceDTO, Maintenance.class);
 		mntnc.setParts(new ArrayList<Part>());
-		mntnc.setVehicle(vDao.getReferenceById(maintenanceDTO.getVehicle().getId()));
+		Vehicle v=vDao.findById(maintenanceDTO.getVehicle().getId()).orElseThrow(()->new ResourceNotFoundException("invalid vehicle id"));
+		v.setStatus(VehicleStatus.MAINTENANCE);
+		mntnc.setVehicle(v);
 		double total=100;
 		for(Long part:maintenanceDTO.getPartsList())
 		{
