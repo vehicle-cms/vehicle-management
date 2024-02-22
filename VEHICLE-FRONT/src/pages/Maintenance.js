@@ -34,11 +34,14 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 // importing our common search and load more data methods from utils
 import { SearchHandler } from '../utils/HandlerFunctions/SearchHandler';
 import { loadMoreData } from '../utils/HandlerFunctions/LoadMoreDataHandler';
+import { main } from '@popperjs/core';
+import moment from 'moment';
+import { getPlatformSuccess } from '../Actions/MaintenanceActions';
 
 
 export default function Maintenance() {
 
-  const driverData = useSelector(state => state.AdminReducer.Maintenance);
+  const maintenanceData = useSelector(state => state.AdminReducer.Maintenance);
   const selectedAdmin = useSelector(state => state.AdminReducer.selectedDriver);
   const visible = useSelector(state => state.AdminReducer.visible);
   const isLoading = useSelector(state => state.AdminReducer.loading);
@@ -85,7 +88,8 @@ export default function Maintenance() {
       key: 'startDate',
       render: (text, record) => (
         <Space size="middle">
-          <span>{record?.startDate} {record?.startDate}</span>
+          <span>{
+          moment(record?.startDate).format('YYYY-MM-DD')}</span>
         </Space>
       ),
     },
@@ -95,8 +99,8 @@ export default function Maintenance() {
       key: 'endDate',
       render: (text, record) => (
         <Space size="middle">
-          <span>{record?.endDate} {record?.endDate}</span>
-        </Space>
+      <span>{moment(record?.endDate).format('YYYY-MM-DD')}</span> 
+       </Space>
       ),
     },
     {
@@ -169,15 +173,51 @@ export default function Maintenance() {
     }
     if (SearchData?.length === 0) {
       // console.log("not found")
-      setData(driverData);
-      setData1(driverData);
+      setData(maintenanceData);
+      setData1(maintenanceData);
     } else if (SearchData?.length >= 1 && SearchData[0] !== undefined) {
       setData(SearchData);
       setData1([]);
     } else {
-      setData(driverData);
+      setData(maintenanceData);
     }
-  }, [driverData, SearchData]);
+  }, [maintenanceData, SearchData]);
+
+  
+  useEffect(() => {
+    if (selectedAdmin) {
+      setStartDate(selectedAdmin?.startDate);
+      setEndDate(selectedAdmin?.endDate);
+    }
+  }, [selectedAdmin]);
+
+  useEffect(() => {
+    if (maintenanceData?.length >= 0) {
+      setData(maintenanceData);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMoreData(
+      page,
+      pageSize,
+      setPage,
+      loading,
+      setLoading,
+      'user/maintenance/',
+      data,
+      setData,
+      setData1,
+      dispatch,
+      getPlatformSuccess,
+      navigate
+    );
+  }, []);
+
+  useEffect(() => {
+    setVisible(visible);
+  }, [visible]);
+  //useEffect section ends
 
   return (
     <Page>
@@ -191,7 +231,7 @@ export default function Maintenance() {
           }}
         >
           <div style={{ width: '60%' }}>
-            <h3 style={{ margin: '1rem' }}>Dashboard/Page/Drivers</h3>
+            <h3 style={{ margin: '1rem' }}>Dashboard/Page/Maintenance</h3>
           </div>
           <div
             style={{
@@ -278,11 +318,11 @@ export default function Maintenance() {
             }
             scrollableTarget="scrollableDiv"
           >
-            <Table columns={columns} dataSource={data.length > 0 ? driverData : []} pagination={false} />
+            <Table columns={columns} dataSource={data.length > 0 ? maintenanceData : []} pagination={false} />
           </InfiniteScroll>
         )}
         <Modal
-          title={`Add New Manager`}
+          title={`Add New Maintenance order`}
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -339,51 +379,26 @@ export default function Maintenance() {
                     </div>
                   </div>
                 </Form.Item>
-                <Form.Item label="First Name">
+                <Form.Item label="Start Date">
                   <Input
-                    placeholder="firstName"
-                    value={FirstName}
-                    onChange={e => setFirstName(e.target.value)}
-                    type="text"
+                    placeholder="startDate"
+                    value={startDate}
+                    onChange={e => setStartDate(e.target.value)}
+                    type="date"
                     required
                   />
                 </Form.Item>
-                <Form.Item label="Last Name">
+                <Form.Item label="End Date">
                   <Input
-                    placeholder="lastName"
-                    value={LastName}
-                    onChange={e => setLastName(e.target.value)}
-                    type="text"
+                    placeholder="endDate"
+                    value={endDate}
+                    onChange={e => setEndDate(e.target.value)}
+                    type="Date"
                     required
                   />
                 </Form.Item>
-                {/* <Form.Item label="Email">
-                  <Input
-                    placeholder="email"
-                    value={Email}
-                    onChange={e => setEmail(e.target.value)}
-                    type="email"
-                    required
-                  />
-                </Form.Item>
-                <Form.Item label="Phone No">
-                  <Input
-                    placeholder="phoneNo"
-                    value={PhoneNo}
-                    onChange={e => setPhoneNo(e.target.value)}
-                    type="number"
-                    required
-                  />
-                </Form.Item> */}
-                <Form.Item label="Password">
-                  <Input
-                    placeholder="password"
-                    value={Password}
-                    onChange={e => setPassword(e.target.value)}
-                    type="password"
-                    required
-                  />
-                </Form.Item>
+
+      
               </div>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
