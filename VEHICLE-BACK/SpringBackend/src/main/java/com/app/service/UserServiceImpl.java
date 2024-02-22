@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
 		
 		Login log= mapper.map(transientUser, Login.class);
 		City city= cityDao.findByPincode(log.getUser().getAddress().getPincode().getPincode()).orElseThrow(()-> new ResourceNotFoundException("invalid pincodeS"));
+		log.getUser().setCreatedOn(new Date());
 		log.getUser().getAddress().setPincode(city);
 		return mapper.map(loginDao.save(log), LoginDTO.class);
 	}
@@ -75,9 +77,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String deleteUser(Long UserId) {
-		if(userDao.existsById(UserId))
+		if(loginDao.existsById(UserId))
 		{
-			userDao.deleteById(UserId);
+			loginDao.deleteById(UserId);
 			return "deleted user details...";
 		}
 		return "deletion of user details failed !!!!!";
