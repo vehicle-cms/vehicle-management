@@ -29,7 +29,7 @@ export const registerAdminHandler = async (
 export const loginAdminHandler = async (e, email, password, navigate) => {
   e.preventDefault();
   try {
-    const registerUser = await api.post('/login/login', {
+    const registerUser = await api.post('http://localhost:8080/login/login', {
       username: email,
       password: password,
     });
